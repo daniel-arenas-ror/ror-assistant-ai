@@ -8,4 +8,7 @@ class Quote < ApplicationRecord
     locals: { quote: self },
     target: "quotes"
   }
+
+  after_update_commit -> { broadcast_replace_later_to "quotes" }
+  after_destroy_commit -> { broadcast_remove_to "quotes" }
 end

@@ -67,3 +67,5 @@ end
 gem "foreman"
 gem "simple_form"
 gem 'redis'
+
+gem "devise"

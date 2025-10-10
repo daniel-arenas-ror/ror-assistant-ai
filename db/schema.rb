@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_07_214101) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_10_190638) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -24,6 +24,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_07_214101) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "company_id"
   end
 
   create_table "recipes", force: :cascade do |t|
@@ -44,4 +45,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_07_214101) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
+
+  add_foreign_key "quotes", "companies"
 end

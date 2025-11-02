@@ -1,0 +1,11 @@
+<main class="container">
+  <div class="header">
+    <h1>Users</h1>
+    <%= link_to "New User",
+                new_quote_path,
+                class: "btn btn--primary" %>
+  </div>
+
+  <%= render @users %>
+
+</main>

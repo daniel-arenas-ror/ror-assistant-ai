@@ -1,0 +1,17 @@
+
+  <div class="quote">
+    <%=
+      link_to user.email,
+      user_path(user)
+    %>
+    <div class="quote__actions">
+      <%= button_to "Delete",
+                    user_path(user),
+                    method: :delete,
+                    class: "btn btn--light" %>
+
+      <%= link_to "Edit",
+                  edit_user_path(user),
+                  class: "btn btn--light" %>
+    </div>
+</div>

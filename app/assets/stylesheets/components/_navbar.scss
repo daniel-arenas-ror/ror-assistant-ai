@@ -6,6 +6,22 @@
   margin-bottom: var(--space-xxl);
   background-color: (var(--color-white));
 
+  &__item {
+    font-weight: normal;
+    font-size: var(--font-size-m);
+    color: var(--color-primary);
+    padding: var(--space-m) var(--space-m);
+    border-radius: var(--border-radius);
+
+    &:hover,
+    &:focus,
+    &:active {
+      font-weight: bold;
+      color: var(--color-white);
+      background-image: linear-gradient(to right, var(--color-primary), var(--color-primary-rotate));
+    }
+  }
+
   &__brand {
     font-weight: bold;
     font-size: var(--font-size-xl);

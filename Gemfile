@@ -77,3 +77,6 @@ gem "awesome_print"
 
 gem 'activeadmin'
 gem 'activeadmin_assets'
+
+gem 'nokogiri'
+gem 'httparty'

@@ -73,5 +73,5 @@ gem "devise"
 gem "openai"
 gem "awesome_print"
 
-gem 'rails_admin'
-gem "sassc-rails"
+gem 'activeadmin'
+gem 'activeadmin_assets'

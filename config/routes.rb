@@ -11,7 +11,9 @@ Rails.application.routes.draw do
 
   resources :company
   resources :users
-  resources :real_estates
+  resources :real_estates do
+    patch :scrape, on: :member
+  end
 
   root "pages#home"
 end

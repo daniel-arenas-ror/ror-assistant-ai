@@ -69,3 +69,9 @@ gem "simple_form"
 gem 'redis'
 
 gem "devise"
+
+gem "openai"
+gem "awesome_print"
+
+gem 'rails_admin'
+gem "sassc-rails"

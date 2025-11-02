@@ -7,6 +7,13 @@ class ApplicationController < ActionController::Base
   private
 
   def validate_user?
+    # TODO: we need three type of validation
+    # when user call the API, this should be public, that is a lead user
+    # user from a company that need some configuration
+    # super user
+
+    # controller_path maybe with this we can know what kind of validation we should run
+
     current_user.nil? & current_admin_user.nil?
   end
 

@@ -1,0 +1,16 @@
+
+<div class="quote">
+  <%= link_to real_estate.name, real_estate_path(real_estate) %>
+  <%= real_estate.code %>
+
+  <div class="quote__actions">
+    <%= button_to "Delete",
+                  real_estate_path(real_estate),
+                  method: :delete,
+                  class: "btn btn--light" %>
+
+    <%= link_to "Edit",
+                edit_real_estate_path(real_estate),
+                class: "btn btn--light" %>
+  </div>
+</div>

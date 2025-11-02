@@ -1,0 +1,11 @@
+<main class="container">
+  <div class="header">
+    <h1>Real Estate</h1>
+    <%= link_to "New Real Estate",
+                new_real_estate_path,
+                class: "btn btn--primary" %>
+  </div>
+
+  <%= render @real_estates %>
+
+</main>

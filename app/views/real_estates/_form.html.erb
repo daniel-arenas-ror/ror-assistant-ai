@@ -11,7 +11,11 @@
 
   <%= link_to "Cancel", quotes_path, class: "btn btn--light" %>
   <% if !real_estate.new_record? %>
-    <%= button_to "Scrapping", scrape_real_estate_path(real_estate), class: "btn btn--dark", method: "patch" %>
+    <%= link_to "Scrape Data",
+        scrape_real_estate_path(@real_estate),
+        data: { turbo_method: :patch, turbo_confirm: "Run scraper?" },
+        class: "btn btn-warning"
+    %>
   <% end %>
   <%= f.submit class: "btn btn--secondary" %>
 <% end %>

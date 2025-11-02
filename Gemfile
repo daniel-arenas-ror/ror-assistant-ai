@@ -64,6 +64,8 @@ group :test do
   gem "selenium-webdriver"
 end
 
+gem 'dotenv-rails'
+
 gem "foreman"
 gem "simple_form"
 gem 'redis'

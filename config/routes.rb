@@ -11,6 +11,7 @@ Rails.application.routes.draw do
 
   resources :company
   resources :users
+  resources :real_estates
 
   root "pages#home"
 end

@@ -6,8 +6,8 @@ class CreateRealEstates < ActiveRecord::Migration[8.0]
       t.string :code
       t.string :url
       t.jsonb :url_images
-      t.string :description
-      t.string :amenities
+      t.text :description
+      t.text :amenities
       t.string :location
 
       t.timestamps

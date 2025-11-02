@@ -1,0 +1,9 @@
+<main class="container">
+  <%= link_to sanitize("&larr; Back to real estates"), real_estates_path %>
+
+  <div class="header">
+    <h1>New Real Estate</h1>
+  </div>
+
+  <%= render "form", real_estate: @real_estate %>
+</main>

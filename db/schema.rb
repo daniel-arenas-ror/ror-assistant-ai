@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_02_161639) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_02_173401) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -66,6 +66,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_02_161639) do
     t.integer "company_id"
   end
 
+  create_table "real_estates", force: :cascade do |t|
+    t.bigint "company_id", null: false
+    t.string "name"
+    t.string "code"
+    t.string "url"
+    t.jsonb "url_images"
+    t.text "description"
+    t.text "amenities"
+    t.string "location"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_real_estates_on_company_id"
+  end
+
   create_table "recipes", force: :cascade do |t|
     t.string "name", null: false
     t.text "description"
@@ -89,5 +103,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_02_161639) do
 
   add_foreign_key "line_item_dates", "quotes"
   add_foreign_key "quotes", "companies"
+  add_foreign_key "real_estates", "companies"
   add_foreign_key "users", "companies"
 end

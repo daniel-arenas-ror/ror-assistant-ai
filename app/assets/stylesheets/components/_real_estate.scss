@@ -1,0 +1,19 @@
+.real_estate {
+  display: block;
+
+  background-color: var(--color-white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-small);
+  margin-bottom: var(--space-m);
+
+  @include media(tabletAndUp) {
+    padding: var(--space-xs) var(--space-m);
+  }
+
+  &__actions {
+    display: flex;
+    flex: 0 0 auto;
+    align-self: flex-start;
+    gap: var(--space-xs);
+  }
+}

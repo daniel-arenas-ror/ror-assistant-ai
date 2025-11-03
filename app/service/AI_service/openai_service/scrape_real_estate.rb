@@ -2,7 +2,7 @@ module AIService
   module OpenaiService
     class ScrapeRealEstate
 
-      attr_accessor :real_estate
+      attr_accessor :real_estate, :openai
       attr_reader :document, :headers
 
       MODEL = "gpt-4.1-mini"
@@ -47,6 +47,9 @@ module AIService
       TEXT
 
       def initialize(real_estate:, headers: nil)
+        @openai = OpenAI::Client.new(
+          api_key: ENV.fetch("OPENAI_API_KEY")
+        )
         @real_estate = real_estate
         @headers = headers || {
           "user-Agent" => "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36"
@@ -59,7 +62,7 @@ module AIService
 
         # @openai
         # I going to give you a html page of a property, 
-        response = @openai.chat.completions.create(
+        response = openai.chat.completions.create(
           {
             model: MODEL,
             messages: [

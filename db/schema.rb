@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_02_173401) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_03_132415) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -40,6 +40,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_02_173401) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
+  create_table "assistants", force: :cascade do |t|
+    t.bigint "company_id", null: false
+    t.string "name", null: false
+    t.text "instructions", null: false
+    t.text "model"
+    t.string "assistant_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_assistants_on_company_id"
+  end
+
   create_table "companies", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
@@ -47,6 +58,37 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_02_173401) do
     t.string "email"
     t.string "phone"
     t.string "ai_source", default: "openai"
+  end
+
+  create_table "conversations", force: :cascade do |t|
+    t.bigint "lead_id", null: false
+    t.bigint "assistant_id", null: false
+    t.string "thread_id"
+    t.jsonb "meta_data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assistant_id"], name: "index_conversations_on_assistant_id"
+    t.index ["lead_id"], name: "index_conversations_on_lead_id"
+  end
+
+  create_table "lead_companies", force: :cascade do |t|
+    t.bigint "lead_id", null: false
+    t.bigint "company_id", null: false
+    t.text "summary"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_lead_companies_on_company_id"
+    t.index ["lead_id"], name: "index_lead_companies_on_lead_id"
+  end
+
+  create_table "leads", force: :cascade do |t|
+    t.string "email"
+    t.string "phone"
+    t.string "name"
+    t.text "preferences"
+    t.jsonb "extra_data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "line_item_dates", force: :cascade do |t|
@@ -57,6 +99,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_02_173401) do
     t.index ["date", "quote_id"], name: "index_line_item_dates_on_date_and_quote_id", unique: true
     t.index ["date"], name: "index_line_item_dates_on_date"
     t.index ["quote_id"], name: "index_line_item_dates_on_quote_id"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.bigint "conversation_id", null: false
+    t.string "role"
+    t.text "content"
+    t.jsonb "meta_data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["conversation_id"], name: "index_messages_on_conversation_id"
   end
 
   create_table "quotes", force: :cascade do |t|
@@ -101,7 +153,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_02_173401) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "assistants", "companies"
+  add_foreign_key "conversations", "assistants"
+  add_foreign_key "conversations", "leads"
+  add_foreign_key "lead_companies", "companies"
+  add_foreign_key "lead_companies", "leads"
   add_foreign_key "line_item_dates", "quotes"
+  add_foreign_key "messages", "conversations"
   add_foreign_key "quotes", "companies"
   add_foreign_key "real_estates", "companies"
   add_foreign_key "users", "companies"

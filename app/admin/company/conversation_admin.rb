@@ -12,6 +12,7 @@ ActiveAdmin.register Conversation do
         column :id
         column :role
         column :content
+        column :meta_data
       end
     end
 

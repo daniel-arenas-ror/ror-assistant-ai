@@ -79,6 +79,7 @@ module AIService
 
       def wait_for_run_completion(run_id)
         start_time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+        p " run_id #{run_id}"
 
         loop do
           run = openai.beta.threads.runs.retrieve(run_id, thread_id: conversation.thread_id)
@@ -89,6 +90,21 @@ module AIService
           when :completed
             handle_assistant_reply!
             return
+          when :requires_action
+
+            tool_outputs = []
+            run.required_action.submit_tool_outputs.tool_calls.each do |call|
+              call_id = call.id
+              output = send(call.function.name, JSON.parse(call.function.arguments))
+
+              tool_outputs.push({
+                tool_call_id: call_id,
+                output: output
+              })
+            end
+
+            run.required_action.submit_tool_outputs
+
           when :failed, :cancelled, :expired
             raise "Assistant run #{run.status}: #{run.inspect}"
           else
@@ -110,6 +126,21 @@ module AIService
           role: "assistant",
           content: last_message
         )
+      end
+
+      def get_scheduled(argument)
+
+        "Horarios disponibles"
+      end
+
+      def create_scheduled(argument)
+
+        "Tu agenda se ha creado"
+      end
+
+      def update_lead(argument)
+
+        "tus datos se han actualizado"
       end
     end
   end

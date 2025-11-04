@@ -8,10 +8,10 @@ module AIService
         assistant: nil,
         conversation: nil
       )
-        @lead = conversation&.lead
-        @company = assistant.company
-        @assistant = assistant
         @conversation = conversation
+        @lead = conversation&.lead
+        @assistant = conversation.assistant || assistant
+        @company = @assistant&.company
         @openai = OpenAI::Client.new(
           api_key: ENV.fetch("OPENAI_API_KEY")
         )
@@ -46,7 +46,6 @@ module AIService
           )
           p 4
         end
-        
 
         p 5
         p " conversation.nil? #{conversation.nil?}"

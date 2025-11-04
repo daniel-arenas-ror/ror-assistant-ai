@@ -88,9 +88,11 @@ module AIService
 
           case run.status.to_sym
           when :completed
+            p " completed "
             handle_assistant_reply!
             return
           when :requires_action
+            p " requires_action "
 
             tool_outputs = []
             run.required_action.submit_tool_outputs.tool_calls.each do |call|
@@ -106,11 +108,14 @@ module AIService
             run.required_action.submit_tool_outputs
 
           when :failed, :cancelled, :expired
+            p " :failed, :cancelled, :expired "
+
             raise "Assistant run #{run.status}: #{run.inspect}"
           else
             sleep(DEFAULT_POLL_INTERVAL_SECONDS)
           end
 
+          p " end of the loop "
           raise "Assistant run timed out" if Process.clock_gettime(Process::CLOCK_MONOTONIC) - start_time > MAX_POLL_SECONDS
         end
       end
@@ -129,16 +134,32 @@ module AIService
       end
 
       def get_scheduled(argument)
+        argument = JSON.parse(argument)
 
-        "Horarios disponibles"
+        "The current date #{Time.now}"
       end
 
       def create_scheduled(argument)
+        argument = JSON.parse(argument)
 
         "Tu agenda se ha creado"
       end
 
       def update_lead(argument)
+        argument = JSON.parse(argument)
+
+        lead.update!(
+          email: argument["email"],
+          phone: argument["phone_number"],
+          name: argument["name"],
+          preferences: argument["extra_information"],
+          extra_data: argument["extra_information"],
+        )
+
+        lead_company = lead.lead_companies.find(company_id: company.id)
+        lead_company.update!(
+          summary: argument["extra_information"]
+        )
 
         "tus datos se han actualizado"
       end

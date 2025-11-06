@@ -1,5 +1,5 @@
 module Public
-  class ConversationsController < Base
+  class ConversationsController < BaseController
      def new
 
      end

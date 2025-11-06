@@ -1,4 +1,5 @@
 module Public
-  class Base < ApplicationController
+  class BaseController < ApplicationController
+    
   end
 end

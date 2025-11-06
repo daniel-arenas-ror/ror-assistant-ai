@@ -1,10 +1,11 @@
 module Public
   class ConversationsController < BaseController
-     def new
+    def new
+      @assistant = Assistant.first
+      @conversation = @assistant.conversations.sample
+    end
 
-     end
-
-     def edit
-     end
+    def edit
+    end
   end
 end

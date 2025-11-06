@@ -1,7 +1,10 @@
 <!-- Block: chat -->
 <div class="chat" id="chat" data-controller="chat">
   <!-- Element: header -->
-
+  <header class="chat__header">
+    <h2 class="chat__title"><%= "RealEstateAI" %></h2>
+    <p class="chat__subtitle">With <%= @assistant.name %></p>
+  </header>
 
   <!-- Element: messages container -->
   <div class="chat__messages" id="chat-messages" aria-live="polite" role="log">
@@ -25,13 +28,13 @@
       <div class="chat__typing-dot"></div>
       <div class="chat__typing-dot"></div>
       <div class="chat__typing-dot"></div>
-      <span class="chat__typing-label">Other person is typing…</span>
+      <span class="chat__typing-label"><%= @assistant.name %> is typing…</span>
     </div>
   </div>
 
   <!-- Element: composer (input area) -->
   <footer class="chat__composer">
-    <%= form_with url: conversation_messages_path(@conversation), method: :post, local: true, html: { class: "chat__form", id: "chat-form" } do |f| %>
+    <%= form_with url: "#", method: :post, local: true, html: { class: "chat__form", id: "chat-form" } do |f| %>
       <div class="chat__input-wrap">
         <%= f.text_area :content, placeholder: "Write a message...", rows: 1, class: "chat__input", id: "chat-input", data: { autosize: true } %>
       </div>

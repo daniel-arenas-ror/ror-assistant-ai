@@ -96,6 +96,11 @@ module AIService
 
             tool_outputs = []
             run.required_action.submit_tool_outputs.tool_calls.each do |call|
+
+              p " call "
+              p call
+              p " **** ** "
+
               call_id = call.id
               output = send(call.function.name, JSON.parse(call.function.arguments))
 

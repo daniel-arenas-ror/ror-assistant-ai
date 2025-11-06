@@ -15,5 +15,9 @@ Rails.application.routes.draw do
     patch :scrape, on: :member
   end
 
+  namespace :public do
+    resources :conversations
+  end
+
   root "pages#home"
 end

@@ -1,0 +1,46 @@
+<!-- Block: chat -->
+<div class="chat" id="chat" data-controller="chat">
+  <!-- Element: header -->
+
+
+  <!-- Element: messages container -->
+  <div class="chat__messages" id="chat-messages" aria-live="polite" role="log">
+    <% @conversation.messages.each do |msg| %>
+      <% modifier = msg.user? ? 'chat__message--me' : 'chat__message--other' %>
+
+      <article class="chat__message <%= modifier %>" data-message-id="<%= msg.id %>">
+        <div class="chat__meta">
+          <span class="chat__author"><%= msg.user_name %></span>
+          <time class="chat__time"><%= l(msg.created_at, format: :short) %></time>
+        </div>
+
+        <div class="chat__bubble">
+          <p class="chat__text"><%= simple_format(h(msg.content)) %></p>
+        </div>
+      </article>
+    <% end %>
+
+    <!-- Typing indicator element (hidden by default) -->
+    <div class="chat__typing" id="chat-typing" aria-hidden="true">
+      <div class="chat__typing-dot"></div>
+      <div class="chat__typing-dot"></div>
+      <div class="chat__typing-dot"></div>
+      <span class="chat__typing-label">Other person is typing…</span>
+    </div>
+  </div>
+
+  <!-- Element: composer (input area) -->
+  <footer class="chat__composer">
+    <%= form_with url: conversation_messages_path(@conversation), method: :post, local: true, html: { class: "chat__form", id: "chat-form" } do |f| %>
+      <div class="chat__input-wrap">
+        <%= f.text_area :content, placeholder: "Write a message...", rows: 1, class: "chat__input", id: "chat-input", data: { autosize: true } %>
+      </div>
+
+      <div class="chat__controls">
+        <%= button_tag type: "submit", class: "chat__send-button", id: "chat-send" do %>
+          Send
+        <% end %>
+      </div>
+    <% end %>
+  </footer>
+</div>

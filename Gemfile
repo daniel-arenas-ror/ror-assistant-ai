@@ -80,3 +80,5 @@ gem 'activeadmin_assets'
 
 gem 'nokogiri'
 gem 'httparty'
+
+gem 'slug'

@@ -34,16 +34,11 @@
 
   <!-- Element: composer (input area) -->
   <footer class="chat__composer">
-    <%= form_with url: "#", method: :post, local: true, html: { class: "chat__form", id: "chat-form" } do |f| %>
-      <div class="chat__input-wrap">
-        <%= f.text_area :content, placeholder: "Write a message...", rows: 1, class: "chat__input", id: "chat-input", data: { autosize: true } %>
-      </div>
-
-      <div class="chat__controls">
-        <%= button_tag type: "submit", class: "chat__send-button", id: "chat-send" do %>
-          Send
-        <% end %>
-      </div>
-    <% end %>
+    <%= 
+      render "form",
+      conversation: @conversation,
+      url: "/public/conversations",
+      method: :post
+    %>
   </footer>
 </div>

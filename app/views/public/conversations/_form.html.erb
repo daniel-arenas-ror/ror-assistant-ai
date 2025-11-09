@@ -1,0 +1,14 @@
+<%= form_with url: url, method: method, local: true, html: { class: "chat__form", id: "chat-form" } do |f| %>
+  
+  <%= f.hidden_field :assistant_id, value: @assistant.slug %>
+
+  <div class="chat__input-wrap">
+    <%= f.text_area :message, placeholder: "Write a message...", rows: 1, class: "chat__input", id: "message", data: { autosize: true } %>
+  </div>
+
+  <div class="chat__controls">
+    <%= button_tag type: "submit", class: "chat__send-button", id: "chat-send" do %>
+      Send
+    <% end %>
+  </div>
+<% end %>

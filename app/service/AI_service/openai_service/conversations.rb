@@ -11,6 +11,13 @@ module AIService
         @assistant = conversation&.assistant || assistant
         @lead = conversation&.lead
         @company = @assistant&.company
+
+        p " company "
+        p company
+
+        p " @assistant "
+        p assistant
+
         @openai = OpenAI::Client.new(api_key: ENV.fetch("OPENAI_API_KEY"))
       end
 
@@ -34,7 +41,13 @@ module AIService
       def ensure_lead!
         return if lead.present?
 
-        @lead = Lead.create!(name: "Lead #{Time.current.strftime('%Y%m%d%H%M%S')}")
+        @lead = Lead.create!(
+          name: "Lead #{Time.current.strftime('%Y%m%d%H%M%S')}"
+        )
+
+        p " company "
+        p company
+
         LeadCompany.create!(lead: @lead, company: company)
       end
 

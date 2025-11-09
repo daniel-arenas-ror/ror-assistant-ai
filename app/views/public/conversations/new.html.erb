@@ -8,20 +8,6 @@
 
   <!-- Element: messages container -->
   <div class="chat__messages" id="chat-messages" aria-live="polite" role="log">
-    <% @conversation.messages.each do |msg| %>
-      <% modifier = msg.user? ? 'chat__message--me' : 'chat__message--other' %>
-
-      <article class="chat__message <%= modifier %>" data-message-id="<%= msg.id %>">
-        <div class="chat__meta">
-          <span class="chat__author"><%= msg.user_name %></span>
-          <time class="chat__time"><%= l(msg.created_at, format: :short) %></time>
-        </div>
-
-        <div class="chat__bubble">
-          <p class="chat__text"><%= simple_format(h(msg.content)) %></p>
-        </div>
-      </article>
-    <% end %>
 
     <!-- Typing indicator element (hidden by default) -->
     <div class="chat__typing" id="chat-typing" aria-hidden="true">

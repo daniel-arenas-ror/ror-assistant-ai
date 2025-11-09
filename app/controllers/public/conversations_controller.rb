@@ -1,7 +1,7 @@
 module Public
   class ConversationsController < BaseController
     before_action :set_assistant
-    before_action :set_conversation, only: [:edit]
+    before_action :set_conversation, only: [:edit, :update]
 
     def new
       @conversation = @assistant.conversations.new
@@ -34,7 +34,18 @@ module Public
     end
 
     def update
-      # AIService::OpenaiService::Conversations.new(conversation: conversation).add_message(message)
+      @conversation = AIService::OpenaiService::Conversations.new(
+        conversation: @conversation
+      ).add_message(params[:message])
+
+      if @conversation.save
+        respond_to do |format|
+          format.html { redirect_to edit_public_conversation_path(@conversation, assistant_id: @assistant.slug), notice: "ok" }
+          #format.turbo_stream { flash.now[:notice] = "Quote was successfully updated." }
+        end
+      else
+        render :edit, status: :unprocessable_entity
+      end
     end
 
     private

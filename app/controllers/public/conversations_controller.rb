@@ -12,14 +12,6 @@ module Public
         assistant: @assistant
       ).add_message(params[:message])
 
-      p " @conversation "
-      p @conversation
-      p " ************* "
-
-      p " @conversation.save "
-      p @conversation.save
-      p " ************ "
-
       if @conversation.save
         respond_to do |format|
           format.html { redirect_to edit_public_conversation_path(@conversation, assistant_id: @assistant.slug), notice: "ok" }
@@ -49,7 +41,6 @@ module Public
     end
 
     private
-
 
     def set_assistant
       @assistant = Assistant.find_by_slug(params[:assistant_id])

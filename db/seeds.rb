@@ -8,3 +8,15 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 AdminUser.create!(email: 'daniel@gmail.com', password: '123456789', password_confirmation: '123456789') if Rails.env.development?
+
+company = Company.find_or_create_by!(
+  name: 'remax-scotland',
+  email: '',
+  phone: '0131 278 0508',
+  ai_source: 'openai'
+)
+
+company.users.create!(
+  email: 'darenas@gmail.com',
+  password: '123456789',
+)

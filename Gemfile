@@ -73,6 +73,8 @@ gem 'redis'
 gem "devise"
 
 gem "openai"
+gem "pgvector"
+
 gem "awesome_print"
 
 gem 'activeadmin'

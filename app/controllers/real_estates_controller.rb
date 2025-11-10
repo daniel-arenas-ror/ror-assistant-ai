@@ -37,6 +37,8 @@ class RealEstatesController < ApplicationController
   def scrape
     @real_estate = RealEstate.find(params[:id])
     AIService::ScrapeRealEstate.new(real_estate: @real_estate).process
+    AIService::OpenaiService::Embedding.new(real_estate: @real_estate).generate_embedding
+
     redirect_to edit_real_estate_path(@real_estate), notice: "Data updated successfully!"
   end
 

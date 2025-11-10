@@ -12,12 +12,6 @@ module AIService
         @lead = conversation&.lead
         @company = @assistant&.company
 
-        p " company "
-        p company
-
-        p " @assistant "
-        p assistant
-
         @openai = OpenAI::Client.new(api_key: ENV.fetch("OPENAI_API_KEY"))
       end
 

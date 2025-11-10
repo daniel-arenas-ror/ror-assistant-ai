@@ -20,7 +20,8 @@ module AIService
         "url_images": ["Array of image URLs"],
         "description": "General description of the property (cleaned, without HTML or ads)",
         "amenities": "Main features such as number of rooms, bathrooms, parking, etc.",
-        "location": "Address or description of where the property is located, including nearby places"
+        "location": "Address or description of where the property is located, including nearby places",
+        "price": "The listed price of the property as shown on the website"
       }
 
       RULES:
@@ -42,7 +43,8 @@ module AIService
         ],
         "description": "5 bedroom detached house located in Alford, offering spacious accommodation with triple garages, office space, and outdoor entertaining areas.",
         "amenities": "5 bedrooms\n5 bathrooms\n3 living rooms\nTriple garage\nHome office space\nGarden and outdoor space\nViews to golf course",
-        "location": "Alford village, next to local golf course, parks and woodland"
+        "location": "Alford village, next to local golf course, parks and woodland",
+        "price": "£450,000"
       }
       TEXT
 

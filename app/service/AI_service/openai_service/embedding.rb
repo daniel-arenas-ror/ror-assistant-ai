@@ -18,7 +18,7 @@ module AIService
           }
        )
 
-        real_estate.update!(embedding: data.data[0].embedding)
+        real_estate.update!(embedding: response.data[0].embedding)
       end
     end
   end

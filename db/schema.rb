@@ -121,9 +121,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_10_174354) do
     t.integer "company_id"
   end
 
-# Could not dump table "real_estates" because of following StandardError
-#   Unknown type 'vector' for column 'embedding'
-
+  create_table "real_estates", force: :cascade do |t|
+    t.bigint "company_id", null: false
+    t.string "name"
+    t.string "code"
+    t.string "url"
+    t.jsonb "url_images"
+    t.text "description"
+    t.text "amenities"
+    t.string "location"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.jsonb "embedding", default: []
+    t.index ["company_id"], name: "index_real_estates_on_company_id"
+  end
 
   create_table "recipes", force: :cascade do |t|
     t.string "name", null: false

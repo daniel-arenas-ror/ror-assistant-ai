@@ -13,7 +13,7 @@ module AIService
       def generate_embedding(model: MODEL)
         response = @openai.embeddings.create(
           {
-            model: "text-embedding-3-large",
+            model: "text-embedding-3-small",
             input: real_estate.embed_input
           }
        )

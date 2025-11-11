@@ -70,7 +70,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_11_192756) do
     t.jsonb "meta_data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "current_run"
+    t.string "current_run_id"
     t.index ["assistant_id"], name: "index_conversations_on_assistant_id"
     t.index ["lead_id"], name: "index_conversations_on_lead_id"
   end

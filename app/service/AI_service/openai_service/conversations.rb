@@ -59,9 +59,14 @@ module AIService
       # Messaging
       ##
       def create_user_message!(message)
-        ## check if the current conversation is processing something ##
-        # run = openai.beta.threads.runs.retrieve(run_id, thread_id: conversation.thread_id)
-        # p " run.status before creating user message #{run.status}"
+
+        if conversation.current_run_id.present?
+          run = openai.beta.threads.runs.retrieve(conversation.current_run_id, thread_id: conversation.thread_id)
+          p " run.status before creating user message #{run.status}"
+          ## Cancel current run
+          openai.beta.threads.runs.cancel(conversation.current_run_id, thread_id: conversation.thread_id) if run.status.to_s != "completed"
+          conversation.update!(current_run_id: nil)
+        end
 
         openai.beta.threads.messages.create(
           conversation.thread_id,
@@ -79,10 +84,14 @@ module AIService
       # Runs
       ##
       def start_run!
-        openai.beta.threads.runs.create(
+        run = openai.beta.threads.runs.create(
           conversation.thread_id,
           assistant_id: assistant.assistant_id
         )
+
+        conversation.update!(current_run_id: run.id)
+
+        run
       end
 
       def wait_for_run_completion(run_id)
@@ -97,6 +106,8 @@ module AIService
           case run.status.to_sym
           when :completed
             p " completed "
+
+            conversation.update!(current_run_id: nil)
             handle_assistant_reply!
             return
           when :requires_action
@@ -134,15 +145,15 @@ module AIService
       end
 
       def search_similar_properties(query)
-        query = JSON.parse(query)
         p " search_similar_properties #{query} "
+        p " query[preferences] #{query["preferences"]} "
 
         embedding = @openai.embeddings.create(
           {
-            model: "text-embedding-3-large",
+            model: "text-embedding-3-small",
             input: query["preferences"]
           }
-        ).dig("data", 0, "embedding")
+        ).data[0].embedding
 
         real_estates = company.real_estates.order(Arel.sql("embedding <-> '#{embedding.to_json}'")).limit(5)
         real_estates.collect(&:embed_input).join("\n")

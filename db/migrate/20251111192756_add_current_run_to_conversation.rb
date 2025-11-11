@@ -1,5 +1,5 @@
 class AddCurrentRunToConversation < ActiveRecord::Migration[8.0]
   def change
-    add_column :conversations, :current_run, :string
+    add_column :conversations, :current_run_id, :string
   end
 end

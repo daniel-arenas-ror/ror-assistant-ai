@@ -9,6 +9,7 @@ class RealEstate < ApplicationRecord
       name: #{name}
       code: #{code}
       url: #{url}
+      price: #{price}
       description: #{description}
       amenities: #{amenities}
       location: #{location}

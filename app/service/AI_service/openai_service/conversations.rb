@@ -2,7 +2,7 @@ module AIService
   module OpenaiService
     class Conversations < Base
       DEFAULT_POLL_INTERVAL_SECONDS = 1
-      MAX_POLL_SECONDS = 60
+      MAX_POLL_SECONDS = 90
 
       attr_reader :assistant, :conversation, :lead, :company, :openai
 
@@ -39,9 +39,6 @@ module AIService
           name: "Lead #{Time.current.strftime('%Y%m%d%H%M%S')}"
         )
 
-        p " company "
-        p company
-
         LeadCompany.create!(lead: @lead, company: company)
       end
 
@@ -62,6 +59,10 @@ module AIService
       # Messaging
       ##
       def create_user_message!(message)
+        ## check if the current conversation is processing something ##
+        # run = openai.beta.threads.runs.retrieve(run_id, thread_id: conversation.thread_id)
+        # p " run.status before creating user message #{run.status}"
+
         openai.beta.threads.messages.create(
           conversation.thread_id,
           role: "user",
@@ -130,6 +131,21 @@ module AIService
           p " end of the loop "
           raise "Assistant run timed out" if Process.clock_gettime(Process::CLOCK_MONOTONIC) - start_time > MAX_POLL_SECONDS
         end
+      end
+
+      def search_similar_properties(query)
+        query = JSON.parse(query)
+        p " search_similar_properties #{query} "
+
+        embedding = @openai.embeddings.create(
+          {
+            model: "text-embedding-3-large",
+            input: query["preferences"]
+          }
+        ).dig("data", 0, "embedding")
+
+        real_estates = company.real_estates.order(Arel.sql("embedding <-> '#{embedding.to_json}'")).limit(5)
+        real_estates.collect(&:embed_input).join("\n")
       end
 
       ##

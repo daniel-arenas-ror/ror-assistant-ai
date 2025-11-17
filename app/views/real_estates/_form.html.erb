@@ -9,7 +9,7 @@
   <%= f.input :location, input_html: { autofocus: true } %>
   <%= f.input :price, input_html: { autofocus: true } %>
 
-  <% real_estate.url_images.each do |url| %>
+  <% real_estate&.url_images&.each do |url| %>
     <%= image_tag url, width: "200px" if url.present? %>
   <% end %>
 

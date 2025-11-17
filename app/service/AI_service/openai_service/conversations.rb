@@ -177,7 +177,7 @@ module AIService
         real_estate_ids = conn.exec_params(sql, [company.id, embedding]).to_a
         real_estates = company.real_estates.find(real_estate_ids.collect{|i| i["id"]})
 
-        real_estates.collect(&:embed_input).join("\n")
+        real_estates.collect(&:embed_input_with_img).join("\n")
       end
 
       ##

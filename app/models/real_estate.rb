@@ -1,10 +1,9 @@
-require 'pgvector'
-
 class RealEstate < ApplicationRecord
-  #include Pgvector::Model
-  #vector :embedding, limit: 3072
-
   belongs_to :company
+
+  def embed_input_with_img
+    embed_input + "\n" + "image_url: #{image_url}"
+  end
 
   def embed_input
     <<~EOS

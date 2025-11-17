@@ -131,10 +131,6 @@ module AIService
 
             # debugger
 
-            #run.required_action.submit_tool_outputs(
-            #  tool_outputs: tool_outputs
-            #)
-
             openai.beta.threads.runs.submit_tool_outputs(
               run_id,
               {
@@ -145,6 +141,7 @@ module AIService
 
           when :failed, :cancelled, :expired
             p " :failed, :cancelled, :expired "
+            conversation.update!(current_run_id: nil)
 
             raise "Assistant run #{run.status}: #{run.inspect}"
           else

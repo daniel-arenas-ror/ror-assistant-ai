@@ -129,7 +129,19 @@ module AIService
               })
             end
 
-            run.required_action.submit_tool_outputs
+            # debugger
+
+            #run.required_action.submit_tool_outputs(
+            #  tool_outputs: tool_outputs
+            #)
+
+            openai.beta.threads.runs.submit_tool_outputs(
+              run_id,
+              {
+                thread_id: conversation.thread_id,
+                tool_outputs: tool_outputs
+              }
+            )
 
           when :failed, :cancelled, :expired
             p " :failed, :cancelled, :expired "
@@ -166,7 +178,7 @@ module AIService
         SQL
 
         real_estate_ids = conn.exec_params(sql, [company.id, embedding]).to_a
-        real_estates = company.real_estates(ids.collect{|i| i["id"]})
+        real_estates = company.real_estates.find(real_estate_ids.collect{|i| i["id"]})
 
         real_estates.collect(&:embed_input).join("\n")
       end

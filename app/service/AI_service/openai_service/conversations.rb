@@ -194,19 +194,19 @@ module AIService
       end
 
       def get_scheduled(argument)
-        argument = JSON.parse(argument)
+        # argument = JSON.parse(argument)
 
         "The current date #{Time.now}"
       end
 
       def create_scheduled(argument)
-        argument = JSON.parse(argument)
+        # argument = JSON.parse(argument)
 
         "Tu agenda se ha creado"
       end
 
       def update_lead(argument)
-        argument = JSON.parse(argument)
+        #argument = JSON.parse(argument)
 
         lead.update!(
           email: argument["email"],

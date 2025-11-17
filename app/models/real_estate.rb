@@ -2,7 +2,7 @@ class RealEstate < ApplicationRecord
   belongs_to :company
 
   def embed_input_with_img
-    embed_input + "\n" + "image_url: #{image_url}"
+    embed_input + "\n" + "url_images: #{url_images}"
   end
 
   def embed_input

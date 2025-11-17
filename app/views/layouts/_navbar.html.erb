@@ -12,6 +12,9 @@
     <div class="navbar__item">
       <%= link_to "Real Estate", real_estates_path %>
     </div>
+    <div class="navbar__item">
+      <%= link_to "Link Chat con #{current_company.assistant_name}", new_public_conversation_path(assistant_id: current_company.assistant_slug), target: '_blank' %>
+    </div>
     <div class="navbar__name">
       <%= current_user.name %>
     </div>

@@ -7,5 +7,12 @@ class Company < ApplicationRecord
   has_many :leads, through: :leadCompany
 
   validates :name, presence: true
-  validates :name, presence: true
+
+  def assistant_name
+    assistants.first&.name || "Asistente"
+  end
+
+  def assistant_slug
+    assistants.first&.slug
+  end
 end

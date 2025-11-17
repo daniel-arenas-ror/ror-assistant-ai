@@ -155,7 +155,19 @@ module AIService
           }
         ).data[0].embedding
 
-        real_estates = company.real_estates.order(Arel.sql("embedding <-> '#{embedding.to_json}'")).limit(5)
+        # real_estates = company.real_estates.order(Arel.sql("embedding <-> '#{embedding.to_json}'")).limit(5)
+        conn = ActiveRecord::Base.connection.raw_connection
+
+        sql = <<-SQL
+          SELECT id
+          FROM real_estates
+          WHERE company_id = $1
+          ORDER BY embedding <-> $2 LIMIT 5
+        SQL
+
+        real_estate_ids = conn.exec_params(sql, [company.id, embedding]).to_a
+        real_estates = company.real_estates(ids.collect{|i| i["id"]})
+
         real_estates.collect(&:embed_input).join("\n")
       end
 

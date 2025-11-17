@@ -62,6 +62,8 @@ module AIService
         url = real_estate.url
         real_estate_text = extract_text_from_url(url)
 
+        url_images = real_estate_text.css('img').map { |img| img['src'] }.compact.uniq
+        real_estate_text = real_estate_text.text.gsub(/\s+/, " ").strip
         # @openai
         # I going to give you a html page of a property, 
         response = openai.chat.completions.create(
@@ -75,6 +77,8 @@ module AIService
         )
 
         real_estate_attributes = JSON.parse(response.choices[0].message.content)
+        real_estate_attributes["url_images"] = url_images
+
         real_estate.update!(real_estate_attributes)
       end
 
@@ -95,7 +99,7 @@ module AIService
         document.search("script, style, nav, footer, header").remove
 
         # Extract visible text
-        document.text.gsub(/\s+/, " ").strip
+        document
       end
     end
   end

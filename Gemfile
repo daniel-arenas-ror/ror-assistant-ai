@@ -84,3 +84,4 @@ gem 'nokogiri'
 gem 'httparty'
 
 gem 'slug'
+gem 'rack-cors'

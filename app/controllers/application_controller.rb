@@ -14,6 +14,9 @@ class ApplicationController < ActionController::Base
 
     # controller_path maybe with this we can know what kind of validation we should run
 
+
+    return false if controller_path.start_with?("api/")
+
     current_user.nil? & current_admin_user.nil?
   end
 

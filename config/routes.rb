@@ -19,5 +19,11 @@ Rails.application.routes.draw do
     resources :conversations
   end
 
+  namespace :api do
+    namespace :v1 do
+      resources :assistants, only: [:show]
+    end
+  end
+
   root "pages#home"
 end

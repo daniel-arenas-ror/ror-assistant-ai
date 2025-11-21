@@ -4,7 +4,6 @@ class BroadcastMessageAiChannel < ApplicationCable::Channel
     # stream_from "some_channel"
     p "parameters: #{params}"
     stream_for "broadcast_message_ai_channel_#{params['conversation_id']}"
-    ActionCable.server.broadcast "broadcast_message_ai_channel_#{params['conversation_id']}", { action: 'updateMessages', messages: "messages" }
   end
 
   def receive(data)
@@ -20,7 +19,14 @@ class BroadcastMessageAiChannel < ApplicationCable::Channel
 
     p " data in speak: #{data["message"]} "
 
-    ActionCable.server.broadcast("broadcast_message_ai_channel_#{params['conversation_id']}", { action: 'updateMessages', messages: "messages" })
+    broadcast_to "broadcast_message_ai_channel_#{params['conversation_id']}", { type: 'typing_start', content: data["message"] }
+
+    sleep 5
+
+    broadcast_to "broadcast_message_ai_channel_#{params['conversation_id']}", { type: 'message_chunk', content: data["message"] }
+
+    sleep 2
+    broadcast_to "broadcast_message_ai_channel_#{params['conversation_id']}", { type: 'typing_end', content: data["message"] }
   end
 
   def unsubscribed

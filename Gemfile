@@ -72,7 +72,7 @@ gem 'redis'
 
 gem "devise"
 
-gem "openai"
+gem "openai", "0.36.1"
 gem "pgvector"
 
 gem "awesome_print"

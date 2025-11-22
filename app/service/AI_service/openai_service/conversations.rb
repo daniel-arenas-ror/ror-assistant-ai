@@ -4,13 +4,14 @@ module AIService
       DEFAULT_POLL_INTERVAL_SECONDS = 1
       MAX_POLL_SECONDS = 90
 
-      attr_reader :assistant, :conversation, :lead, :company, :openai
+      attr_reader :assistant, :conversation, :lead, :company, :openai, :broadcast_key
 
-      def initialize(assistant: nil, conversation: nil)
+      def initialize(assistant: nil, conversation: nil, broadcast_key: nil)
         @conversation = conversation
         @assistant = conversation&.assistant || assistant
         @lead = conversation&.lead
         @company = @assistant&.company
+        @broadcast_key = broadcast_key
 
         @openai = OpenAI::Client.new(api_key: ENV.fetch("OPENAI_API_KEY"))
       end
@@ -79,10 +80,12 @@ module AIService
           content: message
         )
 
-        conversation.messages.create!(
+        conversation_message = conversation.messages.create!(
           role: "user",
           content: message
         )
+
+        BroadcastMessageAiChannel.broadcast_to broadcast_key, { type: 'user_message_added', content: conversation_message.content, id: conversation_message.id }
       end
 
       ##
@@ -95,6 +98,7 @@ module AIService
         )
 
         conversation.update!(current_run_id: run.id)
+        BroadcastMessageAiChannel.broadcast_to broadcast_key, { type: 'typing_start' }
 
         run
       end
@@ -113,6 +117,8 @@ module AIService
             p " completed "
 
             conversation.update!(current_run_id: nil)
+            BroadcastMessageAiChannel.broadcast_to broadcast_key, { type: 'typing_end' }
+
             handle_assistant_reply!
             return
           when :requires_action
@@ -192,10 +198,12 @@ module AIService
         messages = openai.beta.threads.messages.list(conversation.thread_id)
         last_message = messages.data.first.content.first.text.value
 
-        conversation.messages.create!(
+        conversation_message = conversation.messages.create!(
           role: "assistant",
           content: last_message
         )
+
+        BroadcastMessageAiChannel.broadcast_to broadcast_key, { type: 'answered_message', id: conversation_message.id, content: last_message }
       end
 
       def get_scheduled(argument)

@@ -19,13 +19,10 @@ class BroadcastMessageAiChannel < ApplicationCable::Channel
     broadcast_key = "broadcast_message_ai_channel_#{data["assistantSlug"]}_#{data["conversationId"]}"
     conversation = Assistant.find_by_slug(data["assistantSlug"]).conversations.find(data["conversationId"])
 
-    conversation = AIService::OpenaiService::Conversations.new(
-      conversation: conversation
-    ).add_message(params[:message])
-
-    last_message = conversation.messages.last
-
-    broadcast_to broadcast_key, { type: 'answered_message', content: last_message.content, id: last_message.id }
+    AIService::OpenaiService::Conversations.new(
+      conversation: conversation,
+      broadcast_key: broadcast_key
+    ).add_message(data["message"])
   end
 
   def unsubscribed

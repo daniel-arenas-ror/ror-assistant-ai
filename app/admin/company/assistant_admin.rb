@@ -12,4 +12,13 @@ ActiveAdmin.register Assistant do
   
     f.actions
   end
+
+   index do
+    selectable_column
+    id_column
+    column :company
+    column :name
+
+    actions
+  end
 end

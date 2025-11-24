@@ -3,6 +3,7 @@ class Company < ApplicationRecord
   has_many :quotes, dependent: :destroy
   has_many :products
   has_many :assistants
+  has_many :conversations
   has_many :leadCompany
   has_many :leads, through: :leadCompany
 

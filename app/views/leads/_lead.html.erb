@@ -1,16 +1,17 @@
 
 <div class="quote">
-  <%= link_to product.name, edit_product_path(product) %>
-  <%= product.code %>
+  <%= link_to lead.name, lead_path(lead) %>
+  <%= lead.email %>
+  <%= lead.phone %>
 
   <div class="quote__actions">
     <%= button_to "Delete",
-                  product_path(product),
+                  lead_path(lead),
                   method: :delete,
                   class: "btn btn--light" %>
 
     <%= link_to "Edit",
-                edit_product_path(product),
+                "#",
                 class: "btn btn--light" %>
   </div>
 </div>

@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :users
   resources :leads
   resources :conversations
+  resources :assistants, only: [:show, :edit, :update]
   resources :products do
     patch :scrape, on: :member
   end

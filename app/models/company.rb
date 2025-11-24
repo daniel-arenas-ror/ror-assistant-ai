@@ -16,4 +16,8 @@ class Company < ApplicationRecord
   def assistant_slug
     assistants.first&.slug
   end
+
+  def assistant
+    assistants.first
+  end
 end

@@ -1,0 +1,91 @@
+/* ----------------------------------------------------------------
+   BLOCK: .chat-log
+   The main container for the conversation.
+---------------------------------------------------------------- */
+.chat-log {
+  /* Restricts the width of the conversation for better readability */
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f7f7f7;
+  border-radius: 12px; /* Slightly larger border radius for modern feel */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Slightly stronger shadow */
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Spacing between messages */
+}
+
+/* ----------------------------------------------------------------
+   ELEMENT: .chat-log__message
+   The wrapper for each message item, used primarily for alignment.
+---------------------------------------------------------------- */
+.chat-log__message {
+  display: flex; /* Enables alignment using justify-content */
+  width: 100%;
+}
+
+/* ----------------------------------------------------------------
+   MODIFIER: .chat-log__message--assistant (Left Alignment)
+---------------------------------------------------------------- */
+.chat-log__message--assistant {
+  /* Aligns the bubble to the start (left) */
+  justify-content: flex-start;
+}
+
+/* ----------------------------------------------------------------
+   MODIFIER: .chat-log__message--user (Right Alignment)
+---------------------------------------------------------------- */
+.chat-log__message--user {
+  /* Aligns the bubble to the end (right) */
+  justify-content: flex-end;
+}
+
+/* ----------------------------------------------------------------
+   ELEMENT: .chat-log__bubble
+   The actual message container (the "bubble").
+---------------------------------------------------------------- */
+.chat-log__bubble {
+  max-width: 75%; /* Slightly wider max-width */
+  padding: 10px 15px;
+  line-height: 1.5; /* Better readability */
+  word-wrap: break-word; /* Ensures long words wrap */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  font-size: 16px; /* Slightly larger font size */
+  transition: all 0.2s ease-in-out;
+}
+
+/* ----------------------------------------------------------------
+   ELEMENT: .chat-log__bubble (Styling for Assistant's Bubble)
+---------------------------------------------------------------- */
+.chat-log__message--assistant .chat-log__bubble {
+  background-color: #ffffff; /* White bubble */
+  color: #333333;
+  /* Rounded on the top-right and bottom-right, flat on the bottom-left corner */
+  border-radius: 20px 20px 20px 4px; 
+}
+
+/* ----------------------------------------------------------------
+   ELEMENT: .chat-log__bubble (Styling for User's Bubble)
+---------------------------------------------------------------- */
+.chat-log__message--user .chat-log__bubble {
+  background-color: #007bff; /* Primary blue color */
+  color: #ffffff;
+  /* Rounded on the top-left and bottom-left, flat on the bottom-right corner */
+  border-radius: 20px 20px 4px 20px; 
+}
+
+/* ----------------------------------------------------------------
+   RESPONSIVENESS (for smaller screens)
+---------------------------------------------------------------- */
+@media (max-width: 600px) {
+  .chat-log {
+    padding: 10px;
+    gap: 10px;
+  }
+  
+  .chat-log__bubble {
+    max-width: 90%; /* Allow bubbles to take up more space on mobile */
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+}

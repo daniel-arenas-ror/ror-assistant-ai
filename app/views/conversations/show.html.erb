@@ -1,0 +1,11 @@
+<div class="chat-log">
+  <% @messages.each do |message| %>
+    <% is_user = message.role == 'role' %>
+    
+    <div class="chat-log__message <%= is_user ? 'chat-log__message--user' : 'chat-log__message--assistant' %>">
+      <div class="chat-log__bubble">
+        <%= message.content %>
+      </div>
+    </div>
+  <% end %>
+</div>

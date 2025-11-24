@@ -9,7 +9,7 @@ module AIService
 
     def process
       company = product.company
-      service = "AIService::#{company.ai_source.capitalize}Service::ScrapeRealEstate".constantize
+      service = "AIService::#{company.ai_source.capitalize}Service::ScrapeProduct".constantize
       service.new(product: product).process
     end
   end

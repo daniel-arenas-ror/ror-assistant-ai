@@ -14,7 +14,7 @@ class ProductsController < ApplicationController
 
     if @product.save
       respond_to do |format|
-        format.html { redirect_to edit_product_path(@product), notice: "Real Estate was successfully created." }
+        format.html { redirect_to edit_product_path(@product), notice: "Product was successfully created." }
       end
     else
       render :new, status: :unprocessable_entity
@@ -27,7 +27,7 @@ class ProductsController < ApplicationController
   def update
     if @product.update(product_params)
       respond_to do |format|
-        format.html { redirect_to edit_product_path(@product), notice: "Real Estate was successfully updated." }
+        format.html { redirect_to edit_product_path(@product), notice: "Product was successfully updated." }
       end
     else
       render :edit, status: :unprocessable_entity

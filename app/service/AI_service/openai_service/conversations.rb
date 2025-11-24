@@ -57,7 +57,8 @@ module AIService
         thread = openai.beta.threads.create
         @conversation = assistant.conversations.create!(
           lead: lead,
-          thread_id: thread.id
+          thread_id: thread.id,
+          company: company
         )
       end
 

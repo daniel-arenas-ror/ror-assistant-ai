@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_24_163258) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_24_180127) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -66,6 +66,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_24_163258) do
 
   create_table "conversations", force: :cascade do |t|
     t.bigint "assistant_id", null: false
+    t.bigint "company_id", null: false
     t.datetime "created_at", null: false
     t.string "current_run_id"
     t.bigint "lead_id", null: false
@@ -73,6 +74,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_24_163258) do
     t.string "thread_id"
     t.datetime "updated_at", null: false
     t.index ["assistant_id"], name: "index_conversations_on_assistant_id"
+    t.index ["company_id"], name: "index_conversations_on_company_id"
     t.index ["lead_id"], name: "index_conversations_on_lead_id"
   end
 
@@ -150,6 +152,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_24_163258) do
 
   add_foreign_key "assistants", "companies"
   add_foreign_key "conversations", "assistants"
+  add_foreign_key "conversations", "companies"
   add_foreign_key "conversations", "leads"
   add_foreign_key "lead_companies", "companies"
   add_foreign_key "lead_companies", "leads"

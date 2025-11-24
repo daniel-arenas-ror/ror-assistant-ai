@@ -1,2 +1,12 @@
-
-
+<div class="lead-details">
+  <h1><%= @lead.name %></h1>
+  <p>Email: <%= @lead.email %></p>
+  <p>Phone: <%= @lead.phone %></p>
+  
+  <h3>Conversations</h3>
+  <ul>
+    <% @conversations.each do |conversation| %>
+      <li><%= link_to "#{conversation.id} - #{conversation.created_at.strftime("%B %d, %Y")}", conversation_path(conversation) %></li>
+    <% end %>
+  </ul>
+</div>

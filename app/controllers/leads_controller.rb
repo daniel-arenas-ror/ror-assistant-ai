@@ -7,6 +7,7 @@ class LeadsController < ApplicationController
 
   def show
     @lead = current_company.leads.find(params[:id])
+    @conversations = @lead.conversations
   end
 
   private

@@ -1,3 +1,7 @@
+<main class="container">
+  <p><%= link_to @lead.name, lead_path(@lead) %></p>
+</main>
+
 <div class="chat-log">
   <% @messages.each do |message| %>
     <div class="chat-log__message <%= message.user? ? 'chat-log__message--user' : 'chat-log__message--assistant' %>">

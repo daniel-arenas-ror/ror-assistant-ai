@@ -1,5 +1,5 @@
-<%= simple_form_for real_estate, html: { class: "real_estate form" } do |f| %>
-  <%= form_error_notification(real_estate) %>
+<%= simple_form_for product, html: { class: "product form" } do |f| %>
+  <%= form_error_notification(product) %>
 
   <%= f.input :name, input_html: { autofocus: true } %>
   <%= f.input :code, input_html: { autofocus: true } %>
@@ -9,14 +9,14 @@
   <%= f.input :location, input_html: { autofocus: true } %>
   <%= f.input :price, input_html: { autofocus: true } %>
 
-  <% real_estate&.url_images&.each do |url| %>
+  <% product&.url_images&.each do |url| %>
     <%= image_tag url, width: "200px" if url.present? %>
   <% end %>
 
   <%= link_to "Cancel", quotes_path, class: "btn btn--light" %>
-  <% if !real_estate.new_record? %>
+  <% if !product.new_record? %>
     <%= link_to "Scrape Data",
-        scrape_real_estate_path(@real_estate),
+        scrape_product_path(@product),
         data: { turbo_method: :patch, turbo_confirm: "Run scraper?" },
         class: "btn btn-warning"
     %>

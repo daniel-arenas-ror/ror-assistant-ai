@@ -1,4 +1,4 @@
-ActiveAdmin.register RealEstate do
+ActiveAdmin.register Product do
 
   index do
     selectable_column

@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   resources :company
   resources :users
-  resources :real_estates do
+  resources :products do
     patch :scrape, on: :member
   end
 

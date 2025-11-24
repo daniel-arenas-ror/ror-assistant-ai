@@ -1,4 +1,4 @@
-class RealEstate < ApplicationRecord
+class Product < ApplicationRecord
   belongs_to :company
 
   def embed_input_with_img
@@ -21,7 +21,7 @@ class RealEstate < ApplicationRecord
     conn = ActiveRecord::Base.connection.raw_connection
 
     sql = <<-SQL
-      UPDATE real_estates
+      UPDATE produts
       SET embedding = $1
       WHERE id = $2
       RETURNING id;

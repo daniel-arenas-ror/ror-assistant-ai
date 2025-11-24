@@ -1,20 +1,20 @@
-class RealEstatesController < ApplicationController
-  before_action :set_real_estate, only: [:edit, :update]
+class ProductsController < ApplicationController
+  before_action :set_product, only: [:edit, :update]
 
   def index
-    @real_estates = current_company.real_estates
+    @products = current_company.products
   end
 
   def new
-    @real_estate = current_company.real_estates.new
+    @product = current_company.products.new
   end
 
   def create
-    @real_estate = current_company.real_estates.build(real_estate_params)
+    @product = current_company.products.build(product_params)
 
-    if @real_estate.save
+    if @product.save
       respond_to do |format|
-        format.html { redirect_to edit_real_estate_path(@real_estate), notice: "Real Estate was successfully created." }
+        format.html { redirect_to edit_product_path(@product), notice: "Real Estate was successfully created." }
       end
     else
       render :new, status: :unprocessable_entity
@@ -25,9 +25,9 @@ class RealEstatesController < ApplicationController
   end
 
   def update
-    if @real_estate.update(real_estate_params)
+    if @product.update(product_params)
       respond_to do |format|
-        format.html { redirect_to edit_real_estate_path(@real_estate), notice: "Real Estate was successfully updated." }
+        format.html { redirect_to edit_product_path(@product), notice: "Real Estate was successfully updated." }
       end
     else
       render :edit, status: :unprocessable_entity
@@ -35,17 +35,17 @@ class RealEstatesController < ApplicationController
   end
 
   def scrape
-    @real_estate = RealEstate.find(params[:id])
-    AIService::ScrapeRealEstate.new(real_estate: @real_estate).process
-    AIService::OpenaiService::Embedding.new(real_estate: @real_estate).generate_embedding
+    @product = Product.find(params[:id])
+    AIService::ScrapeProduct.new(product: @product).process
+    AIService::OpenaiService::Embedding.new(product: @product).generate_embedding
 
-    redirect_to edit_real_estate_path(@real_estate), notice: "Data updated successfully!"
+    redirect_to edit_product_path(@product), notice: "Data updated successfully!"
   end
 
   private
 
-  def real_estate_params
-    params.require(:real_estate).permit(
+  def product_params
+    params.require(:product).permit(
       :name,
       :code,
       :url,
@@ -56,8 +56,8 @@ class RealEstatesController < ApplicationController
     )
   end
 
-  def set_real_estate
-    @real_estate = current_company.real_estates.find(params[:id])
+  def set_product
+    @product = current_company.products.find(params[:id])
   end
 
 end

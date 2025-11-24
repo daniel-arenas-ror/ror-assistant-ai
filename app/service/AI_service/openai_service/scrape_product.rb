@@ -1,8 +1,8 @@
 module AIService
   module OpenaiService
-    class ScrapeRealEstate
+    class ScrapeProduct
 
-      attr_accessor :real_estate, :openai
+      attr_accessor :product, :openai
       attr_reader :document, :headers
 
       MODEL = "gpt-4.1-mini"
@@ -48,38 +48,37 @@ module AIService
       }
       TEXT
 
-      def initialize(real_estate:, headers: nil)
+      def initialize(product:, headers: nil)
         @openai = OpenAI::Client.new(
           api_key: ENV.fetch("OPENAI_API_KEY")
         )
-        @real_estate = real_estate
+        @product = product
         @headers = headers || {
           "user-Agent" => "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36"
         }
       end
 
       def process
-        url = real_estate.url
-        real_estate_text = extract_text_from_url(url)
+        url = product.url
+        product_text = extract_text_from_url(url)
 
-        url_images = real_estate_text.css('img').map { |img| img['src'] }.compact.uniq
-        real_estate_text = real_estate_text.text.gsub(/\s+/, " ").strip
-        # @openai
-        # I going to give you a html page of a property, 
+        url_images = product_text.css('img').map { |img| img['src'] }.compact.uniq
+        product_text = product_text.text.gsub(/\s+/, " ").strip
+
         response = openai.chat.completions.create(
           {
             model: MODEL,
             messages: [
               { role: "system", content: SCRAPPING_PROMPT },
-              { role: "user", content: "Summarize this content:\n\n#{real_estate_text}" }
+              { role: "user", content: "Summarize this content:\n\n#{product_text}" }
             ]
           }
         )
 
-        real_estate_attributes = JSON.parse(response.choices[0].message.content)
-        real_estate_attributes["url_images"] = url_images
+        product_attributes = JSON.parse(response.choices[0].message.content)
+        product_attributes["url_images"] = url_images
 
-        real_estate.update!(real_estate_attributes)
+        product.update!(product_attributes)
       end
 
       private

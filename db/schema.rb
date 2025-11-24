@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_17_192627) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_24_163258) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -116,16 +116,16 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_17_192627) do
     t.index ["conversation_id"], name: "index_messages_on_conversation_id"
   end
 
+# Could not dump table "products" because of following StandardError
+#   Unknown type 'vector' for column 'embedding'
+
+
   create_table "quotes", force: :cascade do |t|
     t.integer "company_id"
     t.datetime "created_at", null: false
     t.string "name", null: false
     t.datetime "updated_at", null: false
   end
-
-# Could not dump table "real_estates" because of following StandardError
-#   Unknown type 'vector' for column 'embedding'
-
 
   create_table "recipes", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -155,7 +155,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_17_192627) do
   add_foreign_key "lead_companies", "leads"
   add_foreign_key "line_item_dates", "quotes"
   add_foreign_key "messages", "conversations"
+  add_foreign_key "products", "companies"
   add_foreign_key "quotes", "companies"
-  add_foreign_key "real_estates", "companies"
   add_foreign_key "users", "companies"
 end

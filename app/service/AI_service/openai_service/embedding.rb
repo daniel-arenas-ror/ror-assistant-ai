@@ -3,10 +3,10 @@ module AIService
     class Embedding < Base
       MODEL = "text-embedding-3-small".freeze
 
-      attr_reader :real_estate, :openai
+      attr_reader :product, :openai
 
-      def initialize(real_estate: nil)
-        @real_estate = real_estate
+      def initialize(product: nil)
+        @product = product
         @openai = OpenAI::Client.new(api_key: ENV.fetch("OPENAI_API_KEY"))
       end
 
@@ -14,11 +14,11 @@ module AIService
         response = @openai.embeddings.create(
           {
             model: "text-embedding-3-small",
-            input: real_estate.embed_input
+            input: product.embed_input
           }
        )
 
-        real_estate.raw_update!(embedding: response.data[0].embedding)
+        product.raw_update!(embedding: response.data[0].embedding)
       end
     end
   end

@@ -45,14 +45,37 @@
    The actual message container (the "bubble").
 ---------------------------------------------------------------- */
 .chat-log__bubble {
-  max-width: 75%; /* Slightly wider max-width */
-  padding: 10px 15px;
+  max-width: 75%;
+  /* Increased bottom padding to accommodate the absolute positioned time */
+  padding: 10px 15px 25px 15px; 
   line-height: 1.5; /* Better readability */
   word-wrap: break-word; /* Ensures long words wrap */
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  font-size: 16px; /* Slightly larger font size */
+  font-size: 16px; 
   transition: all 0.2s ease-in-out;
+  position: relative; /* Essential for positioning the time element */
 }
+
+/* ----------------------------------------------------------------
+   ELEMENT: .chat-log__time (NEW: Timestamp styling)
+---------------------------------------------------------------- */
+.chat-log__time {
+  position: absolute;
+  bottom: 5px; /* Position from the bottom edge of the bubble */
+  font-size: 11px;
+  opacity: 0.7; /* Make the time text slightly muted */
+  pointer-events: none; /* Allows easy text selection of the main message */
+}
+
+/* Positioning the time based on the sender */
+.chat-log__message--assistant .chat-log__time {
+  right: 15px; /* Position on the right inside the left-aligned bubble */
+}
+
+.chat-log__message--user .chat-log__time {
+  right: 15px; /* Position on the right inside the right-aligned bubble */
+}
+
 
 /* ----------------------------------------------------------------
    ELEMENT: .chat-log__bubble (Styling for Assistant's Bubble)
@@ -84,8 +107,9 @@
   }
   
   .chat-log__bubble {
+    /* Adjusted padding for smaller screens */
+    padding: 8px 12px 22px 12px; 
     max-width: 90%; /* Allow bubbles to take up more space on mobile */
-    padding: 8px 12px;
     font-size: 14px;
   }
 }

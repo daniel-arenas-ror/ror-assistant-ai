@@ -1,4 +1,4 @@
 ## Compile CSS and Javascript
 
-rails assets:precompile  
+rails assets:precompile
 

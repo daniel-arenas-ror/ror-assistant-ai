@@ -2,7 +2,7 @@ module AIService
   module GeminiService
     class Conversations < Base
 
-      attr_reader :assistant, :conversation, :lead, :company, :openai, :broadcast_key
+      attr_reader :assistant, :conversation, :lead, :company, :openai, :broadcast_key, :system_instruction
 
       def initialize(
         assistant: nil,
@@ -15,12 +15,23 @@ module AIService
         @company = @assistant&.company
         @broadcast_key = broadcast_key
         @system_instruction = @assistant.instructions
+        @history = conversation.messagesmessages.collect{|m| { "role" => m.role == "user" ? "user": "model", "parts" => [{ "text" => m.content }] } } || []
+        @tools = []
       end
 
-      def send_message(user_message)
+      def add_message(user_message)
+
+        ensure_lead!
+        ensure_conversation!
+
         @history << { "role" => "user", "parts" => [{ "text" => user_message }] }
 
-        response_data = make_api_call(@history, SYSTEM_INSTRUCTION, TOOL_SPEC)
+        response_data = make_api_call(@history, @system_instruction, @tools)
+
+        conversation_message = conversation.messages.create!(
+          role: "user",
+          content: message
+        )
 
         function_call = response_data['candidates']&.first&.dig('content', 'parts')&.find { |p| p['functionCall'] }
 
@@ -52,7 +63,7 @@ module AIService
             
             puts "--- RETURNING FUNCTION RESULT TO GEMINI ---"
             # Step 5: Second API Call: Send function result back to get the final text response
-            response_data = make_api_call(@history, SYSTEM_INSTRUCTION, TOOL_SPEC)
+            response_data = make_api_call(@history, @system_instruction, @tools)
           end
         end
 
@@ -66,6 +77,28 @@ module AIService
         end
       rescue StandardError => e
         return "An error occurred: #{e.message}"  
+      end
+
+      def ensure_lead!
+        return if lead.present?
+
+        @lead = Lead.create!(
+          name: "Lead #{Time.current.strftime('%Y%m%d%H%M%S')}"
+        )
+
+        LeadCompany.create!(lead: @lead, company: company)
+      end
+
+      ##
+      # Conversation handling
+      ##
+      def ensure_conversation!
+        return if conversation.present?
+
+        @conversation = assistant.conversations.create!(
+          lead: lead,
+          company: company
+        )
       end
     end
   end

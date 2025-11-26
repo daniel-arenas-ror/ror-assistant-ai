@@ -138,7 +138,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_26_222314) do
 
   create_table "tools", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.jsonb "fuction"
+    t.jsonb "function", default: {}
     t.string "name"
     t.datetime "updated_at", null: false
   end

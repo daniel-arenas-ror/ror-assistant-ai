@@ -1,6 +1,8 @@
 module AIService
   module OpenaiService
     class Conversations < Base
+      include Tools::Base
+
       DEFAULT_POLL_INTERVAL_SECONDS = 1
       MAX_POLL_SECONDS = 90
 
@@ -35,36 +37,6 @@ module AIService
 
       private
 
-      ##
-      # Lead handling
-      ##
-      def ensure_lead!
-        return if lead.present?
-
-        @lead = Lead.create!(
-          name: "Lead #{Time.current.strftime('%Y%m%d%H%M%S')}"
-        )
-
-        LeadCompany.create!(lead: @lead, company: company)
-      end
-
-      ##
-      # Conversation handling
-      ##
-      def ensure_conversation!
-        return if conversation.present?
-
-        thread = openai.beta.threads.create
-        @conversation = assistant.conversations.create!(
-          lead: lead,
-          thread_id: thread.id,
-          company: company
-        )
-      end
-
-      ##
-      # Messaging
-      ##
       def create_user_message!(message)
 
         if conversation.current_run_id.present?
@@ -89,9 +61,6 @@ module AIService
         BroadcastMessageAiChannel.broadcast_to broadcast_key, { type: 'user_message_added', content: conversation_message.content, id: conversation_message.id }
       end
 
-      ##
-      # Runs
-      ##
       def start_run!
         run = openai.beta.threads.runs.create(
           conversation.thread_id,

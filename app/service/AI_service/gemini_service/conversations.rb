@@ -1,6 +1,7 @@
 module AIService
   module GeminiService
     class Conversations < Base
+      include Tools::Base
 
       attr_reader :assistant, :conversation, :lead, :company, :openai, :broadcast_key, :system_instruction
 
@@ -89,15 +90,13 @@ module AIService
         LeadCompany.create!(lead: @lead, company: company)
       end
 
-      ##
-      # Conversation handling
-      ##
       def ensure_conversation!
         return if conversation.present?
 
         @conversation = assistant.conversations.create!(
           lead: lead,
-          company: company
+          company: company,
+          meta_data: { agent: 'gemini', version: assistant.version }
         )
       end
     end

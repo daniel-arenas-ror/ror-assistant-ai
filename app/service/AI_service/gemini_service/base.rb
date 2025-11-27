@@ -10,7 +10,7 @@ module AIService
         payload = {
           contents: history,
           system_instruction: { parts: [{ text: system_instruction }] },
-          #tools: [tool_spec]
+          tools: [{ functionDeclarations: [tool_spec] }]
         }.to_json
 
 

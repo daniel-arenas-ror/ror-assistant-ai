@@ -31,8 +31,11 @@ module AIService
 
         conversation_message = conversation.messages.create!(
           role: "user",
-          content: message
+          content: user_message
         )
+
+        p " **** response_data **** "
+        ap response_data
 
         function_call = response_data['candidates']&.first&.dig('content', 'parts')&.find { |p| p['functionCall'] }
 
@@ -40,16 +43,15 @@ module AIService
           puts "\n--- FUNCTION CALL DETECTED ---"
           function_name = function_call['functionCall']['name']
           function_args = function_call['functionCall']['args']
-          
-          # Step 3: Execute the local function
+
+          send(function_name, JSON.parse(function_args))
+
           if function_name == 'search_products'
             result = search_products(function_args['query'])
             puts "Executed function `search_products` with query: '#{function_args['query']}'"
-            
-            # Step 4: Add the model's function request and the function result to history
-            @history << function_call['content'] # The model's request (role: 'model')
-            
-            # The function result response (role: 'function')
+
+            @history << function_call['content']
+
             @history << {
               "role" => "function",
               "parts" => [
@@ -61,9 +63,8 @@ module AIService
                 }
               ]
             }
-            
+
             puts "--- RETURNING FUNCTION RESULT TO GEMINI ---"
-            # Step 5: Second API Call: Send function result back to get the final text response
             response_data = make_api_call(@history, @system_instruction, @tools)
           end
         end

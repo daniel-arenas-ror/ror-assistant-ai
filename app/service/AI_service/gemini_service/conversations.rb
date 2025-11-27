@@ -29,7 +29,7 @@ module AIService
         ensure_lead!
         ensure_conversation!
 
-        @history << { "role" => "user", "parts" => [{ "text" => user_message }] }
+        history << { "role" => "user", "parts" => [{ "text" => user_message }] }
 
         response_data = make_api_call(url, payload)
 
@@ -48,29 +48,24 @@ module AIService
           function_name = function_call['functionCall']['name']
           function_args = function_call['functionCall']['args']
 
-          send(function_name, JSON.parse(function_args))
+          result = send(function_name, JSON.parse(function_args))
 
-          if function_name == 'search_products'
-            result = search_products(function_args['query'])
-            puts "Executed function `search_products` with query: '#{function_args['query']}'"
+          @history << function_call['content']
 
-            @history << function_call['content']
-
-            @history << {
-              "role" => "function",
-              "parts" => [
-                {
-                  "functionResponse" => {
-                    "name" => "search_products",
-                    "response" => { "content" => result }
-                  }
+          @history << {
+            role: "function",
+            parts: [
+              {
+                functionResponse: {
+                  name: "search_products",
+                  response: { "content": result }
                 }
-              ]
-            }
+              }
+            ]
+          }
 
-            puts "--- RETURNING FUNCTION RESULT TO GEMINI ---"
-            response_data = make_api_call(url, payload)
-          end
+          puts "--- RETURNING FUNCTION RESULT TO GEMINI ---"
+          response_data = make_api_call(url, payload)
         end
 
         final_text = response_data['candidates']&.first&.dig('content', 'parts', 0, 'text')

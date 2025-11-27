@@ -1,6 +1,13 @@
 module AIService
   module GeminiService
     class Base
+
+      attr_reader :gemini_api_key
+
+      def initialize(gemini_api_key)
+        @gemini_api_key = gemini_api_key
+      end
+
       def make_api_call(url: API_URL, payload: {})
         (1..max_retries).each do |attempt|
           response = HTTParty.post(url, body: payload.to_json, headers: headers)
@@ -22,7 +29,7 @@ module AIService
       def headers
         { 
           'Content-Type' => 'application/json',
-          'x-goog-api-key' => GEMINI_API_KEY
+          'x-goog-api-key' => gemini_api_key
         }
       end
     end

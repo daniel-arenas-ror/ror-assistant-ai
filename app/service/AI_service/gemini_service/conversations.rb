@@ -13,6 +13,8 @@ module AIService
         conversation: nil,
         broadcast_key: nil
       )
+        super(ENV.fetch('GEMINI_API_KEY', ''))
+
         @conversation = conversation
         @assistant = conversation&.assistant || assistant
         @lead = conversation&.lead

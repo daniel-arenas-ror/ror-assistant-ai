@@ -16,7 +16,7 @@ module AIService
         @company = @assistant&.company
         @broadcast_key = broadcast_key
         @system_instruction = @assistant.instructions
-        @history = conversation.messagesmessages.collect{|m| { "role" => m.role == "user" ? "user": "model", "parts" => [{ "text" => m.content }] } } || []
+        @history = conversation.messages.collect{|m| { "role" => m.role == "user" ? "user": "model", "parts" => [{ "text" => m.content }] } } || []
         @tools = []
       end
 
@@ -69,6 +69,11 @@ module AIService
         end
 
         final_text = response_data['candidates']&.first&.dig('content', 'parts', 0, 'text')
+
+        conversation_message = conversation.messages.create!(
+          role: "assistant",
+          content: final_text
+        )
 
         if final_text
           @history << { "role" => "model", "parts" => [{ "text" => final_text }] }

@@ -1,28 +1,21 @@
 module AIService
   module GeminiService
     class Base
-      GEMINI_API_KEY = ENV.fetch('GEMINI_API_KEY', '') 
-      API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=#{GEMINI_API_KEY}"
+      GEMINI_API_KEY = ENV.fetch('GEMINI_API_KEY', '')
+      API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
 
     
       def make_api_call(history, system_instruction, tool_spec, max_retries = 3)
-        uri = URI.parse(API_URL)
-        http = Net::HTTP.new(uri.host, uri.port)
-        http.use_ssl = true
 
         payload = {
-          "contents" => history,
-          "systemInstruction" => { "parts" => [{ "text" => system_instruction }] },
-          "tools" => [tool_spec]
+          contents: history,
+          system_instruction: { parts: [{ text: system_instruction }] },
+          #tools: [tool_spec]
         }.to_json
 
-        headers = { 'Content-Type' => 'application/json' }
-        
-        (1..max_retries).each do |attempt|
-          request = Net::HTTP::Post.new(uri.request_uri, headers)
-          request.body = payload
 
-          response = http.request(request)
+        (1..max_retries).each do |attempt|
+          response = HTTParty.post(API_URL, body: payload.to_json, headers: headers)
           
           if response.code == '200'
             return JSON.parse(response.body)
@@ -34,7 +27,15 @@ module AIService
             raise "API Error: #{response.code} - #{response.body}"
           end
         end
+
         raise "API request failed after #{max_retries} attempts."
+      end
+
+      def headers
+        { 
+          'Content-Type' => 'application/json',
+          'x-goog-api-key' => GEMINI_API_KEY
+        }
       end
     end
   end

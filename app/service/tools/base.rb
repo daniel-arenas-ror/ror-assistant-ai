@@ -1,6 +1,11 @@
 module Tools
   module Base
 
+    def create_conversation
+      ensure_lead!
+      ensure_conversation!
+    end
+
     def ensure_lead!
       return if lead.present?
 

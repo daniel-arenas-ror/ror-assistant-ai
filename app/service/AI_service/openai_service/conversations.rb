@@ -18,11 +18,6 @@ module AIService
         @openai = OpenAI::Client.new(api_key: ENV.fetch("OPENAI_API_KEY"))
       end
 
-      def create_conversation
-        ensure_lead!
-        ensure_conversation!
-      end
-
       def add_message(message)
         ensure_lead!
         ensure_conversation!

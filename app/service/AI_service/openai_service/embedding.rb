@@ -9,11 +9,6 @@ module AIService
         @openai = OpenAI::Client.new(api_key: ENV.fetch("OPENAI_API_KEY"))
       end
 
-      def update_embedding!()
-
-        product.raw_update!(embedding: response.data[0].embedding)
-      end
-
       def generate_embedding(text, model: MODEL)
         response = @openai.embeddings.create(
           {

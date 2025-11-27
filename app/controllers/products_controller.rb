@@ -37,7 +37,7 @@ class ProductsController < ApplicationController
   def scrape
     @product = Product.find(params[:id])
     AIService::ScrapeProduct.new(product: @product).process
-    AIService::OpenaiService::Embedding.new(product: @product).generate_embedding
+    AIService::Embedding.new(product: @product).update_embedding!
 
     redirect_to edit_product_path(@product), notice: "Data updated successfully!"
   end

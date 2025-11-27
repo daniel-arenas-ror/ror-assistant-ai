@@ -1,21 +1,9 @@
 module AIService
   module GeminiService
     class Base
-      GEMINI_API_KEY = ENV.fetch('GEMINI_API_KEY', '')
-      API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
-
-    
-      def make_api_call(history, system_instruction, tool_spec, max_retries = 3)
-
-        payload = {
-          contents: history,
-          system_instruction: { parts: [{ text: system_instruction }] },
-          tools: [{ functionDeclarations: [tool_spec] }]
-        }.to_json
-
-
+      def make_api_call(url: API_URL, payload: {})
         (1..max_retries).each do |attempt|
-          response = HTTParty.post(API_URL, body: payload.to_json, headers: headers)
+          response = HTTParty.post(url, body: payload.to_json, headers: headers)
           
           if response.code == '200'
             return JSON.parse(response.body)

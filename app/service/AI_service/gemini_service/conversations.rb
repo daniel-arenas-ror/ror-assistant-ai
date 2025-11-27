@@ -3,7 +3,10 @@ module AIService
     class Conversations < Base
       include Tools::Base
 
-      attr_reader :assistant, :conversation, :lead, :company, :openai, :broadcast_key, :system_instruction
+      API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
+      GEMINI_API_KEY = ENV.fetch('GEMINI_API_KEY', '')
+
+      attr_reader :assistant, :conversation, :lead, :company, :openai, :broadcast_key, :system_instruction, :history
 
       def initialize(
         assistant: nil,
@@ -18,6 +21,7 @@ module AIService
         @system_instruction = @assistant.instructions
         @history = conversation.messages.collect{|m| { "role" => m.role == "user" ? "user": "model", "parts" => [{ "text" => m.content }] } } || []
         @tools = []
+        @url = API_URL
       end
 
       def add_message(user_message)
@@ -27,7 +31,7 @@ module AIService
 
         @history << { "role" => "user", "parts" => [{ "text" => user_message }] }
 
-        response_data = make_api_call(@history, @system_instruction, @tools)
+        response_data = make_api_call(url, payload)
 
         conversation_message = conversation.messages.create!(
           role: "user",
@@ -65,7 +69,7 @@ module AIService
             }
 
             puts "--- RETURNING FUNCTION RESULT TO GEMINI ---"
-            response_data = make_api_call(@history, @system_instruction, @tools)
+            response_data = make_api_call(url, payload)
           end
         end
 
@@ -104,6 +108,14 @@ module AIService
           company: company,
           meta_data: { agent: 'gemini', version: assistant.version }
         )
+      end
+
+      def payload
+        {
+          contents: history,
+          system_instruction: { parts: [{ text: system_instruction }] },
+          tools: [{ functionDeclarations: [tool_spec] }]
+        }
       end
     end
   end

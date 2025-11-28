@@ -5,16 +5,28 @@ class AssistantsController < ApplicationController
   end
 
   def edit
+
   end
 
   def update
-
+    if @assistant.update!(assistant_params)
+      respond_to do |format|
+        format.html { redirect_to edit_assistant_path(@product), notice: "Assitant was successfully updated." }
+      end
+    else
+      render :edit, status: :unprocessable_entity
+    end
   end
 
   private
 
   def assistant_params
-    params.require(:assistant).permit(:name, :description, :avatar_url)
+    params.require(:assistant).permit(
+      :name,
+      :instructions,
+      :assistant_id,
+      :scrapping_instructions
+    )
   end
 
   def load_assistant

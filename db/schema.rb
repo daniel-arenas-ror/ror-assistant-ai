@@ -65,8 +65,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_29_142630) do
     t.text "scrapping_instructions"
     t.string "slug"
     t.text "task"
-    t.float "temperature"
-    t.float "top_p"
+    t.float "temperature", default: 1.0
+    t.float "top_p", default: 1.0
     t.datetime "updated_at", null: false
     t.index ["company_id"], name: "index_assistants_on_company_id"
     t.index ["slug"], name: "index_assistants_on_slug", unique: true

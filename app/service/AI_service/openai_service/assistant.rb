@@ -9,7 +9,7 @@ module AIService
 
       def process
         raise "assistant_id is requiered" if @assistant.assistant_id.blank?
-        raise "Uodate is only for openai agent" if @assistant.use_openai?
+        raise "Update is only for openai agent" unless @assistant.use_openai?
 
         @openai.beta.assistants.update(@assistant.assistant_id, 
          {

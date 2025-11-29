@@ -1,0 +1,16 @@
+<%= simple_form_for assistant, html: { class: "assistant form" } do |f| %>
+  <%= form_error_notification(assistant) %>
+
+  <%= f.input :name, input_html: { autofocus: true } %>
+  <%= f.input :assistant_id, input_html: { autofocus: true } %>
+  <%= f.textarea :role, input_html: { autofocus: true } %>
+  <%= f.textarea :task, input_html: { autofocus: true } %>
+  <%= f.textarea :context, input_html: { autofocus: true } %>
+  <%= f.textarea :reasoning, input_html: { autofocus: true } %>
+  <%= f.textarea :outputs, input_html: { autofocus: true } %>
+  <%= f.textarea :conditions, input_html: { autofocus: true } %>
+
+  <%= f.textarea :scrapping_instructions, input_html: { autofocus: true } %>
+
+  <%= f.submit class: "btn btn--secondary" %>
+<% end %>

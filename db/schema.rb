@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_26_234818) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_29_130754) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -53,12 +53,18 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_26_234818) do
   create_table "assistants", force: :cascade do |t|
     t.string "assistant_id", null: false
     t.bigint "company_id", null: false
+    t.text "conditions"
+    t.text "context"
     t.datetime "created_at", null: false
     t.text "instructions", null: false
     t.text "model"
     t.string "name", null: false
+    t.text "outputs"
+    t.text "reasoning"
+    t.text "role"
     t.text "scrapping_instructions"
     t.string "slug"
+    t.text "task"
     t.datetime "updated_at", null: false
     t.index ["company_id"], name: "index_assistants_on_company_id"
     t.index ["slug"], name: "index_assistants_on_slug", unique: true

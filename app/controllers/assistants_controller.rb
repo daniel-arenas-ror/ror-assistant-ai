@@ -24,6 +24,12 @@ class AssistantsController < ApplicationController
     params.require(:assistant).permit(
       :name,
       :instructions,
+      :role,
+      :task,
+      :context,
+      :reasoning,
+      :outputs,
+      :conditions,
       :assistant_id,
       :scrapping_instructions
     )

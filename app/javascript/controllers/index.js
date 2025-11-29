@@ -5,7 +5,7 @@
 import { application } from "./application"
 
 import RemovalsController from "./removals_controller"
+import TabsController from "./tabs_controller"
+
+application.register("tabs", TabsController)
 application.register("removals", RemovalsController)
-
-
-

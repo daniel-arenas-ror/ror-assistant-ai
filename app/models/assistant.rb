@@ -3,6 +3,8 @@ class Assistant < ApplicationRecord
 
   belongs_to :company
   has_many :conversations
+  has_many :assistant_tools
+  has_many :tools, through: :assistant_tools
 
   def title_for_slug
     "#{name}-#{assistant_id.last(6)}#{company.id}".downcase

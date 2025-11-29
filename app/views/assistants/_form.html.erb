@@ -1,18 +1,61 @@
-<%= simple_form_for assistant, html: { class: "assistant form" } do |f| %>
-  <%= form_error_notification(assistant) %>
+<%= simple_form_for assistant, html: { class: "assistant" } do |f| %>
+  
+  <div class="form-stepper" data-controller="tabs">
+    <!-- 1. Stepper Header (The Tabs) -->
+    <div class="form-stepper__header">
+      <div class="form-stepper__step form-stepper__step--active" data-action="click->tabs#switch" data-step="1">
+        <span class="form-stepper__step-number">1</span>
+        <span class="form-stepper__step-label">Basic Details</span>
+      </div>
 
-  <%= f.input :name, input_html: { autofocus: true } %>
-  <%= f.input :assistant_id, input_html: { autofocus: true } %>
-  <%= f.input :role, input_html: { autofocus: true } %>
-  <%= f.input :task, input_html: { autofocus: true } %>
-  <%= f.input :context, input_html: { autofocus: true } %>
-  <%= f.input :reasoning, input_html: { autofocus: true } %>
-  <%= f.input :outputs, input_html: { autofocus: true } %>
-  <%= f.input :conditions, input_html: { autofocus: true } %>
-  <%= f.input :temperature, input_html: { autofocus: true } %>
-  <%= f.input :top_p, input_html: { autofocus: true } %>
+      <div class="form-stepper__step" data-action="click->tabs#switch" data-step="2">
+        <span class="form-stepper__step-number">2</span>
+        <span class="form-stepper__step-label">Configuration</span>
+      </div>
 
-  <%= f.input :scrapping_instructions, input_html: { autofocus: true } %>
+      <div class="form-stepper__step" data-action="click->tabs#switch" data-step="3">
+        <span class="form-stepper__step-number">3</span>
+        <span class="form-stepper__step-label">Tools</span>
+      </div>
+    </div>
+
+  <div class="form-stepper__content">
+    <%= form_error_notification(assistant) %>
+
+    <div class="form-stepper__content-pane form-stepper__content-pane--active" data-step-content="1">
+      <h3>Step 1: Product Basics</h3>
+      <p>Enter the name, price, and category of the product.</p>
+
+      <%= f.input :name, input_html: { autofocus: true } %>
+      <%= f.input :assistant_id, input_html: { autofocus: true } %>
+      <%= f.input :temperature, input_html: { autofocus: true } %>
+      <%= f.input :top_p, input_html: { autofocus: true } %>
+    </div>
+ 
+    <div class="form-stepper__content-pane" data-step-content="2">
+      <h3>Step 2: Technical Configuration</h3>
+      <p>Specify technical details like dimensions or storage options.</p>
+
+      <%= f.input :role, input_html: { autofocus: true } %>
+      <%= f.input :task, input_html: { autofocus: true } %>
+      <%= f.input :context, input_html: { autofocus: true } %>
+      <%= f.input :reasoning, input_html: { autofocus: true } %>
+      <%= f.input :outputs, input_html: { autofocus: true } %>
+      <%= f.input :conditions, input_html: { autofocus: true } %>
+
+      <%= f.input :scrapping_instructions, input_html: { autofocus: true } %>
+    </div>
+
+    <div class="form-stepper__content-pane" data-step-content="3">
+      <h3>Step 3: Confirm & Submit</h3>
+      <p>Review all your entered data before final submission.</p>
+      <% Tool.all.each do |tool| %>
+        <p>
+          <%= check_box_tag "assistant[tool_ids][]", tool.id, assistant.tools.include?(tool), id: "assistant_tool_#{tool.id}" %>
+          <%= label_tag "assistant_tool_#{tool.id}", tool.name %>
+        </p>
+      <% end %>
+    </div>
 
   <div class="form__actions">
     <%= f.submit class: "btn btn--secondary" %>

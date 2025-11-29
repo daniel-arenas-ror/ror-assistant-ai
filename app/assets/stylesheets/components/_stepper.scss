@@ -1,0 +1,140 @@
+.form-stepper {
+  width: 100%;
+  max-width: 900px;
+  margin: var(--space-xxxxl) auto; // Using 4rem (64px) for top/bottom margin
+  border: var(--border);
+  border-radius: var(--border-radius);
+  background-color: var(--color-white);
+  box-shadow: var(--shadow-large);
+
+  // ELEMENT: Stepper header container (for the visual steps)
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--color-light);
+    background-color: var(--color-background); // Using the light background
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    padding: 0; 
+  }
+
+  // ELEMENT: Individual step item (tab)
+  &__step {
+    flex-grow: 1;
+    text-align: center;
+    padding: var(--space-m) var(--space-s); // 16px top/bottom, 12px left/right
+    font-size: var(--font-size-s);
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--color-text-muted); // Inactive step text
+    position: relative;
+    transition: background-color 0.3s, color 0.3s;
+    
+    // Line separator between steps
+    &:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: 0;
+      transform: translate(50%, -50%);
+      height: 2px;
+      width: 50%; // Connects to the next step
+      background-color: var(--color-light);
+      z-index: 0;
+    }
+
+    // Inner Span for the step number/icon
+    &-label {
+      z-index: 1;
+      position: relative;
+    }
+
+    // MODIFIER: Active step styling
+    &--active {
+      color: var(--color-white);
+      background-color: var(--color-primary);
+      
+      // Active steps have a strong visual indicator
+      .form-stepper__step-number {
+        background-color: var(--color-primary);
+        border-color: var(--color-white);
+        color: var(--color-white);
+      }
+      
+      // Active line indicator
+      &:not(:last-child)::after {
+        background-color: var(--color-primary);
+      }
+    }
+    
+    // Hover effect for non-active steps
+    &:not(&--active):hover {
+      // SCSS 'adjust' function is kept to modify the CSS variable color
+      background-color: adjust(var(--color-background), 3%);
+    }
+  }
+
+  // ELEMENT: Step number circle
+  &__step-number {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: var(--color-text-muted);
+    color: var(--color-white);
+    font-size: var(--font-size-xs);
+    margin-right: var(--space-xs); // 8px spacing
+  }
+
+  // ELEMENT: Content area for the form fields
+  &__content {
+    padding: var(--space-xl); // 32px padding on all sides
+    min-height: 250px;
+    color: var(--color-text-body);
+    
+    &-pane {
+      display: none; // Hidden by default
+    }
+    
+    // MODIFIER: Active content pane
+    &-pane--active {
+      display: block; // Shown when active
+    }
+  }
+  
+  // ELEMENT: Navigation buttons container
+  &__navigation {
+    padding: var(--space-m) var(--space-xl); // 16px vertical, 32px horizontal
+    border-top: var(--border);
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-s); // 12px gap between buttons
+
+    button {
+      padding: var(--space-s) var(--space-xl); // 12px vertical, 32px horizontal
+      border: none;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.2s;
+    }
+
+    .btn-back {
+      background-color: var(--color-text-muted); // Dark color for back
+      color: var(--color-white);
+      &:hover {
+        background-color: adjust(var(--color-text-muted), 10%);
+      }
+    }
+
+    .btn-next {
+      background-color: var(--color-primary); // Primary color for next
+      color: var(--color-white);
+      &:hover {
+        background-color: adjust(var(--color-primary), 10%);
+      }
+    }
+  }
+}

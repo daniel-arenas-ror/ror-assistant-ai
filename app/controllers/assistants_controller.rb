@@ -10,6 +10,8 @@ class AssistantsController < ApplicationController
 
   def update
     if @assistant.update!(assistant_params)
+      AIService::OpenaiService::Assistant.new(assistant: @assistant).process if @assistant.use_openai?
+
       respond_to do |format|
         format.html { redirect_to edit_assistant_path(@assistant), notice: "Assitant was successfully updated." }
       end
@@ -31,6 +33,8 @@ class AssistantsController < ApplicationController
       :outputs,
       :conditions,
       :assistant_id,
+      :temperature,
+      :top_p,
       :scrapping_instructions
     )
   end

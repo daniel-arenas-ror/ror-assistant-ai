@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_29_130754) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_29_142630) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -65,6 +65,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_29_130754) do
     t.text "scrapping_instructions"
     t.string "slug"
     t.text "task"
+    t.float "temperature"
+    t.float "top_p"
     t.datetime "updated_at", null: false
     t.index ["company_id"], name: "index_assistants_on_company_id"
     t.index ["slug"], name: "index_assistants_on_slug", unique: true

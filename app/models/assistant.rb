@@ -11,4 +11,19 @@ class Assistant < ApplicationRecord
   def version
     updated_at.to_i
   end
+
+  def use_openai?
+    company.ai_source == "openai"
+  end
+
+  def full_instructions
+    [
+      role,
+      task,
+      context,
+      reasoning,
+      outputs,
+      conditions
+    ].compact.join("\n\n")
+  end
 end

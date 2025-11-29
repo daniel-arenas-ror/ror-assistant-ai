@@ -3,14 +3,16 @@
 
   <%= f.input :name, input_html: { autofocus: true } %>
   <%= f.input :assistant_id, input_html: { autofocus: true } %>
-  <%= f.textarea :role, input_html: { autofocus: true } %>
-  <%= f.textarea :task, input_html: { autofocus: true } %>
-  <%= f.textarea :context, input_html: { autofocus: true } %>
-  <%= f.textarea :reasoning, input_html: { autofocus: true } %>
-  <%= f.textarea :outputs, input_html: { autofocus: true } %>
-  <%= f.textarea :conditions, input_html: { autofocus: true } %>
+  <%= f.input :role, input_html: { autofocus: true } %>
+  <%= f.input :task, input_html: { autofocus: true } %>
+  <%= f.input :context, input_html: { autofocus: true } %>
+  <%= f.input :reasoning, input_html: { autofocus: true } %>
+  <%= f.input :outputs, input_html: { autofocus: true } %>
+  <%= f.input :conditions, input_html: { autofocus: true } %>
 
-  <%= f.textarea :scrapping_instructions, input_html: { autofocus: true } %>
+  <%= f.input :scrapping_instructions, input_html: { autofocus: true } %>
 
-  <%= f.submit class: "btn btn--secondary" %>
+  <div class="form__actions">
+    <%= f.submit class: "btn btn--secondary" %>
+  </div>
 <% end %>

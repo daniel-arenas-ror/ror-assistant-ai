@@ -11,7 +11,7 @@ class AssistantsController < ApplicationController
   def update
     if @assistant.update!(assistant_params)
       respond_to do |format|
-        format.html { redirect_to edit_assistant_path(@product), notice: "Assitant was successfully updated." }
+        format.html { redirect_to edit_assistant_path(@assistant), notice: "Assitant was successfully updated." }
       end
     else
       render :edit, status: :unprocessable_entity

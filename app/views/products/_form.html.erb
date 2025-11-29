@@ -13,13 +13,15 @@
     <%= image_tag url, width: "200px" if url.present? %>
   <% end %>
 
-  <%= link_to "Cancel", quotes_path, class: "btn btn--light" %>
-  <% if !product.new_record? %>
-    <%= link_to "Scrape Data",
-        scrape_product_path(@product),
-        data: { turbo_method: :patch, turbo_confirm: "Run scraper?" },
-        class: "btn btn-warning"
-    %>
-  <% end %>
-  <%= f.submit class: "btn btn--secondary" %>
+  <div class="form__actions">
+    <%= link_to "Cancel", quotes_path, class: "btn btn--light" %>
+    <% if !product.new_record? %>
+      <%= link_to "Scrape Data",
+          scrape_product_path(@product),
+          data: { turbo_method: :patch, turbo_confirm: "Run scraper?" },
+          class: "btn btn-warning"
+      %>
+    <% end %>
+    <%= f.submit class: "btn btn--secondary" %>
+  </div>
 <% end %>

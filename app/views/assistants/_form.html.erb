@@ -50,7 +50,12 @@
       <h3>Step 3: Confirm & Submit</h3>
       <p>Set up tools.</p>
 
-      <%= f.collection_check_boxes :assistant_tool_ids, Tool.all, :id, :display_name, item_label_class: '' %>
+      <% assistant.assistant_tools.each do |at| %>
+        <div class="assistant-tool">
+          <h4>Tool: <%= at.tool.name %></h4>
+          <p>Description: <%= at.tool.description %></p>
+        </div>
+      <% end %>
     </div>
 
   <div class="form__actions form-stepper__navigation" >

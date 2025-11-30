@@ -14,7 +14,7 @@ module AIService
           content: { parts: [{ text: text }] }
         }
 
-        response = make_api_call(url: url, payload: payload)
+        response = make_api_call(url: API_URL, payload: payload)
         response.dig("embedding", "values")
       end
     end

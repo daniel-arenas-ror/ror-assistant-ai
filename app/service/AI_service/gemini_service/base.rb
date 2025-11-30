@@ -13,8 +13,8 @@ module AIService
 
         (1..max_retries).each do |attempt|
           response = HTTParty.post(url, body: payload.to_json, headers: headers)
-          
-          if response.code == '200'
+
+          if response.code == 200
             return JSON.parse(response.body)
           elsif response.code.to_i >= 500 || (response.code.to_i == 429 && attempt < max_retries)
             # 5xx errors or 429 (Rate Limit) trigger backoff

@@ -22,16 +22,8 @@ module AIService
         url = product.url
         product_text = extract_text_from_url(url)
 
-        p " ** product_text ** "
-        p product_text
-        p " ------ "
-
         url_images = product_text.css('img').map { |img| img['src'] }.compact.uniq
         product_text = product_text.text.gsub(/\s+/, " ").strip
-
-        p " assistant.scrapping_instructions "
-        p assistant.scrapping_instructions
-        p " **************  "
 
         response = openai.chat.completions.create(
           {
@@ -42,9 +34,6 @@ module AIService
             ]
           }
         )
-
-        p " response.choices[0].message.content "
-        p response.choices[0].message.content
 
         product_attributes = JSON.parse(response.choices[0].message.content)
         product_attributes["url_images"] = url_images

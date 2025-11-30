@@ -35,7 +35,8 @@ class AssistantsController < ApplicationController
       :assistant_id,
       :temperature,
       :top_p,
-      :scrapping_instructions
+      :scrapping_instructions,
+      assistant_tools_attributes: [:id, :tool_id, :_destroy]
     )
   end
 

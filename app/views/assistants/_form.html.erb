@@ -3,17 +3,17 @@
   <div class="form-stepper" data-controller="tabs">
     <!-- 1. Stepper Header (The Tabs) -->
     <div class="form-stepper__header">
-      <div class="form-stepper__step form-stepper__step--active" data-action="click->tabs#switch" data-step="1">
+      <div data-tabs-target="header" class="form-stepper__step" data-action="click->tabs#switch" data-step="1">
         <span class="form-stepper__step-number">1</span>
         <span class="form-stepper__step-label">Basic</span>
       </div>
 
-      <div class="form-stepper__step" data-action="click->tabs#switch" data-step="2">
+      <div data-tabs-target="header" class="form-stepper__step" data-action="click->tabs#switch" data-step="2">
         <span class="form-stepper__step-number">2</span>
         <span class="form-stepper__step-label">Configuration</span>
       </div>
 
-      <div class="form-stepper__step" data-action="click->tabs#switch" data-step="3">
+      <div data-tabs-target="header" class="form-stepper__step" data-action="click->tabs#switch" data-step="3">
         <span class="form-stepper__step-number">3</span>
         <span class="form-stepper__step-label">Tools</span>
       </div>
@@ -22,7 +22,7 @@
   <div class="form-stepper__content">
     <%= form_error_notification(assistant) %>
 
-    <div class="form-stepper__content-pane form-stepper__content-pane--active" data-step-content="1">
+    <div data-tabs-target="body" class="form-stepper__content-pane form-stepper__content-pane--active" data-step-content="1">
       <h3>Step 1: Basic Details</h3>
       <p>Basic assistant details</p>
 
@@ -32,7 +32,7 @@
       <%= f.input :top_p, input_html: { autofocus: true } %>
     </div>
  
-    <div class="form-stepper__content-pane" data-step-content="2">
+    <div data-tabs-target="body" class="form-stepper__content-pane" data-step-content="2">
       <h3>Step 2: Technical Configuration</h3>
       <p>Specify technical details like roles or conditions.</p>
 
@@ -46,16 +46,16 @@
       <%= f.input :scrapping_instructions, input_html: { autofocus: true } %>
     </div>
 
-    <div class="form-stepper__content-pane" data-step-content="3">
+    <div data-tabs-target="body" class="form-stepper__content-pane" data-step-content="3">
       <h3>Step 3: Confirm & Submit</h3>
       <p>Set up tools.</p>
 
       <%= f.collection_check_boxes :assistant_tool_ids, Tool.all, :id, :display_name, item_label_class: '' %>
     </div>
 
-  <div class="form__actions form-stepper__navigation">
-    <button class="btn-back" id="btnBack" disabled>Back</button>
+  <div class="form__actions form-stepper__navigation" >
+    <button class="btn-back" data-action="tabs#previous" >Back</button>
     <%= f.submit class: "btn btn--secondary" %>
-     <button class="btn-next" id="btnNext">Next</button>
+     <button class="btn-next"data-action="tabs#next">Next</button>
   </div>
 <% end %>

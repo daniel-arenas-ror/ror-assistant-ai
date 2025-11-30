@@ -1,24 +1,51 @@
 import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
-  static targets = [];
+  static targets = [ "header", "body" ]
 
-  switch(event) {
-    const tabName = event.currentTarget.dataset.step;
+  initialize() {
+    this.index = 1
+    this.showCurrentSlide()
+  }
 
-    // nav
-    document.querySelectorAll(".form-stepper__step").forEach(el =>
-      el.classList.remove("form-stepper__step--active")
-    );
-    event.currentTarget.classList.add("form-stepper__step--active");
+  next(event) {
+    this.index++
+    event.preventDefault()
+    this.showCurrentSlide()
+  }
 
-    // content
-    document.querySelectorAll(".form-stepper__content-pane").forEach(el =>
-      el.classList.remove("form-stepper__content-pane--active")
-    );
+  previous(event) {
+    this.index--
+    event.preventDefault()
+    this.showCurrentSlide()
+  }
+
+  showCurrentSlide() {
+    this.cleanActiveClasses();
+
+    this.headerTargets.forEach((element) => {
+      if (element.dataset.step == this.index){
+        element.classList.add("form-stepper__step--active")
+      }
+    })
 
     document
-      .querySelector(`[data-step-content="${tabName}"]`)
-      .classList.add("form-stepper__content-pane--active");
+        .querySelector(`[data-step-content="${this.index}"]`)
+        .classList.add("form-stepper__content-pane--active");
+  }
+
+  switch(event) {
+    this.index = event.currentTarget.dataset.step;
+    this.showCurrentSlide()
+  }
+
+  cleanActiveClasses() {
+    this.headerTargets.forEach((element) => {
+      element.classList.remove("form-stepper__step--active")
+    })
+
+    this.bodyTargets.forEach(el =>
+      el.classList.remove("form-stepper__content-pane--active")
+    );
   }
 }

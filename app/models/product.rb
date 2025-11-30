@@ -21,7 +21,7 @@ class Product < ApplicationRecord
     conn = ActiveRecord::Base.connection.raw_connection
 
     sql = <<-SQL
-      UPDATE produts
+      UPDATE products
       SET embedding = $1
       WHERE id = $2
       RETURNING id;

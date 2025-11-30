@@ -11,7 +11,7 @@ module AIService
       def generate_embedding(text, model: MODEL)
         payload = {
           model: model,
-          content: { parts: [{ text: product.embed_input }] }
+          content: { parts: [{ text: text }] }
         }
 
         response = make_api_call(url: url, payload: payload)

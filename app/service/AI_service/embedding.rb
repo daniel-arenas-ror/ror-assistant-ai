@@ -1,5 +1,5 @@
 module AIService
-  class Embedding < Base
+  class Embedding
 
     attr_reader :product, :company
 
@@ -9,8 +9,8 @@ module AIService
     end
 
     def update_embedding!
-      service = "AIService::#{company.ai_source.capitalize}Service::#{class.name}".constantize
-      array_embedding = service.generate_embedding
+      service = "AIService::#{company.ai_source.capitalize}Service::Embedding".constantize
+      array_embedding = service.new.generate_embedding(product.embed_input)
 
       product.raw_update!(embedding: array_embedding)
     end

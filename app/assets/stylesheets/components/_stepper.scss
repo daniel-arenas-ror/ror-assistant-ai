@@ -69,8 +69,8 @@
     
     // Hover effect for non-active steps
     &:not(&--active):hover {
-      // SCSS 'adjust' function is kept to modify the CSS variable color
-      background-color: adjust(var(--color-background), 3%);
+      // SCSS 'darken' function is kept to modify the CSS variable color
+      //background-color: darken(var(--color-background), 3%);
     }
   }
 
@@ -125,7 +125,7 @@
       background-color: var(--color-text-muted); // Dark color for back
       color: var(--color-white);
       &:hover {
-        background-color: adjust(var(--color-text-muted), 10%);
+        //background-color: darken(var(--color-text-muted), 10%);
       }
     }
 
@@ -133,7 +133,7 @@
       background-color: var(--color-primary); // Primary color for next
       color: var(--color-white);
       &:hover {
-        background-color: adjust(var(--color-primary), 10%);
+        //background-color: darken(var(--color-primary), 10%);
       }
     }
   }

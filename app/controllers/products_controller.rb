@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  before_action :set_product, only: [:edit, :update]
+  before_action :set_product, only: [:edit, :update, :scrape]
 
   def index
     @products = current_company.products
@@ -35,7 +35,6 @@ class ProductsController < ApplicationController
   end
 
   def scrape
-    @product = Product.find(params[:id])
     AIService::ScrapeProduct.new(product: @product).process
     AIService::Embedding.new(product: @product).update_embedding!
 

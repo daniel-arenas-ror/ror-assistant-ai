@@ -9,6 +9,8 @@ module AIService
       end
 
       def make_api_call(url: API_URL, payload: {})
+        max_retries = 3
+
         (1..max_retries).each do |attempt|
           response = HTTParty.post(url, body: payload.to_json, headers: headers)
           

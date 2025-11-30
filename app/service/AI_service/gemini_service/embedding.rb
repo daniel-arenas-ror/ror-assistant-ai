@@ -14,7 +14,7 @@ module AIService
           content: { parts: [{ text: product.embed_input }] }
         }
 
-        response = make_api_call(url, payload)
+        response = make_api_call(url: url, payload: payload)
         response.dig("embedding", "values")
       end
     end

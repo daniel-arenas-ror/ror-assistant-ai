@@ -21,7 +21,7 @@ module AIService
         @company = @assistant&.company
         @broadcast_key = broadcast_key
         @system_instruction = @assistant.instructions
-        @history = conversation.messages.collect{|m| { "role" => m.role == "user" ? "user": "model", "parts" => [{ "text" => m.content }] } } || []
+        @history = conversation.messages.collect{|m| { role: m.role == "user" ? "user": "model", parts: [{ text: m.content }] } } || []
         @tools = []
         @url = API_URL
       end
@@ -31,7 +31,7 @@ module AIService
         ensure_lead!
         ensure_conversation!
 
-        history << { "role" => "user", "parts" => [{ "text" => user_message }] }
+        history << { role: "user", parts: [{ text: user_message }] }
 
         response_data = make_api_call(url, payload)
 

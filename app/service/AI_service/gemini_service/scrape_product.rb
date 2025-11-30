@@ -1,21 +1,15 @@
 module AIService
-  module OpenaiService
-    class ScrapeProduct
+  module GeminiService
+    class ScrapeProduct < Base
+      attr_accessor :product, :assistant
 
-      attr_accessor :product, :openai, :assistant
-      attr_reader :document, :headers
-
-      MODEL = "gpt-4.1-mini"
+      API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
 
       def initialize(product:, headers: nil)
-        @openai = OpenAI::Client.new(
-          api_key: ENV.fetch("OPENAI_API_KEY")
-        )
+        super(ENV.fetch('GEMINI_API_KEY', ''))
+
         @product = product
         @assistant = product.company.assistant
-        @headers = headers || {
-          "user-Agent" => "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36"
-        }
       end
 
       def process
@@ -29,22 +23,17 @@ module AIService
         url_images = product_text.css('img').map { |img| img['src'] }.compact.uniq
         product_text = product_text.text.gsub(/\s+/, " ").strip
 
-        p " assistant.scrapping_instructions "
-        p assistant.scrapping_instructions
-        p " **************  "
+        payload = {
+          contents: {
+            parts: [
+              { text: "Summarize this content:\n\n#{product_text}" }
+            ] 
+          },
+          system_instruction: { parts: [{ text: assistant.scrapping_instructions }] }
+        }
 
-        response = openai.chat.completions.create(
-          {
-            model: MODEL,
-            messages: [
-              { role: "system", content: assistant.scrapping_instructions },
-              { role: "user", content: "Summarize this content:\n\n#{product_text}" }
-            ]
-          }
-        )
 
-        p " response.choices[0].message.content "
-        p response.choices[0].message.content
+        response = make_api_call(url: API_URL, payload: payload)
 
         product_attributes = JSON.parse(response.choices[0].message.content)
         product_attributes["url_images"] = url_images

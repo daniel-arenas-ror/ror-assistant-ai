@@ -63,12 +63,7 @@ module Tools
       p " search_similar_properties #{query} "
       p " query[preferences] #{query["preferences"]} "
 
-      embedding = @openai.embeddings.create(
-        {
-          model: "text-embedding-3-small",
-          input: query["preferences"]
-        }
-      ).data[0].embedding
+      embedding = AIService::Embeddings.new(company: company).generate_embedding(text: query["preferences"])
 
       # products = company.products.order(Arel.sql("embedding <-> '#{embedding.to_json}'")).limit(5)
       conn = ActiveRecord::Base.connection.raw_connection

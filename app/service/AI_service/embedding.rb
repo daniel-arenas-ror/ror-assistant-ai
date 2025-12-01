@@ -3,16 +3,18 @@ module AIService
 
     attr_reader :product, :company
 
-    def initialize(product: nil)
+    def initialize(product: nil, company: nil)
       @product = product
-      @company = product.company
+      @company = company || product.company
+    end
+
+    def generate_embedding(text: "")
+      service = "AIService::#{company.ai_source.capitalize}Service::Embedding".constantize
+      service.new.generate_embedding(text)
     end
 
     def update_embedding!
-      service = "AIService::#{company.ai_source.capitalize}Service::Embedding".constantize
-      array_embedding = service.new.generate_embedding(product.embed_input)
-
-      product.raw_update!(embedding: array_embedding)
+      product.raw_update!(embedding: generate_embedding(text: product.embed_input))
     end
   end
 end

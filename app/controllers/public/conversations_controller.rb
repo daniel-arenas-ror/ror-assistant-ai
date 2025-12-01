@@ -8,7 +8,7 @@ module Public
     end
 
     def create
-      @conversation = AIService::OpenaiService::Conversations.new(
+      @conversation = AIService::Conversations.new(
         assistant: @assistant
       ).add_message(params[:message])
 
@@ -26,7 +26,7 @@ module Public
     end
 
     def update
-      @conversation = AIService::OpenaiService::Conversations.new(
+      @conversation = AIService::Conversations.new(
         conversation: @conversation
       ).add_message(params[:message])
 

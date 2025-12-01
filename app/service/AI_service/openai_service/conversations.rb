@@ -1,8 +1,8 @@
 module AIService
   module OpenaiService
     class Conversations < Base
-      include Tools::Base
-      include ConversationsService::Messages
+      include ::Tools::Base
+      include ::ConversationsService::Messages
 
       DEFAULT_POLL_INTERVAL_SECONDS = 1
       MAX_POLL_SECONDS = 90
@@ -21,7 +21,9 @@ module AIService
 
       def add_message(message)
         ensure_lead!
-        ensure_conversation!
+        thread = openai.beta.threads.create
+
+        ensure_conversation!(thread: thread)
 
         create_user_message!(message)
         run = start_run!

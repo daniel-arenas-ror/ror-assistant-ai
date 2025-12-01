@@ -1,13 +1,22 @@
 module AIService
   module GeminiService
     class Conversations < Base
-      include Tools::Base
-      include ConversationsService::Messages
+      include ::Tools::Base
+      include ::ConversationsService::Messages
 
       API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
       GEMINI_API_KEY = ENV.fetch('GEMINI_API_KEY', '')
 
-      attr_reader :assistant, :conversation, :lead, :company, :openai, :broadcast_key, :system_instruction, :history
+      attr_reader :assistant,
+        :conversation,
+        :lead,
+        :company,
+        :openai,
+        :broadcast_key,
+        :system_instruction,
+        :history,
+        :tools,
+        :url
 
       def initialize(
         assistant: nil,
@@ -22,20 +31,26 @@ module AIService
         @company = @assistant&.company
         @broadcast_key = broadcast_key
         @system_instruction = @assistant.instructions
-        @history = conversation.messages.collect{|m| { role: m.role == "user" ? "user": "model", parts: [{ text: m.content }] } } || []
+        @history = conversation&.messages&.collect{|m| { role: m.role == "user" ? "user": "model", parts: [{ text: m.content }] } } || []
         @tools = @assistant.tools.collect{|f| JSON.parse(f.function)} || []
         @url = API_URL
       end
 
       def add_message(user_message)
+        p " create lead "
         ensure_lead!
+
+        p " create conversation "
         ensure_conversation!
 
         history << { role: "user", parts: [{ text: user_message }] }
 
-        add_user_message(message)
+        p " add history "
+        # debugger
 
-        response_data = make_api_call(url, payload)
+        add_user_message(user_message)
+
+        response_data = make_api_call(url: url, payload: payload)
 
         start_typing_indicator
 
@@ -49,24 +64,25 @@ module AIService
           function_name = function_call['functionCall']['name']
           function_args = function_call['functionCall']['args']
 
-          result = send(function_name, JSON.parse(function_args))
+          result = send(function_name, function_args)
 
-          @history << function_call['content']
+          parts = [{
+              functionResponse: {
+                name: function_call['functionCall']['name'],
+                response: { "content": result }
+              }
+            }
+          ]
+
+          add_function_message(parts)
 
           @history << {
             role: "function",
-            parts: [
-              {
-                functionResponse: {
-                  name: "search_products",
-                  response: { "content": result }
-                }
-              }
-            ]
+            parts: parts
           }
 
           puts "--- RETURNING FUNCTION RESULT TO GEMINI ---"
-          response_data = make_api_call(url, payload)
+          response_data = make_api_call(url: url, payload: payload)
         end
 
         final_text = response_data['candidates']&.first&.dig('content', 'parts', 0, 'text')
@@ -76,13 +92,10 @@ module AIService
         add_model_message(final_text)
 
         if final_text
-          @history << { "role" => "model", "parts" => [{ "text" => final_text }] }
-          return final_text
+          return conversation
         else
-          return "Assistant failed to generate a response."
+          raise "Assistant failed to generate a response."
         end
-      rescue StandardError => e
-        return "An error occurred: #{e.message}"  
       end
 
       def payload

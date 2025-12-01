@@ -16,15 +16,14 @@ module Tools
       LeadCompany.create!(lead: @lead, company: company)
     end
 
-    def ensure_conversation!
+    def ensure_conversation!(thread: nil)
       return if conversation.present?
 
-      thread = openai.beta.threads.create
       @conversation = assistant.conversations.create!(
         lead: lead,
-        thread_id: thread.id,
+        thread_id: thread&.id,
         company: company,
-        meta_data: { agent: 'openai', version: assistant.version }
+        meta_data: { agent: company.ai_source, version: assistant.version }
       )
     end
 
@@ -60,10 +59,11 @@ module Tools
     end
 
     def search_similar_properties(query)
-      p " search_similar_properties #{query} "
-      p " query[preferences] #{query["preferences"]} "
+      query = query.is_a?(String) ? JSON.parse(query) : query
 
-      embedding = AIService::Embeddings.new(company: company).generate_embedding(text: query["preferences"])
+      p " search_similar_properties #{query} "
+
+      embedding = ::AIService::Embedding.new(company: company).generate_embedding(text: query["preferences"])
 
       # products = company.products.order(Arel.sql("embedding <-> '#{embedding.to_json}'")).limit(5)
       conn = ActiveRecord::Base.connection.raw_connection

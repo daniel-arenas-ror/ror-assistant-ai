@@ -18,6 +18,13 @@ module ConversationsService
       BroadcastMessageAiChannel.broadcast_to broadcast_key, { type: 'answered_message', id: conversation_message.id, content: last_message }  if broadcast_key.present?
     end
 
+    def add_function_message(function_name, function_response)
+      conversation_message = conversation.messages.create!(
+        role: "function",
+        meta_data: parts
+      )
+    end
+
     def start_typing_indicator
       BroadcastMessageAiChannel.broadcast_to broadcast_key, { type: 'typing_start' } if broadcast_key.present?
     end

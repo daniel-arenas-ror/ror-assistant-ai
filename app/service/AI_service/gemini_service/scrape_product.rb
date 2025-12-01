@@ -29,7 +29,8 @@ module AIService
               { text: "Summarize this content:\n\n#{product_text}" }
             ] 
           },
-          system_instruction: { parts: [{ text: assistant.scrapping_instructions }] }
+          system_instruction: { parts: [{ text: assistant.scrapping_instructions }] },
+          generationConfig: { temperature: 0.5, topP: 0.8, topK: 1024 }
         }
 
         response = make_api_call(url: API_URL, payload: payload)

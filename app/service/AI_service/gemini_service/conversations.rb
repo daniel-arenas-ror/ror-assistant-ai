@@ -23,7 +23,7 @@ module AIService
         @broadcast_key = broadcast_key
         @system_instruction = @assistant.instructions
         @history = conversation.messages.collect{|m| { role: m.role == "user" ? "user": "model", parts: [{ text: m.content }] } } || []
-        @tools = []
+        @tools = @assistant.tools.collect{|f| JSON.parse(f.function)} || []
         @url = API_URL
       end
 
@@ -89,7 +89,11 @@ module AIService
         {
           contents: history,
           system_instruction: { parts: [{ text: system_instruction }] },
-          tools: [{ functionDeclarations: [tool_spec] }]
+          tools: [{ functionDeclarations: tools }],
+          generationConfig: {
+            temperature: assistant.temperature || 1.0,
+            topP: assistant.top_p || 0.9,
+          }
         }
       end
     end

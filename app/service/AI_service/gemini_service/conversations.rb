@@ -2,6 +2,7 @@ module AIService
   module GeminiService
     class Conversations < Base
       include Tools::Base
+      include ConversationsService::Messages
 
       API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
       GEMINI_API_KEY = ENV.fetch('GEMINI_API_KEY', '')
@@ -27,18 +28,16 @@ module AIService
       end
 
       def add_message(user_message)
-
         ensure_lead!
         ensure_conversation!
 
         history << { role: "user", parts: [{ text: user_message }] }
 
+        add_user_message(message)
+
         response_data = make_api_call(url, payload)
 
-        conversation_message = conversation.messages.create!(
-          role: "user",
-          content: user_message
-        )
+        start_typing_indicator
 
         p " **** response_data **** "
         ap response_data
@@ -72,10 +71,9 @@ module AIService
 
         final_text = response_data['candidates']&.first&.dig('content', 'parts', 0, 'text')
 
-        conversation_message = conversation.messages.create!(
-          role: "assistant",
-          content: final_text
-        )
+        end_typing_indicator
+
+        add_model_message(final_text)
 
         if final_text
           @history << { "role" => "model", "parts" => [{ "text" => final_text }] }
@@ -85,26 +83,6 @@ module AIService
         end
       rescue StandardError => e
         return "An error occurred: #{e.message}"  
-      end
-
-      def ensure_lead!
-        return if lead.present?
-
-        @lead = Lead.create!(
-          name: "Lead #{Time.current.strftime('%Y%m%d%H%M%S')}"
-        )
-
-        LeadCompany.create!(lead: @lead, company: company)
-      end
-
-      def ensure_conversation!
-        return if conversation.present?
-
-        @conversation = assistant.conversations.create!(
-          lead: lead,
-          company: company,
-          meta_data: { agent: 'gemini', version: assistant.version }
-        )
       end
 
       def payload

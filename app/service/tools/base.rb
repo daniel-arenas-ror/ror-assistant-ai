@@ -27,5 +27,63 @@ module Tools
         meta_data: { agent: 'openai', version: assistant.version }
       )
     end
+
+    def get_scheduled(argument)
+      # argument = JSON.parse(argument)
+
+      "The current date #{Time.now}"
+    end
+
+    def create_scheduled(argument)
+      # argument = JSON.parse(argument)
+
+      "Tu agenda se ha creado"
+    end
+
+    def update_lead(argument)
+      #argument = JSON.parse(argument)
+
+      lead.update!(
+        email: argument["email"],
+        phone: argument["phone_number"],
+        name: argument["name"],
+        preferences: argument["extra_information"],
+        extra_data: argument["extra_information"],
+      )
+
+      lead_company = lead.lead_companies.find(company_id: company.id)
+      lead_company.update!(
+        summary: argument["extra_information"]
+      )
+
+      "tus datos se han actualizado"
+    end
+
+    def search_similar_properties(query)
+      p " search_similar_properties #{query} "
+      p " query[preferences] #{query["preferences"]} "
+
+      embedding = @openai.embeddings.create(
+        {
+          model: "text-embedding-3-small",
+          input: query["preferences"]
+        }
+      ).data[0].embedding
+
+      # products = company.products.order(Arel.sql("embedding <-> '#{embedding.to_json}'")).limit(5)
+      conn = ActiveRecord::Base.connection.raw_connection
+
+      sql = <<-SQL
+        SELECT id
+        FROM products
+        WHERE company_id = $1
+        ORDER BY embedding <-> $2 LIMIT 5
+      SQL
+
+      product_ids = conn.exec_params(sql, [company.id, embedding]).to_a
+      products = company.products.find(product_ids.collect{|i| i["id"]})
+
+      products.collect(&:embed_input_with_img).join("\n")
+    end
   end
 end

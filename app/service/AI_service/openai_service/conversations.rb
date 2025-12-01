@@ -2,6 +2,7 @@ module AIService
   module OpenaiService
     class Conversations < Base
       include Tools::Base
+      include ConversationsService::Messages
 
       DEFAULT_POLL_INTERVAL_SECONDS = 1
       MAX_POLL_SECONDS = 90
@@ -48,12 +49,7 @@ module AIService
           content: message
         )
 
-        conversation_message = conversation.messages.create!(
-          role: "user",
-          content: message
-        )
-
-        BroadcastMessageAiChannel.broadcast_to broadcast_key, { type: 'user_message_added', content: conversation_message.content, id: conversation_message.id }
+        add_user_message(message)
       end
 
       def start_run!
@@ -63,7 +59,7 @@ module AIService
         )
 
         conversation.update!(current_run_id: run.id)
-        BroadcastMessageAiChannel.broadcast_to broadcast_key, { type: 'typing_start' }
+        start_typing_indicator
 
         run
       end
@@ -82,7 +78,7 @@ module AIService
             p " completed "
 
             conversation.update!(current_run_id: nil)
-            BroadcastMessageAiChannel.broadcast_to broadcast_key, { type: 'typing_end' }
+            end_typing_indicator
 
             handle_assistant_reply!
             return
@@ -129,33 +125,6 @@ module AIService
         end
       end
 
-      def search_similar_properties(query)
-        p " search_similar_properties #{query} "
-        p " query[preferences] #{query["preferences"]} "
-
-        embedding = @openai.embeddings.create(
-          {
-            model: "text-embedding-3-small",
-            input: query["preferences"]
-          }
-        ).data[0].embedding
-
-        # products = company.products.order(Arel.sql("embedding <-> '#{embedding.to_json}'")).limit(5)
-        conn = ActiveRecord::Base.connection.raw_connection
-
-        sql = <<-SQL
-          SELECT id
-          FROM products
-          WHERE company_id = $1
-          ORDER BY embedding <-> $2 LIMIT 5
-        SQL
-
-        product_ids = conn.exec_params(sql, [company.id, embedding]).to_a
-        products = company.products.find(product_ids.collect{|i| i["id"]})
-
-        products.collect(&:embed_input_with_img).join("\n")
-      end
-
       ##
       # When assistant replies
       ##
@@ -163,44 +132,9 @@ module AIService
         messages = openai.beta.threads.messages.list(conversation.thread_id)
         last_message = messages.data.first.content.first.text.value
 
-        conversation_message = conversation.messages.create!(
-          role: "assistant",
-          content: last_message
-        )
-
-        BroadcastMessageAiChannel.broadcast_to broadcast_key, { type: 'answered_message', id: conversation_message.id, content: last_message }
+        add_model_message(last_message)
       end
 
-      def get_scheduled(argument)
-        # argument = JSON.parse(argument)
-
-        "The current date #{Time.now}"
-      end
-
-      def create_scheduled(argument)
-        # argument = JSON.parse(argument)
-
-        "Tu agenda se ha creado"
-      end
-
-      def update_lead(argument)
-        #argument = JSON.parse(argument)
-
-        lead.update!(
-          email: argument["email"],
-          phone: argument["phone_number"],
-          name: argument["name"],
-          preferences: argument["extra_information"],
-          extra_data: argument["extra_information"],
-        )
-
-        lead_company = lead.lead_companies.find(company_id: company.id)
-        lead_company.update!(
-          summary: argument["extra_information"]
-        )
-
-        "tus datos se han actualizado"
-      end
     end
   end
 end

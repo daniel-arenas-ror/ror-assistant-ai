@@ -1,6 +1,6 @@
 class ConversationsController < ApplicationController
   def index
-    @conversations = current_company.conversations
+    @conversations = current_company.conversations.includes(:lead).order(created_at: :desc)
   end
 
   def show

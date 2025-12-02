@@ -1,0 +1,12 @@
+
+<div class="conversation">
+  <%= link_to conversation.id, conversation_path(conversation) %>
+  -
+  <%= link_to conversation.lead.name, lead_path(conversation.lead.id) %>
+  -
+  <p> <%= conversation.created_at %> </p>
+
+  <div class="conversation__actions">
+    <%= link_to "Show", conversation_path(conversation), class: "btn btn--light" %>
+  </div>
+</div>

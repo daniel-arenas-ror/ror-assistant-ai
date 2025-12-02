@@ -2,7 +2,7 @@ class LeadsController < ApplicationController
   before_action :load_lead, only: [:show]
 
   def index
-    @leads = current_company.leads
+    @leads = current_company.leads.order(created_at: :desc)
   end
 
   def show

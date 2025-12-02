@@ -5,10 +5,6 @@ class Message < ApplicationRecord
     order(created_at: :desc)
   }
 
-  scope :conversation_messages, -> {
-    where(role: ["user", "assistant"])
-  }
-
   def assistant?
     role == "assistant"
   end

@@ -21,9 +21,13 @@ module AIService
 
       def add_message(message)
         ensure_lead!
-        thread = openai.beta.threads.create
 
-        ensure_conversation!(thread: thread)
+        ensure_conversation!
+
+         if conversation.thread_id.nil?
+          thread = openai.beta.threads.create
+          conversation.update!(thread_id: thread.id)
+         end
 
         create_user_message!(message)
         run = start_run!

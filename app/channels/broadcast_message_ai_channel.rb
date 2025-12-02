@@ -15,11 +15,15 @@ class BroadcastMessageAiChannel < ApplicationCable::Channel
     broadcast_key = "broadcast_message_ai_channel_#{assistant.slug}_#{conversation.id}"
     stream_for broadcast_key
 
-    broadcast_to broadcast_key, { type: 'set_conversation_id', content: conversation.id }
+    broadcast_to(broadcast_key, { type: 'initial_load',
+      content: conversation.id,
+      messages: conversation.conversation_messages.ordered.map { |m| { id: m.id, role: m.role, content: m.content } }
+    })
   end
 
   def speak(data)
     p " data[assistantSlug] #{data["assistantSlug"]}"
+    p " data[conversationId] #{data["conversationId"]}"
 
     broadcast_key = "broadcast_message_ai_channel_#{data["assistantSlug"]}_#{data["conversationId"]}"
     conversation = Assistant.find_by_slug(data["assistantSlug"]).conversations.find(data["conversationId"])

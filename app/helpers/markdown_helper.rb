@@ -3,7 +3,7 @@ module MarkdownHelper
   RENDER_OPTIONS = {
     filter_html: true,
     hard_wrap: true,
-    link_attributes: { rel: "nofollow" }
+    link_attributes: { rel: "nofollow", target: "_blank"}
   }
 
   EXTENSIONS = {
@@ -19,7 +19,7 @@ module MarkdownHelper
   }
 
   def render_markdown(text)
-    renderer = CustomMarkdownRenderer.new(RENDER_OPTIONS)
+    renderer = Redcarpet::Render::HTML.new(RENDER_OPTIONS)
     markdown = Redcarpet::Markdown.new(renderer, EXTENSIONS)
 
     markdown.render(text).html_safe

@@ -85,3 +85,5 @@ gem 'httparty'
 
 gem 'slug'
 gem 'rack-cors'
+
+gem 'redcarpet'

@@ -18,14 +18,14 @@
     <% @conversation.messages.each do |msg| %>
       <%= render "messages", msg: msg %>
     <% end %>
+  </div>
 
-    <!-- Typing indicator element (hidden by default) -->
-    <div class="chat__typing" id="chat-typing" style="visibility: hidden;">
-      <div class="chat__typing-dot"></div>
-      <div class="chat__typing-dot"></div>
-      <div class="chat__typing-dot"></div>
-      <span class="chat__typing-label"><%= @assistant.name %> is typing…</span>
-    </div>
+  <!-- Typing indicator element (hidden by default) -->
+  <div class="chat__typing" id="chat-typing" style="visibility: hidden;">
+    <div class="chat__typing-dot"></div>
+    <div class="chat__typing-dot"></div>
+    <div class="chat__typing-dot"></div>
+    <span class="chat__typing-label"><%= @assistant.name %> is typing…</span>
   </div>
 
   <!-- Element: composer (input area) -->

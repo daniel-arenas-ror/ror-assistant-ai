@@ -2,9 +2,7 @@
 <div
   class="chat"
   id="chat"
-  data-controller="chat"
   data-chat-assistant-slug-value="<%= @assistant.slug %>"
-  data-chat-conversation-id-value="<%= @conversation.id %>"
   data-assistant-name="<%= @assistant.name %>
 > 
   <!-- Element: header -->
@@ -16,13 +14,6 @@
   <!-- Element: messages container -->
   <div class="chat__messages" id="chat-messages" aria-live="polite" role="log">
 
-    <!-- Typing indicator element (hidden by default) -->
-    <div class="chat__typing" id="chat-typing" aria-hidden="true">
-      <div class="chat__typing-dot"></div>
-      <div class="chat__typing-dot"></div>
-      <div class="chat__typing-dot"></div>
-      <span class="chat__typing-label"><%= @assistant.name %> is typing…</span>
-    </div>
   </div>
 
   <!-- Element: composer (input area) -->

@@ -64,6 +64,8 @@ export default class extends Controller {
   }
 
   handleBroadcast(data) {
+    console.log('Broadcast received:', data)
+
     switch (data.type) {
       case 'typing_start':
         this.showTypingIndicator()
@@ -74,7 +76,7 @@ export default class extends Controller {
         break
 
       case 'user_message_added':
-        this.appendMessage(data)
+        this.appendMessage(data, { role: 'user' })
         break
 
       case 'answered_message':
@@ -93,10 +95,10 @@ export default class extends Controller {
   appendMessage(data, opts = {}) {
     const msg = {
       id: data.id || `remote-${Date.now()}`,
-      content: data.content || data.text || '',
-      user_name: opts.role === 'assistant' ? (this.element.dataset.assistantName || 'Assistant') : data.user_name || 'Customer',
+      content: data.content || '',
+      user_name: opts.role === 'assistant' ? (this.element.dataset.assistantName || 'Assistant') : '',
       created_at: new Date().toISOString(),
-      role: opts.role || 'other'
+      role: opts.role || ''
     }
 
     if (this.messagesContainer.querySelector(`[data-message-id='${msg.id}']`)) return
@@ -105,7 +107,7 @@ export default class extends Controller {
   }
 
   renderMessage(msg) {
-    const modifier = msg.role === 'user' || msg.role === 'me' ? 'chat__message--me' : 'chat__message--other'
+    const modifier = msg.role === 'user' ? 'chat__message--me' : 'chat__message--other'
 
     const article = document.createElement('article')
     article.className = `chat__message ${modifier}`

@@ -17,7 +17,7 @@ class BroadcastMessageAiChannel < ApplicationCable::Channel
 
     broadcast_to(broadcast_key, { type: 'initial_load',
       content: conversation.id,
-      messages: conversation.conversation_messages.ordered.map { |m| { id: m.id, role: m.role, content: m.content } }
+      messages: conversation.conversation_messages.map { |m| { id: m.id, role: m.role, content: m.content } }
     })
   end
 

@@ -1,5 +1,12 @@
 <!-- Block: chat -->
-<div class="chat" id="chat" data-controller="chat" data-chat-assistant-slug-value="<%= @assistant.slug %>" data-chat-conversation-id-value="<%= @conversation.id %>" data-assistant-name="<%= @assistant.name %>">
+<div
+    class="chat"
+    id="chat"
+    data-controller="chat"
+    data-chat-assistant-slug-value="<%= @assistant.slug %>"
+    data-chat-conversation-id-value="<%= @conversation.id %>"
+    data-assistant-name="<%= @assistant.name %>"
+>
   <!-- Element: header -->
   <header class="chat__header">
     <h2 class="chat__title"><%= @assistant.company.name %></h2>
@@ -13,7 +20,7 @@
     <% end %>
 
     <!-- Typing indicator element (hidden by default) -->
-    <div class="chat__typing" id="chat-typing" aria-hidden="true">
+    <div class="chat__typing" id="chat-typing" style="visibility: hidden;">
       <div class="chat__typing-dot"></div>
       <div class="chat__typing-dot"></div>
       <div class="chat__typing-dot"></div>

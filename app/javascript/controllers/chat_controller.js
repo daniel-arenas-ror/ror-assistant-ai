@@ -51,7 +51,7 @@ export default class extends Controller {
     const payload = {
       assistantSlug: this.assistantSlugValue,
       conversationId: this.conversationIdValue,
-      message: value
+      message: message
     }
 
     this.subscription.perform('speak', payload)
@@ -74,12 +74,10 @@ export default class extends Controller {
         break
 
       case 'user_message_added':
-        // another user added a message — append if not present
         this.appendMessage(data)
         break
 
       case 'answered_message':
-        // assistant produced message — append it
         this.appendMessage(data, { role: 'assistant' })
         break
 
@@ -136,12 +134,12 @@ export default class extends Controller {
 
   showTypingIndicator() {
     if (!this.typingIndicator) return
-    this.typingIndicator.setAttribute('aria-hidden', 'false')
+    this.typingIndicator.setAttribute('style', 'visibility: visible')
   }
 
   hideTypingIndicator() {
     if (!this.typingIndicator) return
-    this.typingIndicator.setAttribute('aria-hidden', 'true')
+    this.typingIndicator.setAttribute('style', 'visibility: hidden')
   }
 
   scrollToBottom() {

@@ -3,9 +3,14 @@ class BroadcastMessageAiChannel < ApplicationCable::Channel
     ## optional can come with conversation id
     ## the lead id should come here too
     assistant = Assistant.find_by_slug(params[:assistant_slug])
-    conversation = AIService::OpenaiService::Conversations.new(
-      assistant: assistant
-    ).create_conversation
+
+    if params["conversation_id"]
+      conversation = assistant.conversations.find(params["conversation_id"])
+    else
+      conversation = AIService::OpenaiService::Conversations.new(
+        assistant: assistant
+      ).create_conversation
+    end
 
     broadcast_key = "broadcast_message_ai_channel_#{assistant.slug}_#{conversation.id}"
     stream_for broadcast_key

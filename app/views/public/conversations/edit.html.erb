@@ -15,7 +15,7 @@
 
   <!-- Element: messages container -->
   <div class="chat__messages" id="chat-messages" aria-live="polite" role="log">
-    <% @conversation.messages.each do |msg| %>
+    <% @conversation.messages.conversation_messages.each do |msg| %>
       <%= render "messages", msg: msg %>
     <% end %>
   </div>

@@ -7,7 +7,7 @@ class BroadcastMessageAiChannel < ApplicationCable::Channel
     if params["conversation_id"]
       conversation = assistant.conversations.find(params["conversation_id"])
     else
-      conversation = AIService::OpenaiService::Conversations.new(
+      conversation = AIService::Conversations.new(
         assistant: assistant
       ).create_conversation
     end
@@ -24,7 +24,7 @@ class BroadcastMessageAiChannel < ApplicationCable::Channel
     broadcast_key = "broadcast_message_ai_channel_#{data["assistantSlug"]}_#{data["conversationId"]}"
     conversation = Assistant.find_by_slug(data["assistantSlug"]).conversations.find(data["conversationId"])
 
-    AIService::OpenaiService::Conversations.new(
+    AIService::Conversations.new(
       conversation: conversation,
       broadcast_key: broadcast_key
     ).add_message(data["message"])

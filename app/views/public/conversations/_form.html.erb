@@ -3,7 +3,7 @@
   <%= f.hidden_field :assistant_id, value: @assistant.slug %>
 
   <div class="chat__input-wrap">
-    <%= f.text_area :message, placeholder: "Write a message...", rows: 1, class: "chat__input", id: "message", data: { autosize: true } %>
+    <%= f.text_field :message, placeholder: "Write a message...", rows: 1, class: "chat__input", id: "message", data: { autosize: true }, autocomplete: 'off' %>
   </div>
 
   <div class="chat__controls">

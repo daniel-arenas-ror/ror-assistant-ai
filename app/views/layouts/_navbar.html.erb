@@ -1,7 +1,7 @@
 <header class="navbar">
   <% if user_signed_in? %>
     <div class="navbar__brand">
-      <%= current_company.name %>
+      <%= "#{current_company.name} - #{current_company.ai_source}" %>
     </div>
     <div class="navbar__item">
       <%= link_to "Users", users_path %>

@@ -1,5 +1,12 @@
 <!-- Block: chat -->
-<div class="chat" id="chat" data-controller="chat">
+<div
+  class="chat"
+  id="chat"
+  data-controller="chat"
+  data-chat-assistant-slug-value="<%= @assistant.slug %>"
+  data-chat-conversation-id-value="<%= @conversation.id %>"
+  data-assistant-name="<%= @assistant.name %>
+> 
   <!-- Element: header -->
   <header class="chat__header">
     <h2 class="chat__title"><%= @assistant.company.name %></h2>

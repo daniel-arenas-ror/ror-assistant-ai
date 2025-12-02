@@ -1,4 +1,4 @@
-<%= form_with url: url, method: method, local: true, html: { class: "chat__form", id: "chat-form" } do |f| %>
+<%= form_with url: url, method: method, local: true, html: { class: "chat__form", id: "chat-form", data: "submit->chat#sendMessage" } do |f| %>
   
   <%= f.hidden_field :assistant_id, value: @assistant.slug %>
 

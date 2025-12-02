@@ -11,7 +11,11 @@ module MarkdownHelper
     tables: true,
     fenced_code_blocks: true,
     strikethrough: true,
-    space_after_headers: true
+    lax_spacing: true,
+    space_after_headers: true,
+    underline: true,
+    highlight: true,
+    footnotes: true
   }
 
   def render_markdown(text)

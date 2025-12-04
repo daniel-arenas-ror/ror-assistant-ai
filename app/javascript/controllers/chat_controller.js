@@ -122,7 +122,8 @@ export default class extends Controller {
 
     const text = document.createElement('div')
     text.className = 'chat__text'
-    text.innerHTML = this.renderMarkdownClientSide(msg.content)
+    //text.innerHTML = this.renderMarkdownClientSide(msg.content)
+    text.innerHTML = msg.content
 
     bubble.appendChild(text)
     article.appendChild(meta)

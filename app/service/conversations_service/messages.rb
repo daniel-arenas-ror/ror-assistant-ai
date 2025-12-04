@@ -1,5 +1,7 @@
 module ConversationsService
   module Messages
+    include MarkdownHelper
+
     def add_user_message(message)
       conversation_message = conversation.messages.create!(
         role: "user",

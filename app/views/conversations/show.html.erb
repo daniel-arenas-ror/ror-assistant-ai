@@ -1,17 +1,19 @@
 <main class="container">
   <p><%= link_to @lead.name, lead_path(@lead) %></p>
-</main>
 
-<div class="chat-log">
-  <% @messages.each do |message| %>
-    <div class="chat-log__message <%= message.user? ? 'chat-log__message--user' : 'chat-log__message--assistant' %>">
-      <div class="chat-log__bubble">
-        <%= message.content %>
+  <%= @conversation.meta_data %>
 
-        <span class="chat-log__time">
-          <%= message.created_at.strftime('%I:%M %p') %> 
-        </span>
+  <div class="chat-log">  
+    <% @messages.each do |message| %>
+      <div class="chat-log__message <%= message.user? ? 'chat-log__message--user' : 'chat-log__message--assistant' %>">
+        <div class="chat-log__bubble">
+          <%= message.content %>
+
+          <span class="chat-log__time">
+            <%= message.created_at.strftime('%I:%M %p') %> 
+          </span>
+        </div>
       </div>
-    </div>
-  <% end %>
-</div>
+    <% end %>
+  </div>
+</main>

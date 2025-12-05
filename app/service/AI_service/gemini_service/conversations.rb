@@ -102,7 +102,12 @@ module AIService
         {
           contents: history,
           system_instruction: { parts: [{ text: system_instruction }] },
-          tools: [{ functionDeclarations: tools }],
+          tools: [
+            {
+              functionDeclarations: tools,
+              url_context: {}
+            }
+          ],
           generationConfig: {
             temperature: assistant.temperature || 1.0,
             topP: assistant.top_p || 0.9,

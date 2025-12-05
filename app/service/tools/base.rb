@@ -28,34 +28,32 @@ module Tools
     end
 
     def get_scheduled(argument)
-      # argument = JSON.parse(argument)
-
       "The current date #{Time.now}"
     end
 
     def create_scheduled(argument)
-      # argument = JSON.parse(argument)
-
       "Tu agenda se ha creado"
     end
 
     def update_lead(argument)
-      #argument = JSON.parse(argument)
-
       lead.update!(
         email: argument["email"],
         phone: argument["phone_number"],
         name: argument["name"],
-        preferences: argument["extra_information"],
+        preferences: argument["preferences"],
         extra_data: argument["extra_information"],
       )
 
-      lead_company = lead.lead_companies.find(company_id: company.id)
+      lead_company = lead.lead_companies.find_by(company_id: company.id)
       lead_company.update!(
-        summary: argument["extra_information"]
+        summary: argument["summary"]
       )
 
-      "tus datos se han actualizado"
+      [
+        "Tu información de contacto ha sido actualizada",
+        "Gracias por actualizar tu información",
+        "Información actualizada correctamente"
+      ].sample
     end
 
     def search_similar_properties(query)

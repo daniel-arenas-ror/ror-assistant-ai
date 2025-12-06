@@ -8,11 +8,11 @@ module AIService
         @gemini_api_key = gemini_api_key
       end
 
-      def make_api_call(url: API_URL, payload: {})
+      def make_api_call(url: API_URL, payload: {}, method: :post)
         max_retries = 3
 
         (1..max_retries).each do |attempt|
-          response = HTTParty.post(url, body: payload.to_json, headers: headers)
+          response = HTTParty.send(method, url, body: payload.to_json, headers: headers)
 
           if response.code == 200
             return JSON.parse(response.body)

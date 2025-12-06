@@ -100,7 +100,7 @@ module AIService
 
       def payload
         {
-          contents: history,
+          contents: history + file_data_formatted,
           system_instruction: { parts: [{ text: system_instruction }] },
           tools: [
             {
@@ -113,6 +113,15 @@ module AIService
             topP: assistant.top_p || 0.9,
           }
         }
+      end
+
+      def file_data_formatted
+        file_data = assistant.file_data || []
+        return [] if @file_data.empty?
+
+        file_data.collect do |m|
+           { fileData: { mimeType: "application/octet-stream", fileUri: res_name } }
+        end
       end
     end
   end

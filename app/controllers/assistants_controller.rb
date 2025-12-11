@@ -5,7 +5,7 @@ class AssistantsController < ApplicationController
   end
 
   def edit
-
+    @assistant.assistant_files.build
   end
 
   def update
@@ -36,7 +36,8 @@ class AssistantsController < ApplicationController
       :temperature,
       :top_p,
       :scrapping_instructions,
-      assistant_tools_attributes: [:id, :tool_id, :_destroy]
+      assistant_tools_attributes: [:id, :tool_id, :_destroy],
+      assistant_files_attributes: [:id, :resource_name, :file_name, :_destroy]
     )
   end
 

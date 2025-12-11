@@ -33,7 +33,6 @@ module AIService
         end
       end
 
-      
     end
   end
 end

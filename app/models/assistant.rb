@@ -8,7 +8,7 @@ class Assistant < ApplicationRecord
   has_many :assistant_files, dependent: :destroy
 
   accepts_nested_attributes_for :assistant_tools, allow_destroy: true
-  accepts_nested_attributes_for :assistant_files, allow_destroy: true
+  accepts_nested_attributes_for :assistant_files, allow_destroy: true, reject_if: :all_blank
 
   def title_for_slug
     "#{name}-#{assistant_id.last(6)}#{company.id}".downcase

@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  Assitant: one
+  resource_name: MyString
+  file_name: MyString
+
+two:
+  Assitant: two
+  resource_name: MyString
+  file_name: MyString

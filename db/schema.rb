@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_29_145443) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_11_171017) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -39,6 +39,15 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_29_145443) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
+  end
+
+  create_table "assistant_files", force: :cascade do |t|
+    t.bigint "assistant_id", null: false
+    t.datetime "created_at", null: false
+    t.string "file_name"
+    t.string "resource_name"
+    t.datetime "updated_at", null: false
+    t.index ["assistant_id"], name: "index_assistant_files_on_assistant_id"
   end
 
   create_table "assistant_tools", force: :cascade do |t|
@@ -175,6 +184,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_29_145443) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "assistant_files", "assistants"
   add_foreign_key "assistant_tools", "assistants"
   add_foreign_key "assistant_tools", "tools"
   add_foreign_key "assistants", "companies"

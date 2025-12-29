@@ -100,12 +100,14 @@ module AIService
 
       def payload
         {
-          contents: history + file_data_formatted,
+          contents: history,
           system_instruction: { parts: [{ text: system_instruction }] },
           tools: [
             {
               functionDeclarations: tools,
-              url_context: {}
+              file_search_tool: {
+                file_search_stores: ['fileSearchStores/testfile-ooycu8edwf4b/operations/3w8kc8ei0vqh-3x8zwn3669ov']
+              }
             }
           ],
           generationConfig: {

@@ -51,18 +51,11 @@
       <%= f.input :scrapping_instructions, input_html: { autofocus: true } %>
     </div>
 
-    <div data-tabs-target="body" class="form-stepper__content-pane" data-step-content="2">
-      <h3>Step 2: Archivos</h3>
+    <div data-tabs-target="body" class="form-stepper__content-pane" data-step-content="3">
+      <h3>Step 3: Archivos</h3>
       <p>External files of AI knowledge.</p>
 
-      <%= f.simple_fields_for :assistant_files do |af| %>
-        <div class="nested-fields">
-          <%= af.input :resource_name %>
-          <%= af.input :file_name %>
-          <%= af.input :_destroy, as: :boolean, label: "Remove file" %>
-        </div>
-      <% end %>
-
+      <%= f.input :uploaded_files, as: :file, input_html: { multiple: true } %>
     </div>
 
     <div data-tabs-target="body" class="form-stepper__content-pane" data-step-content="4">

@@ -10,6 +10,25 @@ class AssistantsController < ApplicationController
 
   def update
     if @assistant.update!(assistant_params)
+
+      if !@assistant.use_openai?
+        if virtual_file_params.present?
+          virtual_file_params[:uploaded_files].each do |uploaded_file|
+
+            next if uploaded_file == ""
+
+            p " uploaded_file ==> #{uploaded_file} "
+            #debugger
+
+            resource_name = AIService::GeminiService::File.new(ENV.fetch('GEMINI_API_KEY', '')).upload_uploaded_file(uploaded_file)
+            @assistant.assistant_files.create!(
+              resource_name: resource_name,
+              file_name: uploaded_file.original_filename
+            )
+          end
+        end
+      end
+
       AIService::OpenaiService::Assistant.new(assistant: @assistant).process if @assistant.use_openai?
 
       respond_to do |format|
@@ -21,6 +40,10 @@ class AssistantsController < ApplicationController
   end
 
   private
+
+  def virtual_file_params
+    params.require(:assistant).permit(uploaded_files: [])
+  end
 
   def assistant_params
     params.require(:assistant).permit(

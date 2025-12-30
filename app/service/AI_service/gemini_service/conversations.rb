@@ -4,7 +4,7 @@ module AIService
       include ::Tools::Base
       include ::ConversationsService::Messages
 
-      API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
+      API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=#{ENV.fetch('GEMINI_API_KEY', '')}"
       GEMINI_API_KEY = ENV.fetch('GEMINI_API_KEY', '')
 
       attr_reader :assistant,
@@ -49,6 +49,10 @@ module AIService
         # debugger
 
         add_user_message(user_message)
+
+        p " payload "
+        p payload
+        p " ************ "
 
         response_data = make_api_call(url: url, payload: payload)
 
@@ -105,12 +109,12 @@ module AIService
           tools: [
             {
               functionDeclarations: tools,
-              file_search_tool: {
-                file_search_stores: ['fileSearchStores/testfile-ooycu8edwf4b/operations/3w8kc8ei0vqh-3x8zwn3669ov']
-              }
+              file_search: {
+                file_search_store_names: ["fileSearchStores/testfile-ooycu8edwf4b"]
+              } 
             }
           ],
-          generationConfig: {
+          generation_config: {
             temperature: assistant.temperature || 1.0,
             topP: assistant.top_p || 0.9,
           }
@@ -118,6 +122,15 @@ module AIService
       end
 
       def file_data_formatted
+
+        files = []
+
+        files.push({ file_data: { mime_type: "application/pdf", fileUri: "fileSearchStores/testfile-ooycu8edwf4b/operations/3w8kc8ei0vqh-3x8zwn3669ov" } })
+
+        # files.push({ file_data: { mime_type: "application/octet-stream", fileUri: "gs://my-bucket/my-object" } })
+ 
+        return files
+
         file_data = assistant.file_data || []
         return [] if @file_data.empty?
 

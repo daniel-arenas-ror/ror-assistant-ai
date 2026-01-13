@@ -1,6 +1,6 @@
 module AIService
   module GrokService
-    module Embedding < Base
+    class Embedding < Base
       API_URL = "https://api.x.ai/v1/embeddings"
       MODEL = "grok-embedding-001"
 

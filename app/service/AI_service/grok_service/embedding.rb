@@ -1,8 +1,8 @@
 module AIService
   module GrokService
     class Embedding < Base
-      API_URL = "https://api.x.ai/v1/embeddings"
-      MODEL = "grok-embedding-001"
+      API_URL = "https://api.x.ai/v1/tokenize-text"
+      MODEL = "grok-4-0709"
 
       def initialize
         super(ENV.fetch('GROK_API_KEY', ''))
@@ -11,7 +11,7 @@ module AIService
       def generate_embedding(text, model: MODEL)
         payload = {
           model: model,
-          input: text
+          text: text
         }
 
         response = make_api_call(url: API_URL, payload: payload)

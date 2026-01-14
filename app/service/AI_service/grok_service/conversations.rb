@@ -68,6 +68,14 @@ module AIService
           raise "Assistant failed to generate a response."
         end
       end
+
+      def payload
+        {
+          model: MODEL_NAME,
+          messages: @history,
+          tools: @tools
+        }
+      end
     end
   end
 end

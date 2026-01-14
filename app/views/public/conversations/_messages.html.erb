@@ -1,14 +1,17 @@
-<% modifier = msg.user? ? 'chat__message--me' : 'chat__message--other' %>
 
-<article class="chat__message <%= modifier %>" data-message-id="<%= msg.id %>">
-  <div class="chat__meta">
-    <span class="chat__author"><%= msg.user_name %></span>
-    <time class="chat__time"><%= l(msg.created_at, format: :short) %></time>
-  </div>
+<% if msg.content %>
+  <% modifier = msg.user? ? 'chat__message--me' : 'chat__message--other' %>
 
-  <div class="chat__bubble">
-    <div class="chat__text">
-      <%= render_markdown(msg.content) %>
+  <article class="chat__message <%= modifier %>" data-message-id="<%= msg.id %>">
+    <div class="chat__meta">
+      <span class="chat__author"><%= msg.user_name %></span>
+      <time class="chat__time"><%= l(msg.created_at, format: :short) %></time>
     </div>
-  </div>
-</article>
+
+    <div class="chat__bubble">
+      <div class="chat__text">
+        <%= render_markdown(msg.content) %>
+      </div>
+    </div>
+  </article>
+<% end %>

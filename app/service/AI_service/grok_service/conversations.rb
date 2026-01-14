@@ -6,7 +6,7 @@ module AIService
 
       API_URL = "https://api.x.ai/v1/chat/completions"
       GROK_API_KEY = ENV.fetch('GROK_API_KEY', '')
-      MODEL_NAME = "grok-beta" 
+      MODEL_NAME = "grok-4-0709"
 
       attr_reader :assistant,
         :conversation,
@@ -72,8 +72,7 @@ module AIService
       def payload
         {
           model: MODEL_NAME,
-          messages: @history,
-          tools: @tools
+          messages: @history
         }
       end
     end

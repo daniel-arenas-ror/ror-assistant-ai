@@ -64,7 +64,10 @@ module AIService
 
         functions_call = response_data.dig("choices", 0, "message", "tool_calls") || []
 
-        if function_call.any?
+        if functions_call.any?
+
+          debugger
+
           puts "\n--- FUNCTION CALL DETECTED ---"
 
           functions_call.each do |function_call|
@@ -73,15 +76,23 @@ module AIService
             function_args = function_call.dig('function', "arguments")
 
             result = send(function_name, function_args)
-            
+
             parts = []
             parts.push({
-              "role": "tool",
-              "content": result,
-              "tool_call_id": function_id
+              role: "tool",
+              content: result,
+              tool_call_id: function_id
             })
 
-            
+            add_function_message(parts)
+
+            @history << {
+              role: "tool",
+              content: result,
+              tool_call_id: function_id
+            }
+
+            response_data = make_api_call(url: url, payload: payload)
           end
         end
 

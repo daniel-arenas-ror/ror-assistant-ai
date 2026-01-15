@@ -65,9 +65,6 @@ module AIService
         functions_call = response_data.dig("choices", 0, "message", "tool_calls") || []
 
         if functions_call.any?
-
-          debugger
-
           puts "\n--- FUNCTION CALL DETECTED ---"
 
           functions_call.each do |function_call|
@@ -94,6 +91,8 @@ module AIService
 
             response_data = make_api_call(url: url, payload: payload)
           end
+
+          # debugger
         end
 
         last_message = response_data.dig("choices", 0, "message", "content") || ""
@@ -119,7 +118,7 @@ module AIService
       end
 
       def grok_history_formatted
-        conversation&.messages&.collect do |m|
+        conversation&.messages.where.not(role: "function")&.collect do |m|
           { role: m.role, content: m.content }
         end
       end

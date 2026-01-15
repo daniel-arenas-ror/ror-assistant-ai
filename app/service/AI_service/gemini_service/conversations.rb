@@ -30,7 +30,7 @@ module AIService
         @lead = conversation&.lead
         @company = @assistant&.company
         @broadcast_key = broadcast_key
-        @system_instruction = @assistant.instructions
+        @system_instruction = @assistant.full_instructions
         @history = gemini_history_formatted || []
         @tools = @assistant.tools.collect{|f| JSON.parse(f.function)} || []
         @url = API_URL

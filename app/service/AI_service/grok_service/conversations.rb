@@ -6,7 +6,7 @@ module AIService
 
       API_URL = "https://api.x.ai/v1/chat/completions"
       GROK_API_KEY = ENV.fetch('GROK_API_KEY', '')
-      MODEL_NAME = "grok-4-0709"
+      MODEL_NAME = "grok-4"
 
       attr_reader :assistant,
         :conversation,
@@ -31,9 +31,9 @@ module AIService
         @lead = conversation&.lead
         @company = @assistant&.company
         @broadcast_key = broadcast_key
-        @system_instruction = @assistant.instructions
+        @system_instruction = @assistant.full_instructions
         @history = [{ "role": "system", "content": @system_instruction }]
-        @tools = @assistant.tools.collect{|f| JSON.parse(f.function)} || []
+        @tools = []
         @url = API_URL
       end
 
@@ -41,9 +41,15 @@ module AIService
         ensure_lead!
         ensure_conversation!
 
+        @tools = set_tools_for_grok
+
         @history << grok_history_formatted
 
+        @history << { role: "user", content: user_message }
+
         add_user_message(user_message)
+
+        @history = @history.flatten
 
         p " payload "
         p payload
@@ -56,13 +62,36 @@ module AIService
         p " response data "
         p response_data
 
+        functions_call = response_data.dig("choices", 0, "message", "tool_calls") || []
+
+        if function_call.any?
+          puts "\n--- FUNCTION CALL DETECTED ---"
+
+          functions_call.each do |function_call|
+            function_id   = function_call.dig('id')
+            function_name = function_call.dig('function', "name")
+            function_args = function_call.dig('function', "arguments")
+
+            result = send(function_name, function_args)
+            
+            parts = []
+            parts.push({
+              "role": "tool",
+              "content": result,
+              "tool_call_id": function_id
+            })
+
+            
+          end
+        end
+
         last_message = response_data.dig("choices", 0, "message", "content") || ""
 
         end_typing_indicator
 
         add_model_message(last_message)
 
-        if final_text
+        if last_message
           return conversation
         else
           raise "Assistant failed to generate a response."
@@ -72,8 +101,25 @@ module AIService
       def payload
         {
           model: MODEL_NAME,
-          messages: @history
+          messages: @history,
+          tools: @tools,
+          tool_choice: "auto"
         }
+      end
+
+      def grok_history_formatted
+        conversation&.messages&.collect do |m|
+          { role: m.role, content: m.content }
+        end
+      end
+
+      def set_tools_for_grok
+        @assistant.tools.collect do |t|
+          {
+            type: "function",
+            function: JSON.parse(t.function)
+          }
+        end
       end
     end
   end

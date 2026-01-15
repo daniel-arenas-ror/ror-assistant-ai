@@ -36,12 +36,6 @@ module ConversationsService
       end
     end
 
-    def grok_history_formatted
-      conversation&.messages&.collect do |m|
-        { role: m.role, content: m.content }
-      end
-    end
-
     def start_typing_indicator
       BroadcastMessageAiChannel.broadcast_to broadcast_key, { type: 'typing_start' } if broadcast_key.present?
     end

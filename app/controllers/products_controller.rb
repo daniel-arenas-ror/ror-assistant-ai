@@ -51,7 +51,8 @@ class ProductsController < ApplicationController
       :url_images,
       :description,
       :amenities,
-      :location
+      :location,
+      :price
     )
   end
 

@@ -4,8 +4,8 @@ module AIService
       include ::Tools::Base
       include ::ConversationsService::Messages
 
-      MODELO = "gemini-2.5-flash"
-      API_URL = "https://generativelanguage.googleapis.com/v1beta/models/#{MODELO}:generateContent?key=#{ENV.fetch('GEMINI_API_KEY', '')}"
+      MODEL = "gemini-2.5-flash"
+      API_URL = "https://generativelanguage.googleapis.com/v1beta/models/#{MODEL}:generateContent?key=#{ENV.fetch('GEMINI_API_KEY', '')}"
       GEMINI_API_KEY = ENV.fetch('GEMINI_API_KEY', '')
 
       attr_reader :assistant,
@@ -110,9 +110,10 @@ module AIService
           tools: [
             {
               functionDeclarations: tools,
-              file_search: {
-                file_search_store_names: ["fileSearchStores/testfile-ooycu8edwf4b", "fileSearchStores/testfile-vx1uzi9pl7i5"]
-              } 
+              # url_context: {},
+              #file_search: {
+              #  file_search_store_names: ["fileSearchStores/testfile-ooycu8edwf4b", "fileSearchStores/testfile-vx1uzi9pl7i5"]
+              #} 
             }
           ],
           generation_config: {

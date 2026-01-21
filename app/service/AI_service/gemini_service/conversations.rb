@@ -110,7 +110,7 @@ module AIService
           tools: [
             {
               functionDeclarations: tools,
-              # url_context: {},
+              url_context: {},
               #file_search: {
               #  file_search_store_names: ["fileSearchStores/testfile-ooycu8edwf4b", "fileSearchStores/testfile-vx1uzi9pl7i5"]
               #} 

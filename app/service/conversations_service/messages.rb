@@ -17,7 +17,7 @@ module ConversationsService
         content: last_message
       )
 
-      BroadcastMessageAiChannel.broadcast_to broadcast_key, { type: 'answered_message', id: conversation_message.id, content: render_markdown(last_message) }  if broadcast_key.present?
+      BroadcastMessageAiChannel.broadcast_to broadcast_key, { type: 'answered_message', id: conversation_message.id, content: last_message }  if broadcast_key.present?
     end
 
     def add_function_message(parts)

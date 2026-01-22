@@ -1,4 +1,5 @@
 class Assistant < ApplicationRecord
+  has_paper_trail
   slug :title_for_slug
 
   belongs_to :company

@@ -87,3 +87,4 @@ gem 'slug'
 gem 'rack-cors'
 
 gem 'redcarpet'
+gem 'paper_trail'

@@ -72,6 +72,8 @@ gem 'redis'
 
 gem "devise"
 gem 'jwt'
+gem 'omniauth-google-oauth2'
+gem 'googleauth'
 
 gem "openai", "0.36.1"
 gem "pgvector"

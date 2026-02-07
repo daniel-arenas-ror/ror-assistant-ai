@@ -33,3 +33,11 @@ yarn install
 
 ## Compile CSS and Javascript
 rails assets:precompile
+
+## Login ad admin
+
+http://localhost:3000/admin/login
+
+you must login as a normal user, and after that got to with an adminAccount
+
+http://localhost:3000/admin/users

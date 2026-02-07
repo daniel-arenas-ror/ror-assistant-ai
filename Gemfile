@@ -71,6 +71,7 @@ gem "simple_form"
 gem 'redis'
 
 gem "devise"
+gem 'jwt'
 
 gem "openai", "0.36.1"
 gem "pgvector"

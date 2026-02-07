@@ -144,9 +144,18 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_11_171017) do
     t.index ["conversation_id"], name: "index_messages_on_conversation_id"
   end
 
-# Could not dump table "products" because of following StandardError
-#   Unknown type 'vector' for column 'embedding'
-
+  create_table "products", force: :cascade do |t|
+    t.text "amenities"
+    t.string "code"
+    t.bigint "company_id", null: false
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.string "location"
+    t.string "name"
+    t.datetime "updated_at", null: false
+    t.string "url"
+    t.jsonb "url_images"
+  end
 
   create_table "quotes", force: :cascade do |t|
     t.integer "company_id"

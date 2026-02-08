@@ -1,14 +1,11 @@
 module Api
   module V1
-    class UsersController < BaseController
+    class AuthController < BaseController
       def google_login
         payload = Google::Auth::IDTokens.verify_oidc(
           params[:token], 
           aud: ENV['GOOGLE_CLIENT_ID']
         )
-
-        p " payload "
-        p payload
 
         session_token = JWT.encode({ user_id: user.id, exp: 24.hours.from_now.to_i }, ENV['JWT_SECRET'])
 
@@ -19,7 +16,7 @@ module Api
           u.password = SecureRandom.hex(16) if u.respond_to?(:password=)
         end
 
-        render json: { status: 'success', user: { name: user.name, email: user.email } }
+        render json: { name: user.name, email: user.email, session_token: session_token }, status: :ok
       rescue Google::Auth::IDTokens::VerificationError => e
         render json: { error: 'Invalid Google Token' }, status: :unauthorized
       end

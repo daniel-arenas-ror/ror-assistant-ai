@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_22_161141) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_19_003020) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -144,6 +144,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_22_161141) do
     t.index ["conversation_id"], name: "index_messages_on_conversation_id"
   end
 
+  create_table "option_types", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "products", force: :cascade do |t|
     t.text "amenities"
     t.string "code"
@@ -152,6 +158,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_22_161141) do
     t.text "description"
     t.string "location"
     t.string "name"
+    t.string "price"
     t.datetime "updated_at", null: false
     t.string "url"
     t.jsonb "url_images"

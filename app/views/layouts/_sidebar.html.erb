@@ -1,0 +1,13 @@
+<aside class="app-sidebar" role="navigation" aria-label="Main Sidebar">
+  <div class="app-sidebar__brand">
+    <%= (defined?(current_company) && current_company.present?) ? current_company.name : (Company.first&.name || 'Company Name') %>
+  </div>
+  <nav class="app-sidebar__nav" aria-label="Configuration">
+    <ul>
+      <li><%= link_to 'General', '#' %></li>
+      <li><%= link_to 'Users', '#' %></li>
+      <li><%= link_to 'Integrations', '#' %></li>
+      <li><%= link_to 'Billing', '#' %></li>
+    </ul>
+  </nav>
+</aside>

@@ -23,12 +23,20 @@
   </head>
 
   <body>
-    <%= render "layouts/navbar" %>
+    <div class="app-layout">
+      <%= render "layouts/sidebar" %>
 
-    <div id="flash" class="flash">
-      <%= render "layouts/flash" %>
+      <main class="app-main">
+        <% if lookup_context.find_all("layouts/_navbar").any? %>
+          <%= render "layouts/navbar" %>
+
+          <div id="flash" class="flash">
+            <%= render "layouts/flash" %>
+          </div>
+        <% end %>
+
+        <%= yield %>
+      </main>
     </div>
-
-    <%= yield %>
   </body>
 </html>

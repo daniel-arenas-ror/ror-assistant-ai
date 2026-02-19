@@ -59,5 +59,4 @@ class ProductsController < ApplicationController
   def set_product
     @product = current_company.products.find(params[:id])
   end
-
 end

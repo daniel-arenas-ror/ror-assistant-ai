@@ -5,15 +5,13 @@ Rails.application.routes.draw do
   devise_for :users
   get "up" => "rails/health#show", as: :rails_health_check
 
-  resources :quotes do
-    resources :line_item_dates, except: [:index, :show]
-  end
-
+  resources :assistants, only: [:show, :edit, :update]
   resources :company
   resources :users
   resources :leads
   resources :conversations
-  resources :assistants, only: [:show, :edit, :update]
+  resources :option_types
+
   resources :products do
     patch :scrape, on: :member
   end

@@ -1,0 +1,10 @@
+<main class="container">
+  <div class="header">
+    <h1>Option types</h1>
+    <%= link_to "New Option Type",
+                new_option_type_path,
+                class: "btn btn--primary" %>
+  </div>
+
+  <%= render @option_types %>
+</main>

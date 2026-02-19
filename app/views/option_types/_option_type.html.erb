@@ -1,0 +1,15 @@
+
+<div class="quote">
+  <%= link_to option_type.name, edit_option_type_path(option_type) %>
+
+  <div class="quote__actions">
+    <%= button_to "Delete",
+                  option_type_path(option_type),
+                  method: :delete,
+                  class: "btn btn--light" %>
+
+    <%= link_to "Edit",
+                edit_option_type_path(option_type),
+                class: "btn btn--light" %>
+  </div>
+</div>

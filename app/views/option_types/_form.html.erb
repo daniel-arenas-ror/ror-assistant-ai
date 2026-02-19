@@ -1,0 +1,10 @@
+<%= simple_form_for option_type, html: { class: "option_type form" } do |f| %>
+  <%= form_error_notification(option_type) %>
+
+  <%= f.input :name, input_html: { autofocus: true }, required: true %>
+
+  <div class="form__actions">
+    <%= link_to "Cancel", option_types_path, class: "btn btn--light" %>
+    <%= f.submit class: "btn btn--secondary" %>
+  </div>
+<% end %>

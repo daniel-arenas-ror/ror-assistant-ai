@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_19_013301) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_19_015725) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -145,16 +145,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_19_013301) do
   end
 
   create_table "option_types", force: :cascade do |t|
+    t.bigint "company_id", null: false
     t.datetime "created_at", null: false
     t.string "name", null: false
     t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_option_types_on_company_id"
   end
 
   create_table "option_values", force: :cascade do |t|
+    t.bigint "company_id", null: false
     t.datetime "created_at", null: false
     t.string "name"
     t.bigint "option_type_id", null: false
     t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_option_values_on_company_id"
     t.index ["option_type_id"], name: "index_option_values_on_option_type_id"
   end
 
@@ -209,20 +213,24 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_19_013301) do
   end
 
   create_table "variant_option_values", force: :cascade do |t|
+    t.bigint "company_id", null: false
     t.datetime "created_at", null: false
     t.bigint "option_value_id", null: false
     t.datetime "updated_at", null: false
     t.bigint "variant_id", null: false
+    t.index ["company_id"], name: "index_variant_option_values_on_company_id"
     t.index ["option_value_id"], name: "index_variant_option_values_on_option_value_id"
     t.index ["variant_id"], name: "index_variant_option_values_on_variant_id"
   end
 
   create_table "variants", force: :cascade do |t|
+    t.bigint "company_id", null: false
     t.datetime "created_at", null: false
     t.float "price"
     t.bigint "product_id", null: false
     t.string "sku"
     t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_variants_on_company_id"
     t.index ["product_id"], name: "index_variants_on_product_id"
   end
 
@@ -247,11 +255,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_19_013301) do
   add_foreign_key "lead_companies", "leads"
   add_foreign_key "line_item_dates", "quotes"
   add_foreign_key "messages", "conversations"
+  add_foreign_key "option_types", "companies"
+  add_foreign_key "option_values", "companies"
   add_foreign_key "option_values", "option_types"
   add_foreign_key "products", "companies"
   add_foreign_key "quotes", "companies"
   add_foreign_key "users", "companies"
+  add_foreign_key "variant_option_values", "companies"
   add_foreign_key "variant_option_values", "option_values"
   add_foreign_key "variant_option_values", "variants"
+  add_foreign_key "variants", "companies"
   add_foreign_key "variants", "products"
 end

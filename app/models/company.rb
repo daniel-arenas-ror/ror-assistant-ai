@@ -6,6 +6,8 @@ class Company < ApplicationRecord
   has_many :conversations
   has_many :leadCompany
   has_many :leads, through: :leadCompany
+  has_many :option_types, dependent: :destroy
+  has_many :option_values, dependent: :destroy
 
   validates :name, presence: true
 

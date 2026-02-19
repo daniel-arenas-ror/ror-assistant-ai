@@ -20,3 +20,13 @@ company.users.create!(
   email: 'darenas@gmail.com',
   password: '123456789',
 )
+
+size = company.option_types.create(name: "Size")
+m = company.option_values.create(option_type: size, name: "M")
+l = company.option_values.create(option_type: size, name: "L")
+
+tshirt = company.products.create(name: "Classic Tee", description: "Best cotton ever")
+
+# 3. Create a Specific Variant (The Medium Blue Shirt)
+v1 = tshirt.variants.create(sku: "TEE-BLU-M", price: 19.99, company: company)
+v1.variant_option_values.create(option_value: m, company: company)

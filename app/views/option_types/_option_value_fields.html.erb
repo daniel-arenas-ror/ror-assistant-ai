@@ -1,0 +1,8 @@
+<div class="nested-fields">
+  <%= f.input :name, placeholder: "Value (e.g. Red)" %>
+  
+  <%# If editing, this allows deleting existing values %>
+  <%= f.hidden_field :company_id %>
+  <%= f.hidden_field :_destroy %>
+  <button type="button" onclick="this.closest('.nested-fields').remove()" class="btn btn--light" >Remove</button>
+</div>

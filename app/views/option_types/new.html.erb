@@ -1,0 +1,9 @@
+<main class="container">
+  <%= link_to sanitize("&larr; Back to option types"), option_types_path %>
+
+  <div class="header">
+    <h1>New Option Type</h1>
+  </div>
+
+  <%= render "form", option_type: @option_type %>
+</main>

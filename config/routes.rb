@@ -10,7 +10,11 @@ Rails.application.routes.draw do
   resources :users
   resources :leads
   resources :conversations
-  resources :option_types
+  resources :option_types do
+    collection do
+      get :add_value
+    end
+  end
 
   resources :products do
     patch :scrape, on: :member

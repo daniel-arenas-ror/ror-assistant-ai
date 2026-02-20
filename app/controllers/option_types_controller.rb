@@ -7,6 +7,7 @@ class OptionTypesController < ApplicationController
 
   def new
     @option_type = current_company.option_types.new
+    @option_type.option_values.build
   end
 
   def create
@@ -30,10 +31,20 @@ class OptionTypesController < ApplicationController
     end
   end
 
+  def add_value
+    helpers.fields_for :option_type, OptionType.new do |f|
+      f.fields_for :option_values, current_company.option_values.new, child_index: Time.now.to_i do |value_form|
+        render turbo_stream: turbo_stream.append("option_values", partial: "option_value_fields", locals: { f: value_form })
+      end
+    end
+  end
+
   private
 
   def option_types_params
-    params.require(:option_type).permit(:name)
+    params.require(:option_type).permit(
+      :name, option_values_attributes: [:id, :name, :company_id, :_destroy]
+    )
   end
 
   def set_option_type

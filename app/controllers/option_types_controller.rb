@@ -21,6 +21,7 @@ class OptionTypesController < ApplicationController
   end
 
   def edit
+    @option_type.option_values.build(company_id: current_company.id)
   end
 
   def update
@@ -32,7 +33,7 @@ class OptionTypesController < ApplicationController
   end
 
   def add_value
-    helpers.fields_for :option_type, OptionType.new do |f|
+    helpers.fields_for :option_type, current_company.option_types.new do |f|
       f.fields_for :option_values, current_company.option_values.new, child_index: Time.now.to_i do |value_form|
         render turbo_stream: turbo_stream.append("option_values", partial: "option_value_fields", locals: { f: value_form })
       end

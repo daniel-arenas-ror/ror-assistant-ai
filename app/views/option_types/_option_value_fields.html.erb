@@ -1,8 +1,9 @@
-<div class="nested-fields">
+<div class="nested-fields" data-controller="nested-fields">
   <%= f.text_field :name, placeholder: "Value (e.g. Red)" %>
   
   <%# If editing, this allows deleting existing values %>
   <%= f.hidden_field :company_id %>
   <%= f.hidden_field :_destroy %>
-  <button type="button" onclick="this.closest('.nested-fields').remove()" class="btn btn--light" >Remove</button>
+
+  <a href="#" class="remove_fields" data-action="click->nested-fields#remove">Remove</a>
 </div>

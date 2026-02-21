@@ -3,12 +3,15 @@
 
   <%= f.input :name, input_html: { autofocus: true }, required: true %>
 
-  <h3>Option Values</h3>
-  <div id="option_values">
-    <%= f.fields_for :option_values do |value_form| %>
-      <%= render "option_value_fields", f: value_form %>
-    <% end %>
-  </div>
+  
+  <% if f.object.persisted? %>
+    <h3>Option Values</h3>
+    <div id="option_values">
+      <%= f.fields_for :option_values do |value_form| %>
+        <%= render "option_value_fields", f: value_form %>
+      <% end %>
+    </div>
+  <% end %>
 
   <%= link_to "Add Value", add_value_option_types_path, data: { turbo_stream: true }, class: "btn-secondary" %>
 

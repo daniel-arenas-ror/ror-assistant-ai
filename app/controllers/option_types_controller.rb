@@ -14,19 +14,18 @@ class OptionTypesController < ApplicationController
     @option_type = current_company.option_types.new(option_types_params)
 
     if @option_type.save
-      redirect_to option_type_path(@option_type), notice: "Tipo de opción creado exitosamente."
+      redirect_to edit_option_type_path(@option_type), notice: "Tipo de opción creado exitosamente."
     else
       render :new, status: :unprocessable_entity
     end
   end
 
   def edit
-    @option_type.option_values.build(company_id: current_company.id)
   end
 
   def update
     if @option_type.update(option_types_params)
-      redirect_to option_type_path(@option_type), notice: "Tipo de opción actualizado exitosamente."
+      redirect_to edit_option_type_path(@option_type), notice: "Tipo de opción actualizado exitosamente."
     else
       render :edit, status: :unprocessable_entity
     end

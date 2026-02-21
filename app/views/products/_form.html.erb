@@ -14,7 +14,7 @@
   <% end %>
 
   <div class="form__actions">
-    <%= link_to "Cancel", quotes_path, class: "btn btn--light" %>
+    <%= link_to "Cancel", products_path, class: "btn btn--light" %>
     <% if !product.new_record? %>
       <%= link_to "Scrape Data",
           scrape_product_path(@product),

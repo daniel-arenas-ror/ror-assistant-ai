@@ -9,9 +9,6 @@
     <div class="navbar__item">
       <%= link_to "Leads", leads_path %>
     </div>
-    <div class="navbar__item">
-      <%= link_to "Product", products_path %>
-    </div>
      <% if current_company.assistant.present? %>
       <div class="navbar__item">
         <%= link_to "Edit #{current_company.assistant_name}", edit_assistant_path(current_company.assistant) %>

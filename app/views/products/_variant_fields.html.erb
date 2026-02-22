@@ -11,15 +11,9 @@
   </div>
 
   <div class="variant-options">
-    <% (product.option_types || []).each do |opt_type| %>
-      <div class="option-type">
-        <strong><%= opt_type.name %></strong>
-        <% opt_type.option_values.each do |opt_value| %>
-          <div class="option-value-checkbox">
-            <%= check_box_tag "#{f.object_name}[option_value_ids][]", opt_value.id, (f.object.option_value_ids || []).include?(opt_value.id), id: "#{f.object_name}_option_value_#{opt_value.id}" %>
-            <%= label_tag "#{f.object_name}_option_value_#{opt_value.id}", opt_value.name %>
-          </div>
-        <% end %>
+    <% current_company.option_types.each do |option_type| %>
+      <div class="field">
+        <%= f.input :option_value_ids, as: :check_boxes, collection: option_type.option_values, label: option_type.name %>
       </div>
     <% end %>
   </div>

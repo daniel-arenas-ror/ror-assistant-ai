@@ -1,7 +1,9 @@
 class Product < ApplicationRecord
   belongs_to :company
   has_many :variants, dependent: :destroy
-  has_many :option_types, through: :product_option_types
+  has_many :option_types, -> { distinct }, through: :variants
+  
+  accepts_nested_attributes_for :variants, allow_destroy: true
 
   def embed_input_with_img
     embed_input + "\n" + "url_images: #{url_images}"

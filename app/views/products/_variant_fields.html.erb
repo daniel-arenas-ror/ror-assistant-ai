@@ -1,0 +1,28 @@
+<div class="nested-fields variant-fields">
+  <%= f.hidden_field :company_id, value: product.company_id %>
+  <%= f.hidden_field :_destroy, class: "destroy-flag" %>
+
+  <div class="field">
+    <%= f.input :sku, label: 'SKU' %>
+  </div>
+
+  <div class="field">
+    <%= f.input :price, label: 'Price' %>
+  </div>
+
+  <div class="variant-options">
+    <% (product.option_types || []).each do |opt_type| %>
+      <div class="option-type">
+        <strong><%= opt_type.name %></strong>
+        <% opt_type.option_values.each do |opt_value| %>
+          <div class="option-value-checkbox">
+            <%= check_box_tag "#{f.object_name}[option_value_ids][]", opt_value.id, (f.object.option_value_ids || []).include?(opt_value.id), id: "#{f.object_name}_option_value_#{opt_value.id}" %>
+            <%= label_tag "#{f.object_name}_option_value_#{opt_value.id}", opt_value.name %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <a href="#" data-action="click->nested-fields#remove" class="btn btn--danger">Remove variant</a>
+</div>

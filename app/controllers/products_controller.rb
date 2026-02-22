@@ -52,7 +52,8 @@ class ProductsController < ApplicationController
       :description,
       :amenities,
       :location,
-      :price
+      :price,
+      variants_attributes: [:id, :sku, :price, :_destroy, :company_id, { option_value_ids: [] }]
     )
   end
 

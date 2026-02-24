@@ -1,38 +1,65 @@
 <%= simple_form_for product, html: { class: "product form" } do |f| %>
-  <%= form_error_notification(product) %>
 
-  <%= f.input :name, input_html: { autofocus: true } %>
-  <%= f.input :code, input_html: { autofocus: true } %>
-  <%= f.input :url, input_html: { autofocus: true } %>
-  <%= f.input :description, input_html: { autofocus: true } %>
-  <%= f.input :amenities, input_html: { autofocus: true } %>
-  <%= f.input :location, input_html: { autofocus: true } %>
-  <%= f.input :price, input_html: { autofocus: true } %>
-
-  <% if product.persisted? %>
-    <h3>Variants</h3>
-    <div data-controller="nested-fields" data-nested-fields-list-target="list">
-      <div data-nested-fields-target="list">
-        <%= f.simple_fields_for :variants do |vf| %>
-          <%= render partial: 'variant_fields', locals: { f: vf, product: product } %>
-        <% end %>
+  <div class="form-stepper" data-controller="tabs">
+    <!-- 1. Stepper Header (The Tabs) -->
+    <div class="form-stepper__header">
+      <div data-tabs-target="header" class="form-stepper__step" data-action="click->tabs#switch" data-step="1">
+        <span class="form-stepper__step-number">1</span>
+        <span class="form-stepper__step-label">Basic</span>
       </div>
 
-      <template data-nested-fields-target="template">
-        <%= f.simple_fields_for :variants, product.variants.build(company: product.company), child_index: 'NEW_RECORD' do |temp_form| %>
-          <%= render partial: 'variant_fields', locals: { f: temp_form, product: product } %>
-        <% end %>
-      </template>
-
-      <a href="#" data-action="click->nested-fields#add" class="btn">Add variant</a>
+      <div data-tabs-target="header" class="form-stepper__step" data-action="click->tabs#switch" data-step="2">
+        <span class="form-stepper__step-number">2</span>
+        <span class="form-stepper__step-label">Variants</span>
+      </div>
     </div>
 
-    <% product&.url_images&.each do |url| %>
-      <%= image_tag url, width: "200px" if url.present? %>
-    <% end %>
-  <% end %>
+    <div class="form-stepper__content">
+      <%= form_error_notification(product) %>
 
-  <div class="form__actions">
+      <div data-tabs-target="body" class="form-stepper__content-pane form-stepper__content-pane--active" data-step-content="1">
+        <h3>Step 1: Basic Details</h3>
+        <p>Basic assistant details</p>
+
+        <%= f.input :name, input_html: { autofocus: true } %>
+        <%= f.input :code, input_html: { autofocus: true } %>
+        <%= f.input :url, input_html: { autofocus: true } %>
+        <%= f.input :description, input_html: { autofocus: true } %>
+        <%= f.input :amenities, input_html: { autofocus: true } %>
+        <%= f.input :location, input_html: { autofocus: true } %>
+        <%= f.input :price, input_html: { autofocus: true } %>
+      </div>
+
+      <div data-tabs-target="body" class="form-stepper__content-pane" data-step-content="2">
+        <h3>Step 2: Technical Configuration</h3>
+        <p>Specify technical details like roles or conditions.</p>
+
+        <% if product.persisted? %>
+          <h3>Variants</h3>
+          <div data-controller="nested-fields" data-nested-fields-list-target="list">
+            <div data-nested-fields-target="list">
+              <%= f.simple_fields_for :variants do |vf| %>
+                <%= render partial: 'variant_fields', locals: { f: vf, product: product } %>
+              <% end %>
+            </div>
+
+            <template data-nested-fields-target="template">
+              <%= f.simple_fields_for :variants, product.variants.build(company: product.company), child_index: 'NEW_RECORD' do |temp_form| %>
+                <%= render partial: 'variant_fields', locals: { f: temp_form, product: product } %>
+              <% end %>
+            </template>
+
+            <a href="#" data-action="click->nested-fields#add" class="btn">Add variant</a>
+          </div>
+
+          <% product&.url_images&.each do |url| %>
+            <%= image_tag url, width: "200px" if url.present? %>
+          <% end %>
+        <% end %>
+      </div>
+  </div>
+
+  <div class="form__actions form-stepper__navigation" >
     <%= link_to "Cancel", products_path, class: "btn btn--light" %>
     <% if !product.new_record? %>
       <%= link_to "Scrape Data",

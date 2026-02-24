@@ -35,7 +35,6 @@
         <p>Specify technical details like roles or conditions.</p>
 
         <% if product.persisted? %>
-          <h3>Variants</h3>
           <div data-controller="nested-fields" data-nested-fields-list-target="list">
             <div data-nested-fields-target="list">
               <%= f.simple_fields_for :variants do |vf| %>

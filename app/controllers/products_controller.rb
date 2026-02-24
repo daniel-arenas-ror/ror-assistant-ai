@@ -50,8 +50,6 @@ class ProductsController < ApplicationController
 
   private
 
-  # Convert incoming per-option-type radio selections (selected_option_values)
-  # into an array `option_value_ids` for each variant so associations are created.
   def normalize_variant_selected_options
     return unless params[:product] && params[:product][:variants_attributes]
 

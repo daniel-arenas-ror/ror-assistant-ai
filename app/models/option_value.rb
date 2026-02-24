@@ -2,8 +2,8 @@ class OptionValue < ApplicationRecord
   belongs_to :company
   belongs_to :option_type
 
-  has_many :option_value_variants, dependent: :destroy
-  has_many :variants, through: :option_value_variants
+  has_many :variant_option_values, dependent: :destroy
+  has_many :variants, through: :variant_option_values
 
   validates :name, presence: true
 end

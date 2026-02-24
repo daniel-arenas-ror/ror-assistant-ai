@@ -12,8 +12,19 @@
 
   <div class="variant-options">
     <% current_company.option_types.each do |option_type| %>
-      <div class="field">
-        <%= f.input :option_value_ids, as: :check_boxes, collection: option_type.option_values, label: option_type.name %>
+      <div class="field variant-option-group">
+        <label class="variant-option-group__label"><%= option_type.name %></label>
+
+        <% child_index = (f.options[:child_index] || f.object.try(:id) || "NEW_RECORD") %>
+
+        <% option_type.option_values.each do |ov| %>
+          <% input_name = "product[variants_attributes][#{child_index}][selected_option_values][#{option_type.id}]" %>
+          <% input_id = "variant_#{child_index}_option_#{ov.id}" %>
+          <div class="variant-option">
+            <%= radio_button_tag input_name, ov.id, f.object.option_value_ids.include?(ov.id), id: input_id %>
+            <%= label_tag input_id, ov.name %>
+          </div>
+        <% end %>
       </div>
     <% end %>
   </div>

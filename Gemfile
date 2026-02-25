@@ -65,6 +65,7 @@ group :test do
 end
 
 gem 'dotenv-rails'
+gem "ruby-vips"
 
 gem "foreman"
 gem "simple_form"

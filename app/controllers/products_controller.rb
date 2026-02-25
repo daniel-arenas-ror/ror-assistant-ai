@@ -69,7 +69,7 @@ class ProductsController < ApplicationController
       :location,
       :price,
       variants_attributes: [
-        :id, :sku, :price, :_destroy, :company_id, { option_value_ids: [] }, { selected_option_values: {} }
+        :id, :sku, :price, :_destroy, :company_id, { option_value_ids: [] }, { selected_option_values: {} }, images: []
       ]
     )
   end

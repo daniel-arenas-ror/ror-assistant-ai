@@ -66,6 +66,7 @@ end
 
 gem 'dotenv-rails'
 gem "ruby-vips"
+gem "image_processing", "~> 1.2"
 
 gem "foreman"
 gem "simple_form"

@@ -1,4 +1,11 @@
 
+## install vip
+
+You must install vips to manages images
+
+https://www.libvips.org/install.html
+
+
 # Start postgres
 
 docker compose up -d postgres

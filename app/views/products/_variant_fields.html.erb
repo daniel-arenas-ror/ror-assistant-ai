@@ -30,6 +30,20 @@
   </div>
 
   <%= f.file_field :images, multiple: true %>
+  
+  <div class="image-grid">
+    <% f.object.images.each do |image| %>
+      <div id="<%= dom_id(image) %>">
+        <%= image_tag image.variant(:thumb) %>
+        
+        <%# Link to a custom delete action %>
+        <%= link_to "Remove", 
+                    purge_image_variant_path(f.object, image_id: image.id), 
+                    data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
+                    class: "text-red-500" %>
+      </div>
+    <% end %>
+  </div>
 
   <a href="#" data-action="click->nested-fields#remove" class="btn btn--danger">Remove variant</a>
 </div>

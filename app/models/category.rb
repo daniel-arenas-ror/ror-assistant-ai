@@ -15,6 +15,8 @@ class Category < ApplicationRecord
 
   # Helper to find "Root" categories (Men, Women, Kids)
   scope :roots, -> { where(parent_id: nil) }
+  
+  accepts_nested_attributes_for :sub_categories, allow_destroy: true
 
   def title_for_slug
     "#{name}".parameterize

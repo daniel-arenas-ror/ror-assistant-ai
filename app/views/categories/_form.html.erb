@@ -1,7 +1,32 @@
 <%= simple_form_for @category do |f| %>
   <%= f.input :name, input_html: { autofocus: true } %>
-
   <%= f.input :parent_id, collection: Category.where.not(id: @category.id).map { |c| [c.name, c.id] }, prompt: 'No parent', label: 'Parent category' %>
+  
+  <h3>Subcategories</h3>
+  <div data-controller="nested-fields" data-nested-fields-target="list">
+    <div data-nested-fields-target="list">
+      <%= f.simple_fields_for :sub_categories do |scf| %>
+        <div class="nested-fields subcategory-fields">
+          <%= scf.hidden_field :_destroy %>
+          <%= scf.input :name %>
+          <a href="#" data-action="click->nested-fields#remove" class="btn btn--danger">Remove</a>
+        </div>
+      <% end %>
+    </div>
+
+    <template data-nested-fields-target="template">
+      <%= f.simple_fields_for :sub_categories, @category.sub_categories.build, child_index: 'NEW_RECORD' do |scf| %>
+        <div class="nested-fields subcategory-fields">
+          <%= scf.hidden_field :_destroy %>
+          <%= scf.hidden_field :company_id, value: @category.company_id %>
+          <%= scf.input :name %>
+          <a href="#" data-action="click->nested-fields#remove" class="btn btn--danger">Remove</a>
+        </div>
+      <% end %>
+    </template>
+
+    <a href="#" data-action="click->nested-fields#add" class="btn">Add subcategory</a>
+  </div>
 
   <div class="form__actions">
     <%= link_to 'Cancel', categories_path, class: 'btn btn--light' %>

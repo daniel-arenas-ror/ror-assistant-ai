@@ -54,7 +54,9 @@ class ProductsController < ApplicationController
     return unless params[:product] && params[:product][:variants_attributes]
 
     params[:product][:variants_attributes].each do |_idx, v_attrs|
-      v_attrs[:option_value_ids] = v_attrs.delete(:selected_option_values).values.reject(&:blank?)
+      if v_attrs[:selected_option_values]
+        v_attrs[:option_value_ids] = v_attrs.delete(:selected_option_values).values.reject(&:blank?)
+      end
     end
   end
 

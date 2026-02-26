@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_25_032314) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_26_032703) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -109,6 +109,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_25_032314) do
     t.index ["slug"], name: "index_assistants_on_slug", unique: true
   end
 
+  create_table "categories", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name"
+    t.integer "parent_id"
+    t.string "slug"
+    t.datetime "updated_at", null: false
+    t.index ["parent_id"], name: "index_categories_on_parent_id"
+  end
+
   create_table "companies", force: :cascade do |t|
     t.string "ai_source", default: "openai"
     t.datetime "created_at", null: false
@@ -190,9 +199,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_25_032314) do
     t.index ["option_type_id"], name: "index_option_values_on_option_type_id"
   end
 
-# Could not dump table "products" because of following StandardError
-#   Unknown type 'vector' for column 'embedding'
-
+  create_table "products", force: :cascade do |t|
+    t.text "amenities"
+    t.string "code"
+    t.bigint "company_id", null: false
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.string "location"
+    t.string "name"
+    t.string "price"
+    t.datetime "updated_at", null: false
+    t.string "url"
+    t.jsonb "url_images"
+  end
 
   create_table "quotes", force: :cascade do |t|
     t.integer "company_id"
@@ -268,6 +287,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_25_032314) do
   add_foreign_key "assistant_tools", "assistants"
   add_foreign_key "assistant_tools", "tools"
   add_foreign_key "assistants", "companies"
+  add_foreign_key "categories", "categories", column: "parent_id"
   add_foreign_key "conversations", "assistants"
   add_foreign_key "conversations", "companies"
   add_foreign_key "conversations", "leads"

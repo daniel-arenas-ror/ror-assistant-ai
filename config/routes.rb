@@ -20,6 +20,8 @@ Rails.application.routes.draw do
     patch :scrape, on: :member
   end
 
+  resources :categories
+
   namespace :public do
     resources :conversations
   end

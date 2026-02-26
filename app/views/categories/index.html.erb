@@ -1,0 +1,39 @@
+<main class="container">
+  <h1>Categories</h1>
+
+  <div class="actions">
+    <%= link_to 'New Category', new_category_path, class: 'btn' %>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Parent</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @categories.each do |category| %>
+        <tr>
+          <td><%= link_to category.name, category_path(category) %></td>
+          <td><%= category.parent_category&.name %></td>
+          <td>
+            <%= link_to 'Edit', edit_category_path(category), class: 'btn btn--small' %>
+            <%= link_to 'Delete', category_path(category), method: :delete, data: { confirm: 'Delete category?' }, class: 'btn btn--danger btn--small' %>
+          </td>
+        </tr>
+        <% category.sub_categories.each do |sub| %>
+          <tr>
+            <td style="padding-left:24px">— <%= link_to sub.name, category_path(sub) %></td>
+            <td><%= sub.parent_category&.name %></td>
+            <td>
+              <%= link_to 'Edit', edit_category_path(sub), class: 'btn btn--small' %>
+              <%= link_to 'Delete', category_path(sub), method: :delete, data: { confirm: 'Delete category?' }, class: 'btn btn--danger btn--small' %>
+            </td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</main>

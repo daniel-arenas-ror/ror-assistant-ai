@@ -1,0 +1,17 @@
+<main class="container">
+  <h1><%= @category.name %></h1>
+
+  <p><strong>Parent:</strong> <%= @category.parent_category&.name || '—' %></p>
+
+  <h3>Subcategories</h3>
+  <ul>
+    <% @category.sub_categories.each do |sub| %>
+      <li><%= link_to sub.name, category_path(sub) %></li>
+    <% end %>
+  </ul>
+
+  <div class="form__actions">
+    <%= link_to 'Edit', edit_category_path(@category), class: 'btn' %>
+    <%= link_to 'Back', categories_path, class: 'btn btn--light' %>
+  </div>
+</main>

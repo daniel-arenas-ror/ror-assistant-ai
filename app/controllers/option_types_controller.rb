@@ -1,5 +1,5 @@
 class OptionTypesController < ApplicationController
-  before_action :set_option_type, only: [:edit, :update]
+  before_action :set_option_type, only: [:edit, :update, :destroy]
 
   def index
     @option_types = current_company.option_types
@@ -37,6 +37,11 @@ class OptionTypesController < ApplicationController
         render turbo_stream: turbo_stream.append("option_values", partial: "option_value_fields", locals: { f: value_form })
       end
     end
+  end
+
+  def destroy
+    @option_type.destroy
+    redirect_to option_types_path, notice: "Tipo de opción eliminado exitosamente."
   end
 
   private

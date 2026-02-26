@@ -110,11 +110,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_26_032703) do
   end
 
   create_table "categories", force: :cascade do |t|
+    t.bigint "company_id", null: false
     t.datetime "created_at", null: false
     t.string "name"
     t.integer "parent_id"
     t.string "slug"
     t.datetime "updated_at", null: false
+    t.index ["company_id", "slug"], name: "index_categories_on_company_id_and_slug", unique: true
+    t.index ["company_id"], name: "index_categories_on_company_id"
     t.index ["parent_id"], name: "index_categories_on_parent_id"
   end
 
@@ -288,6 +291,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_26_032703) do
   add_foreign_key "assistant_tools", "tools"
   add_foreign_key "assistants", "companies"
   add_foreign_key "categories", "categories", column: "parent_id"
+  add_foreign_key "categories", "companies"
   add_foreign_key "conversations", "assistants"
   add_foreign_key "conversations", "companies"
   add_foreign_key "conversations", "leads"

@@ -1,4 +1,6 @@
 class Category < ApplicationRecord
+  slug :title_for_slug
+
   # Sub-categories (Men -> [Shoes, Shirts])
   has_many :sub_categories, class_name: "Category", 
                             foreign_key: "parent_id", 
@@ -13,4 +15,8 @@ class Category < ApplicationRecord
 
   # Helper to find "Root" categories (Men, Women, Kids)
   scope :roots, -> { where(parent_id: nil) }
+
+  def title_for_slug
+    "#{name}".parameterize
+  end
 end

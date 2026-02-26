@@ -3,8 +3,6 @@
 
   <%= f.input :parent_id, collection: Category.where.not(id: @category.id).map { |c| [c.name, c.id] }, prompt: 'No parent', label: 'Parent category' %>
 
-  <%= f.input :slug, hint: 'Optional URL-friendly slug' %>
-
   <div class="form__actions">
     <%= link_to 'Cancel', categories_path, class: 'btn btn--light' %>
     <%= f.submit class: 'btn btn--secondary' %>

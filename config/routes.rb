@@ -18,6 +18,9 @@ Rails.application.routes.draw do
 
   resources :products do
     patch :scrape, on: :member
+    member do
+      delete :purge_image
+    end
   end
 
   resources :categories

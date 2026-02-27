@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  before_action :set_product, only: [:edit, :update, :scrape]
+  before_action :set_product, only: [:edit, :update, :scrape, :purge_image]
   before_action :normalize_variant_selected_options, only: [:create, :update]
 
   def index
@@ -37,6 +37,17 @@ class ProductsController < ApplicationController
     end
   end
 
+  def purge_image
+    image = @product.images.find(params[:image_id])
+    
+    image.purge
+    
+    respond_to do |format|
+      format.html { redirect_to edit_product_path(@product), notice: "Image deleted." }
+      format.turbo_stream { render turbo_stream: turbo_stream.remove(image) }
+    end
+  end
+
   def scrape
     AIService::ScrapeProduct.new(product: @product).process
     AIService::Embedding.new(product: @product).update_embedding!
@@ -54,6 +65,16 @@ class ProductsController < ApplicationController
         v_attrs[:option_value_ids] = v_attrs.delete(:selected_option_values).values.reject(&:blank?)
       end
     end
+
+    if params[:product][:images].is_a?(Array)
+      has_upload = params[:product][:images].any? do |item|
+
+        next false if item.nil?
+        (defined?(ActionDispatch::Http::UploadedFile) && item.is_a?(ActionDispatch::Http::UploadedFile)) || item.respond_to?(:original_filename) || item.present?
+      end
+
+      params[:product].delete(:images) unless has_upload
+    end
   end
 
   def product_params
@@ -69,7 +90,8 @@ class ProductsController < ApplicationController
       variants_attributes: [
         :id, :sku, :price, :_destroy, :company_id, { option_value_ids: [] }, { selected_option_values: {} }, images: []
       ],
-      category_ids: []
+      category_ids: [],
+      images: []
     )
   end
 

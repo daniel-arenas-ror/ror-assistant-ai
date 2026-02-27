@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_27_011506) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_27_013916) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -211,19 +211,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_27_011506) do
     t.index ["option_type_id"], name: "index_option_values_on_option_type_id"
   end
 
-  create_table "products", force: :cascade do |t|
-    t.text "amenities"
-    t.string "code"
-    t.bigint "company_id", null: false
-    t.datetime "created_at", null: false
-    t.text "description"
-    t.string "location"
-    t.string "name"
-    t.string "price"
-    t.datetime "updated_at", null: false
-    t.string "url"
-    t.jsonb "url_images"
-  end
+# Could not dump table "products" because of following StandardError
+#   Unknown type 'vector' for column 'embedding'
+
 
   create_table "quotes", force: :cascade do |t|
     t.integer "company_id"

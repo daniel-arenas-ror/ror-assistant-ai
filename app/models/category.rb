@@ -11,8 +11,8 @@ class Category < ApplicationRecord
                                foreign_key: "parent_id", 
                                optional: true
 
-  has_many :products_categories
-  has_many :products, through: :products_categories
+  has_many :category_products, dependent: :destroy
+  has_many :products, through: :category_products
 
   # Helper to find "Root" categories (Men, Women, Kids)
   scope :roots, -> { where(parent_id: nil) }

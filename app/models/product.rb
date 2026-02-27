@@ -2,10 +2,16 @@ class Product < ApplicationRecord
   belongs_to :company
   has_many :variants, dependent: :destroy
   has_many :option_types, -> { distinct }, through: :variants
-  has_many :products_categories
-  has_many :products, through: :products_categories
+  has_many :category_products, dependent: :destroy
+  has_many :categories, through: :category_products
+
+  slug :title_for_slug
 
   accepts_nested_attributes_for :variants, allow_destroy: true
+
+  def title_for_slug
+    "#{name}-#{id}".parameterize
+  end
 
   def embed_input_with_img
     embed_input + "\n" + "url_images: #{url_images}"

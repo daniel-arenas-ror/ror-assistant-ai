@@ -28,6 +28,9 @@
         <%= f.input :amenities, input_html: { autofocus: true } %>
         <%= f.input :location, input_html: { autofocus: true } %>
         <%= f.input :price, input_html: { autofocus: true } %>
+
+        <%= f.input :category_ids, collection: current_company.categories, as: :check_boxes, label: 'Categories' %>
+                
       </div>
 
       <div data-tabs-target="body" class="form-stepper__content-pane" data-step-content="2">

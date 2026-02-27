@@ -2,6 +2,7 @@
 <div class="quote">
   <%= link_to product.name, edit_product_path(product) %>
   <%= product.code %>
+  <%= product.active %>
 
   <div class="quote__actions">
     <%= button_to "Delete",

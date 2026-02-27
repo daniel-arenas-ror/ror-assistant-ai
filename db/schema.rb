@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_26_032703) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_27_011506) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -119,6 +119,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_26_032703) do
     t.index ["company_id", "slug"], name: "index_categories_on_company_id_and_slug", unique: true
     t.index ["company_id"], name: "index_categories_on_company_id"
     t.index ["parent_id"], name: "index_categories_on_parent_id"
+  end
+
+  create_table "category_products", force: :cascade do |t|
+    t.bigint "category_id", null: false
+    t.datetime "created_at", null: false
+    t.bigint "product_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_category_products_on_category_id"
+    t.index ["product_id"], name: "index_category_products_on_product_id"
   end
 
   create_table "companies", force: :cascade do |t|
@@ -292,6 +301,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_26_032703) do
   add_foreign_key "assistants", "companies"
   add_foreign_key "categories", "categories", column: "parent_id"
   add_foreign_key "categories", "companies"
+  add_foreign_key "category_products", "categories"
+  add_foreign_key "category_products", "products"
   add_foreign_key "conversations", "assistants"
   add_foreign_key "conversations", "companies"
   add_foreign_key "conversations", "leads"

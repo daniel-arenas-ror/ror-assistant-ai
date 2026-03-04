@@ -12,6 +12,8 @@ class Company < ApplicationRecord
 
   validates :name, presence: true
 
+  has_one_attached :icon
+
   def assistant_name
     assistants.first&.name || "Asistente"
   end

@@ -16,7 +16,7 @@ class Product < ApplicationRecord
   end
 
   def title_for_slug
-    "#{name}".parameterize
+    "#{name}-#{id}".parameterize
   end
 
   def embed_input_with_img

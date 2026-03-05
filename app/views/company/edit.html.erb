@@ -2,17 +2,18 @@
 <%= simple_form_for current_company, html: { class: "company form" } do |f| %>
   <%= f.input :name %>
   <%= f.file_field :icon %>
+
   <% if f.object.icon.attached? %>
     <div class="icon-preview">
       <%= image_tag f.object.icon.variant(resize_to_limit: [100, 100]) %>
-      
-      <%# Link to a custom delete action %>
       <%= link_to "Remove", 
-                  purge_company_icon_path(f.object), 
+                  "",
                   data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
                   class: "text-red-500" %>
     </div>
   <% end %>
-
-  <%= f.button :submit, "Update Company" %>
+  
+  <div class="form__actions form-stepper__navigation" >
+    <%= f.button :submit, "Update Company", class: "btn btn--secondary" %>
+  </div>
 <% end %>

@@ -8,7 +8,6 @@ class ProductsController < ApplicationController
 
   def new
     @product = current_company.products.new
-    @product.variants.build(company: current_company) if @product.variants.empty?
   end
 
   def create
@@ -24,7 +23,6 @@ class ProductsController < ApplicationController
   end
 
   def edit
-    @product.variants.build(company: current_company) if @product.variants.empty?
   end
 
   def update
@@ -96,6 +94,6 @@ class ProductsController < ApplicationController
   end
 
   def set_product
-    @product = current_company.products.find_by(slug: params[:id])
+    @product = current_company.products.find(params[:id])
   end
 end

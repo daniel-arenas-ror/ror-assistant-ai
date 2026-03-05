@@ -6,8 +6,7 @@ module Types
 
     field :id, ID, null: false
     field :name, String, null: false
-    field :created_at, GraphQL::Types::ISO8601DateTime, null: false
-    field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
+    field :icon_url, String, null: true, description: "URL of the company's icon image."
 
     # associations we might need
     field :categories, CategoryType.connection_type, null: true,
@@ -15,6 +14,10 @@ module Types
 
     def categories
       object.categories.where(parent_id: nil).order(:name)
+    end
+
+    def icon_url
+      object.icon.attached? ? Rails.application.routes.url_helpers.rails_blob_url(object.icon, only_path: true) : nil
     end
   end
 end

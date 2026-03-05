@@ -1,0 +1,13 @@
+module Types
+  class ProductType < Types::BaseObject
+    description "A product belonging to a company."
+
+    field :id, ID, null: false
+    field :name, String, null: false
+    field :slug, String, null: false
+    field :description, String, null: true
+    field :price, Float, null: false
+    field :categories, [Types::CategoryType], null: false
+
+  end
+end

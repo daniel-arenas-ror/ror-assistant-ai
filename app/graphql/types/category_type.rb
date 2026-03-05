@@ -13,7 +13,7 @@ module Types
     field :parent_category, CategoryType, null: true
 
     # sub-categories connection so clients can paginate children as well
-    field :sub_categories, CategoryType.connection_type, null: true,
+    field :sub_categories, [CategoryType], null: true,
           description: "The child categories of this category."
 
     def sub_categories

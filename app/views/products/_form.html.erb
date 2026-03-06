@@ -29,7 +29,28 @@
         <%= f.input :location, input_html: { autofocus: true } %>
         <%= f.input :price, input_html: { autofocus: true } %>
 
-        <%= f.input :category_ids, collection: current_company.categories, as: :check_boxes, label: 'Categories' %>
+        <table class="table">
+          <tbody>
+            <% @current_company.categories.roots.each do |category| %>
+              <tr>
+                <td><%= link_to category.name, edit_category_path(category) %></td>
+                <td><%= category.parent_category&.name %></td>
+                <td>
+                  <input class="form__input" type="checkbox" value="<%= category.id %>" <%= product.category_ids.include?(category.id) && "checked=\"checked\"" %> name="product[category_ids][]" id="product_category_ids_<%= category.id %>">
+                </td>
+              </tr>
+              <% category.sub_categories.each do |sub| %>
+                <tr>
+                  <td style="padding-left:24px">— <%= link_to sub.name, category_path(sub) %></td>
+                  <td><%= sub.parent_category&.name %></td>
+                  <td>
+                    <input class="form__input" type="checkbox" value="<%= sub.id %>" name="product[category_ids][]" id="product_category_ids_<%= sub.id %>" <%= product.category_ids.include?(sub.id) && "checked=\"checked\"" %>>
+                  </td>
+                </tr>
+              <% end %>
+            <% end %>
+          </tbody>
+        </table>
 
         <%= f.file_field :images, multiple: true %>
 

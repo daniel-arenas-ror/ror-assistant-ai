@@ -8,6 +8,7 @@ module Types
     field :name, String, null: false
     field :slug, String, null: true
     field :company_id, ID, null: false
+    field :parent_id, ID, null: true
 
     # parent category (nullable)
     field :parent_category, CategoryType, null: true

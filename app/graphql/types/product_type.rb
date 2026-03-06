@@ -7,6 +7,8 @@ module Types
     field :slug, String, null: false
     field :description, String, null: true
     field :price, Float, null: false
+    field :code, String, null: true
+    field :images, [Types::ImageType], null: true
     field :categories, [Types::CategoryType], null: false
 
   end

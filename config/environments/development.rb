@@ -71,4 +71,14 @@ Rails.application.configure do
   # config.generators.apply_rubocop_autocorrect_after_generate!
   config.action_cable.disable_request_forgery_protection = true
   config.action_controller.forgery_protection_origin_check = false
+
+  config.action_controller.default_url_options = {
+    host: ENV.fetch('HOST', 'localhost'),
+    port: ENV.fetch('PORT', 3000) 
+  }
+
+  Rails.application.routes.default_url_options = {
+    host: ENV.fetch('HOST', 'localhost'),
+    port: ENV.fetch('PORT', 3000)
+  }
 end

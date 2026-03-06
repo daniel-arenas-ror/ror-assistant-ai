@@ -17,7 +17,7 @@ module Types
     end
 
     def icon_url
-      object.icon.attached? ? Rails.application.routes.url_helpers.rails_blob_url(object.icon, only_path: true) : nil
+      Rails.application.routes.url_helpers.rails_blob_url(object.icon) if object.icon.attached?
     end
   end
 end

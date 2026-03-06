@@ -22,4 +22,12 @@ class Category < ApplicationRecord
   def title_for_slug
     "#{name}".parameterize
   end
+
+  def root?
+    parent_id.nil?
+  end
+
+  def all_ids
+    [id] + sub_categories.flat_map(&:all_ids)
+  end
 end

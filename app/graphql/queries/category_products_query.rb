@@ -16,6 +16,7 @@ module Queries
 
       ids = category.all_ids
       products = Product.joins(:categories)
+                        .active
                         .where(categories: { id: ids })
                         .order(:name)
                         .distinct

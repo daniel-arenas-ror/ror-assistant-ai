@@ -10,6 +10,7 @@ module Types
     field :code, String, null: true
     field :images, [Types::ImageType], null: true
     field :categories, [Types::CategoryType], null: false
+    field :active, Boolean, null: false
 
   end
 end

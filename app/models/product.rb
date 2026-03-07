@@ -11,6 +11,8 @@ class Product < ApplicationRecord
   accepts_nested_attributes_for :product_option_types, allow_destroy: true
   accepts_nested_attributes_for :variants, allow_destroy: true
 
+  scope :active, -> { where(active: true) }
+
   has_many_attached :images do |attachable|
     attachable.variant :thumb, resize_to_limit: [150, 200]
     attachable.variant :medium, resize_to_limit: [450, 600]

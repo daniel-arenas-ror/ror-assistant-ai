@@ -85,6 +85,7 @@ class ProductsController < ApplicationController
       :amenities,
       :location,
       :price,
+      :active,
       category_ids: [],
       images: [],
       variants_attributes: [

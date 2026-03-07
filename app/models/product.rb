@@ -1,12 +1,14 @@
 class Product < ApplicationRecord
   belongs_to :company
   has_many :variants, dependent: :destroy
-  has_many :option_types, -> { distinct }, through: :variants
   has_many :category_products, dependent: :destroy
   has_many :categories, through: :category_products
+  has_many :product_option_types, dependent: :destroy
+  has_many :option_types, through: :product_option_types
 
   slug :title_for_slug
 
+  accepts_nested_attributes_for :product_option_types, allow_destroy: true
   accepts_nested_attributes_for :variants, allow_destroy: true
 
   has_many_attached :images do |attachable|

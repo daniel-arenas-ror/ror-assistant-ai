@@ -13,7 +13,7 @@
         <span class="form-stepper__step-label">Configuración</span>
       </div>
 
-      <div data-tabs-target="header" class="form-stepper__step" data-action="click->tabs#switch" data-step="2">
+      <div data-tabs-target="header" class="form-stepper__step" data-action="click->tabs#switch" data-step="3">
         <span class="form-stepper__step-number">3</span>
         <span class="form-stepper__step-label">Variantes</span>
       </div>
@@ -82,10 +82,23 @@
         <h3>Step 2: Technical Configuration</h3>
         <p>Specify technical details like roles or conditions.</p>
 
+        <% current_company.option_types.each do |option_type| %>
+          <div class="field">
+            <label><%= option_type.name %></label>
+            <input class="form__input" type="checkbox" value="<%= option_type.id %>" name="product[product_option_types_attributes][][option_type_id]" id="product_product_option_types_attributes_<%= option_type.id %>" <%= product.option_types.include?(option_type) && "checked=\"checked\"" %>>
+          </div>
+        <% end %>
+      </div>
+
+      <div data-tabs-target="body" class="form-stepper__content-pane" data-step-content="3">
+        <h3>Step 3: Variant Configuration</h3>
+        <p>Specify technical details like roles or conditions.</p>
+
         <% if product.persisted? %>
           <div data-controller="nested-fields" data-nested-fields-list-target="list">
             <div data-nested-fields-target="list">
               <%= f.simple_fields_for :variants do |vf| %>
+                <% next if vf.object.is_master? %>
                 <%= render partial: 'variant_fields', locals: { f: vf, product: product } %>
               <% end %>
             </div>

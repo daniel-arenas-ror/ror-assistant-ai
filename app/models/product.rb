@@ -15,6 +15,15 @@ class Product < ApplicationRecord
     attachable.variant :large, resize_to_limit: [900, 1200]
   end
 
+  after_save :update_master_variant
+
+  def update_master_variant
+    variants.find_or_create_by(is_master: true) do |variant|
+      variant.sku   = slug 
+      variant.price = price
+    end
+  end
+
   def title_for_slug
     "#{name}-#{id}".parameterize
   end

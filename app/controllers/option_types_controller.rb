@@ -48,7 +48,9 @@ class OptionTypesController < ApplicationController
 
   def option_types_params
     params.require(:option_type).permit(
-      :name, option_values_attributes: [:id, :name, :company_id, :_destroy]
+      :name,
+      :filterable,
+      option_values_attributes: [:id, :name, :company_id, :_destroy]
     )
   end
 

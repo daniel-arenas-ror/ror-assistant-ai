@@ -2,6 +2,7 @@
   <%= form_error_notification(option_type) %>
 
   <%= f.input :name, input_html: { autofocus: true }, required: true %>
+  <%= f.input :filterable, as: :boolean, label: "Use as filter on product listing page?" %>
 
   <% if f.object.persisted? %>
     <h3>Option Values</h3>

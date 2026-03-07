@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_27_030521) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_07_001418) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -196,6 +196,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_27_030521) do
   create_table "option_types", force: :cascade do |t|
     t.bigint "company_id", null: false
     t.datetime "created_at", null: false
+    t.boolean "filterable", default: false, null: false
     t.string "name", null: false
     t.datetime "updated_at", null: false
     t.index ["company_id"], name: "index_option_types_on_company_id"
@@ -211,9 +212,22 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_27_030521) do
     t.index ["option_type_id"], name: "index_option_values_on_option_type_id"
   end
 
-# Could not dump table "products" because of following StandardError
-#   Unknown type 'vector' for column 'embedding'
-
+  create_table "products", force: :cascade do |t|
+    t.boolean "active", default: false
+    t.text "amenities"
+    t.string "code"
+    t.bigint "company_id", null: false
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.string "location"
+    t.string "name"
+    t.string "price"
+    t.string "slug"
+    t.datetime "updated_at", null: false
+    t.string "url"
+    t.jsonb "url_images"
+    t.index ["company_id", "slug"], name: "index_products_on_company_id_and_slug", unique: true
+  end
 
   create_table "quotes", force: :cascade do |t|
     t.integer "company_id"

@@ -1,6 +1,7 @@
 
 <div class="quote">
   <%= link_to option_type.name, edit_option_type_path(option_type) %>
+  <%= " (Filterable)" if option_type.filterable? %>
 
   <div class="quote__actions">
     <%= button_to "Delete",

@@ -18,7 +18,7 @@ class Product < ApplicationRecord
   after_save :update_master_variant
 
   def update_master_variant
-    variants.find_or_create_by(is_master: true) do |variant|
+    variants.find_or_create_by(is_master: true, company_id: company_id) do |variant|
       variant.sku   = slug 
       variant.price = price
     end

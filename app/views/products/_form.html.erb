@@ -88,6 +88,18 @@
             <label><%= option_type.name %></label>
             <input class="form__input" type="checkbox" value="<%= option_type.id %>" name="product[product_option_types_attributes][][option_type_id]" id="product_product_option_types_attributes_<%= option_type.id %>" <%= product.option_types.include?(option_type) && "checked=\"checked\"" %>>
           </div>
+
+          <% if product.option_types.include?(option_type) %>
+            <% option_type.option_values.each do |option_value| %>
+              <div class="field" style="padding-left: 20px;">
+                <label><%= option_value.name %></label>
+                <% product.product_option_values.where(option_value: option_value).each do |pov| %>
+                   
+                  <%= f.hidden_field :product_option_values, multiple: true, value: pov.id %>
+                <% end %>
+              </div>
+            <% end %>
+          <% end %>
         <% end %>
       </div>
 

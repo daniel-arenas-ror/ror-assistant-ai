@@ -93,6 +93,9 @@ class ProductsController < ApplicationController
       ],
       product_option_types_attributes: [
         :id, :option_type_id, :_destroy
+      ],
+      product_option_values_attributes: [
+        :id, :option_value_id, :_destroy, images: []
       ]
     )
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_07_033615) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_08_004957) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -221,6 +221,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_07_033615) do
     t.index ["product_id"], name: "index_product_option_types_on_product_id"
   end
 
+  create_table "product_option_values", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "option_value_id", null: false
+    t.bigint "product_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["option_value_id"], name: "index_product_option_values_on_option_value_id"
+    t.index ["product_id"], name: "index_product_option_values_on_product_id"
+  end
+
   create_table "products", force: :cascade do |t|
     t.boolean "active", default: false
     t.text "amenities"
@@ -329,6 +338,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_07_033615) do
   add_foreign_key "option_values", "option_types"
   add_foreign_key "product_option_types", "option_types"
   add_foreign_key "product_option_types", "products"
+  add_foreign_key "product_option_values", "option_values"
+  add_foreign_key "product_option_values", "products"
   add_foreign_key "products", "companies"
   add_foreign_key "quotes", "companies"
   add_foreign_key "users", "companies"

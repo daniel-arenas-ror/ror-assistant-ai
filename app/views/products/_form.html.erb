@@ -109,6 +109,11 @@
 
                     <div class="flex-1">
                       <label class="block text-xs text-gray-500 uppercase mb-1">Upload Images</label>
+
+                      <% pov_form.object.images.each do |image| %>
+                        <%= pov_form.hidden_field :images, multiple: true, value: image.signed_id %>
+                      <% end %>
+
                       <%= pov_form.file_field :images, multiple: true, class: "text-xs" %>
                       
                       <% if pov.images.attached? %>

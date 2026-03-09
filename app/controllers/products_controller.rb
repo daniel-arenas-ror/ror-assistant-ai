@@ -73,6 +73,17 @@ class ProductsController < ApplicationController
 
       params[:product].delete(:images) unless has_upload
     end
+
+    params[:product][:product_option_values_attributes].each do |_idx, v_attrs|
+      if v_attrs[:images].is_a?(Array)
+        has_upload = v_attrs[:images].any? do |item|
+          next false if item.nil?
+          (defined?(ActionDispatch::Http::UploadedFile) && item.is_a?(ActionDispatch::Http::UploadedFile)) || item.respond_to?(:original_filename) || item.present?
+        end
+
+        v_attrs.delete(:images) unless has_upload
+      end
+    end
   end
 
   def product_params

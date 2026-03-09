@@ -10,6 +10,7 @@ class Product < ApplicationRecord
 
   slug :title_for_slug
 
+  accepts_nested_attributes_for :product_option_values, allow_destroy: true
   accepts_nested_attributes_for :product_option_types, allow_destroy: true
   accepts_nested_attributes_for :variants, allow_destroy: true
 

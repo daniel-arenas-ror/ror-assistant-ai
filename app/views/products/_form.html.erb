@@ -92,11 +92,37 @@
           <% if product.option_types.include?(option_type) %>
             <% option_type.option_values.each do |option_value| %>
               <div class="field" style="padding-left: 20px;">
-                <label><%= option_value.name %></label>
-                <% product.product_option_values.where(option_value: option_value).each do |pov| %>
-                   
-                  <%= f.hidden_field :product_option_values, multiple: true, value: pov.id %>
+                <% pov = product.product_option_values.find_or_initialize_by(option_value: option_value) %>
+
+                <%= f.fields_for :product_option_values, pov do |pov_form| %>
+                  <div class="flex items-start gap-6 mb-4 p-3 bg-white shadow-sm rounded">
+                    
+                    <div class="flex items-center gap-2 min-w-[120px]">
+                      <%# Hidden field ensures the ID is passed back for updates instead of creating duplicates %>
+                      <%= pov_form.hidden_field :option_value_id, value: option_value.id %>
+                      
+                      <%# Logic to "Enable/Disable" this value for the product %>
+                      <%= pov_form.check_box :_destroy, 
+                          { checked: pov.persisted?, class: "h-4 w-4" }, "0", "1" %>
+                      <span class="text-sm font-medium"><%= option_value.name %></span>
+                    </div>
+
+                    <div class="flex-1">
+                      <label class="block text-xs text-gray-500 uppercase mb-1">Upload Images</label>
+                      <%= pov_form.file_field :images, multiple: true, class: "text-xs" %>
+                      
+                      <% if pov.images.attached? %>
+                        <div class="flex gap-2 mt-2">
+                          <% pov.images.each do |img| %>
+                            <%= image_tag img.variant(:thumb), class: "w-12 h-12 object-cover rounded border" %>
+                          <% end %>
+                        </div>
+                      <% end %>
+                    </div>
+                    
+                  </div>
                 <% end %>
+
               </div>
             <% end %>
           <% end %>

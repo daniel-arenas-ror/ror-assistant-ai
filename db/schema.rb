@@ -227,6 +227,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_08_004957) do
     t.bigint "product_id", null: false
     t.datetime "updated_at", null: false
     t.index ["option_value_id"], name: "index_product_option_values_on_option_value_id"
+    t.index ["product_id", "option_value_id"], name: "index_product_option_values_on_product_id_and_option_value_id", unique: true
     t.index ["product_id"], name: "index_product_option_values_on_product_id"
   end
 

@@ -1,53 +1,27 @@
-<div class="nested-fields variant-fields">
+
+<tr class="nested-fields variant-fields">
   <%= f.hidden_field :company_id, value: product.company_id %>
   <%= f.hidden_field :_destroy, class: "destroy-flag" %>
+  <td><%= f.input :sku %></td>
+  <td><%= f.input :price %></td>
+  <% product.option_types.each do |option_type| %>
+    <td>
+      <% child_index = (f.options[:child_index] || f.object.try(:id) || "NEW_RECORD") %>
+      <% input_name = "product[variants_attributes][#{child_index}][option_value_ids][]" %>
 
-  <div class="field">
-    <%= f.input :sku, label: 'SKU' %>
-  </div>
-
-  <div class="field">
-    <%= f.input :price, label: 'Price' %>
-  </div>
-
-  <div class="variant-options">
-    <% product.option_types.each do |option_type| %>
-      <div class="field variant-option-group">
-        <label class="variant-option-group__label"><%= option_type.name %></label>
-
-        <% child_index = (f.options[:child_index] || f.object.try(:id) || "NEW_RECORD") %>
-
-        <% option_type.option_values.each do |ov| %>
-          <% input_name = "product[variants_attributes][#{child_index}][selected_option_values][#{option_type.id}]" %>
-          <% input_id = "variant_#{child_index}_option_#{ov.id}" %>
-          <div class="variant-option">
-            <%= radio_button_tag input_name, ov.id, f.object.option_value_ids.include?(ov.id), id: input_id %>
-            <%= label_tag input_id, ov.name %>
-          </div>
-        <% end %>
-      </div>
-    <% end %>
-  </div>
-
-  <% f.object.images.each do |image| %>
-    <%= f.hidden_field :images, multiple: true, value: image.signed_id %>
+      <%= select_tag input_name, 
+            options_from_collection_for_select(
+              option_type.option_values, 
+              :id, 
+              :name, 
+              f.object.option_value_ids.find { |id| option_type.option_value_ids.include?(id) }
+            ),
+            include_blank: "Select #{option_type.name}...",
+            class: "form__input"
+      %>
+    </td>
   <% end %>
-
-  <%= f.file_field :images, multiple: true %>
-
-  <div class="image-grid">
-    <% f.object.images.each do |image| %>
-      <div id="<%= dom_id(image) %>">
-        <%= image_tag image.variant(:thumb) %>
-        
-        <%# Link to a custom delete action %>
-        <%= link_to "Remove", 
-                    purge_image_variant_path(f.object, image_id: image.id), 
-                    data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
-                    class: "text-red-500" %>
-      </div>
-    <% end %>
-  </div>
-
-  <a href="#" data-action="click->nested-fields#remove" class="btn btn--danger">Remove variant</a>
-</div>
+  <td>
+    <a href="#" data-action="click->nested-fields#remove" class="btn btn--danger">Eliminar</a>
+  </td>
+</tr>

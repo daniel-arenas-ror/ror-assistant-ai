@@ -140,12 +140,24 @@
 
         <% if product.persisted? %>
           <div data-controller="nested-fields" data-nested-fields-list-target="list">
-            <div data-nested-fields-target="list">
-              <%= f.simple_fields_for :variants do |vf| %>
-                <% next if vf.object.is_master? %>
-                <%= render partial: 'variant_fields', locals: { f: vf, product: product } %>
-              <% end %>
-            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>SKU</th>
+                  <th>Price</th>
+                  <% product.option_types.each do |option_type| %>
+                    <th><%= option_type.name %></<th>
+                  <% end %>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody data-nested-fields-target="list">          
+                <%= f.simple_fields_for :variants do |vf| %>
+                  <% next if vf.object.is_master? %>
+                  <%= render partial: 'variant_fields', locals: { f: vf, product: product } %>
+                <% end %>
+              </tbody>
+            </table>
 
             <template data-nested-fields-target="template">
               <%= f.simple_fields_for :variants, product.variants.build(company: product.company), child_index: 'NEW_RECORD' do |temp_form| %>

@@ -99,6 +99,7 @@ class ProductsController < ApplicationController
       :active,
       category_ids: [],
       images: [],
+      option_value_ids: [],
       variants_attributes: [
         :id, :sku, :price, :_destroy, :company_id, { option_value_ids: [] }, { selected_option_values: {} }, images: []
       ],

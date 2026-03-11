@@ -15,7 +15,8 @@ module Queries
       return [] unless category
 
       ids = category.all_ids
-      products = Product.joins(:categories)
+      products = Product.includes(:variants, :product_option_values)
+                        .joins(:categories)
                         .active
                         .where(categories: { id: ids })
                         .order(:name)

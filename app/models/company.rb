@@ -9,6 +9,7 @@ class Company < ApplicationRecord
   has_many :option_types, dependent: :destroy
   has_many :option_values, dependent: :destroy
   has_many :categories, dependent: :destroy
+  has_many :company_item_configurations
 
   validates :name, presence: true
 

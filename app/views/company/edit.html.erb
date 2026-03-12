@@ -12,7 +12,33 @@
                   class: "text-red-500" %>
     </div>
   <% end %>
-  
+
+  <% ItemConfiguration.all.each do |item_configuration| %>
+    <% company_item_config = current_company.company_item_configurations.find_by(name: item_configuration.name) %>
+
+    <div class="mt-4">
+      <h3 class="font-semibold"><%= item_configuration.name %></h3>
+      <% if item_configuration.description.present? %>
+        <p class="text-sm text-gray-600"><%= item_configuration.description %></p>
+      <% end %>
+
+      <div class="mt-2">
+        <%= hidden_field_tag "company[item_configurations][#{item_configuration.id}][name]", item_configuration.name %>
+
+        <%= label_tag "company_item_configuration_#{item_configuration.id}_value", "Select option", class: "block text-sm font-medium text-gray-700" %>
+
+        <%= select_tag "company[item_configurations][#{item_configuration.id}][value]",
+                       options_for_select(
+                         (JSON.parse(item_configuration.options) || []).map { |opt| [opt["value"], opt["value"]] },
+                         company_item_config&.value
+                       ),
+                       include_blank: true,
+                       id: "company_item_configuration_#{item_configuration.id}_value",
+                       class: "mt-1 block w-full" %>
+      </div>
+    </div>
+  <% end %>
+
   <div class="form__actions form-stepper__navigation" >
     <%= f.button :submit, "Update Company", class: "btn btn--secondary" %>
   </div>

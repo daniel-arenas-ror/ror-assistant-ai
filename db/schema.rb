@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_08_004957) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_12_000535) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -139,6 +139,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_08_004957) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "company_item_configurations", force: :cascade do |t|
+    t.bigint "company_id", null: false
+    t.datetime "created_at", null: false
+    t.string "name"
+    t.datetime "updated_at", null: false
+    t.string "value"
+    t.index ["company_id", "name"], name: "index_company_item_configurations_on_company_id_and_name", unique: true
+    t.index ["company_id"], name: "index_company_item_configurations_on_company_id"
+  end
+
   create_table "conversations", force: :cascade do |t|
     t.bigint "assistant_id", null: false
     t.bigint "company_id", null: false
@@ -151,6 +161,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_08_004957) do
     t.index ["assistant_id"], name: "index_conversations_on_assistant_id"
     t.index ["company_id"], name: "index_conversations_on_company_id"
     t.index ["lead_id"], name: "index_conversations_on_lead_id"
+  end
+
+  create_table "item_configurations", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.string "name"
+    t.jsonb "options"
+    t.datetime "updated_at", null: false
   end
 
   create_table "lead_companies", force: :cascade do |t|
@@ -231,22 +249,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_08_004957) do
     t.index ["product_id"], name: "index_product_option_values_on_product_id"
   end
 
-  create_table "products", force: :cascade do |t|
-    t.boolean "active", default: false
-    t.text "amenities"
-    t.string "code"
-    t.bigint "company_id", null: false
-    t.datetime "created_at", null: false
-    t.text "description"
-    t.string "location"
-    t.string "name"
-    t.string "price"
-    t.string "slug"
-    t.datetime "updated_at", null: false
-    t.string "url"
-    t.jsonb "url_images"
-    t.index ["company_id", "slug"], name: "index_products_on_company_id_and_slug", unique: true
-  end
+# Could not dump table "products" because of following StandardError
+#   Unknown type 'vector' for column 'embedding'
+
 
   create_table "quotes", force: :cascade do |t|
     t.integer "company_id"
@@ -327,6 +332,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_08_004957) do
   add_foreign_key "categories", "companies"
   add_foreign_key "category_products", "categories"
   add_foreign_key "category_products", "products"
+  add_foreign_key "company_item_configurations", "companies"
   add_foreign_key "conversations", "assistants"
   add_foreign_key "conversations", "companies"
   add_foreign_key "conversations", "leads"

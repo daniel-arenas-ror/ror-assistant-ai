@@ -7,6 +7,7 @@ module Types
     field :id, ID, null: false
     field :name, String, null: false
     field :icon_url, String, null: true, description: "URL of the company's icon image."
+    field :item_configurations, [ItemConfigurationType], null: true, description: "Item configurations for the company."
 
     # associations we might need
     field :categories, CategoryType.connection_type, null: true,

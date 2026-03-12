@@ -3,17 +3,40 @@ class CompanyController < ApplicationController
   end
 
   def update
-    if current_company.update(company_params)
-      redirect_to edit_company_path, notice: "Company updated successfully."
-    else
-      flash.now[:alert] = current_company.errors.full_messages.to_sentence
-      render :edit
+    ActiveRecord::Base.transaction do
+      if current_company.update(company_params.except(:item_configurations))
+        update_item_configurations
+        redirect_to edit_company_path, notice: "Company updated successfully."
+      else
+        flash.now[:alert] = current_company.errors.full_messages.to_sentence
+        render :edit
+      end
     end
   end
 
   private
 
   def company_params
-    params.require(:company).permit(:name, :icon)
+    params.require(:company).permit(
+      :name,
+      :icon,
+      item_configurations: [:name, :value]
+    )
+  end
+
+  def update_item_configurations
+    item_configs_params = company_params[:item_configurations]
+    return if item_configs_params.blank?
+
+    item_configs_params.each_value do |cfg|
+      name  = cfg[:name] || cfg["name"]
+      value = cfg[:value] || cfg["value"]
+
+      next if name.blank? || value.blank?
+
+      record = current_company.company_item_configurations.find_or_initialize_by(name: name)
+      record.value = value
+      record.save!
+    end
   end
 end

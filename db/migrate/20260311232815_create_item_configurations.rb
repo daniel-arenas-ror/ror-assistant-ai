@@ -3,7 +3,7 @@ class CreateItemConfigurations < ActiveRecord::Migration[8.1]
     create_table :item_configurations do |t|
       t.string :name
       t.text :description
-      t.jsonb :options
+      t.jsonb :options, default: []
 
       t.timestamps
     end

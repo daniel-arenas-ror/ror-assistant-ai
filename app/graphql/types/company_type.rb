@@ -7,7 +7,12 @@ module Types
     field :id, ID, null: false
     field :name, String, null: false
     field :icon_url, String, null: true, description: "URL of the company's icon image."
-    field :item_configurations, [ItemConfigurationType], null: true, description: "Item configurations for the company."
+    field :company_item_configurations, [CompanyItemConfigurationsType], null: true, description: "Item configurations for the company."
+    field :product_card_configuration, String, null: true, description: "Product card configuration for the company."
+
+    def product_card_configuration
+      object.company_item_configurations.find_by(name: "ProductCardStyle")&.value
+    end
 
     # associations we might need
     field :categories, CategoryType.connection_type, null: true,

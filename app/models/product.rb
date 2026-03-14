@@ -24,6 +24,16 @@ class Product < ApplicationRecord
 
   after_save :update_master_variant
 
+  # Whitelist attributes for searching
+  def self.ransackable_attributes(auth_object = nil)
+    ["name", "slug", "created_at", "price"]
+  end
+
+  # Whitelist associations for searching
+  def self.ransackable_associations(auth_object = nil)
+    ["variants", "option_values"]
+  end
+
   def update_master_variant
     variants.find_or_create_by(is_master: true, company_id: company_id) do |variant|
       variant.sku   = slug 

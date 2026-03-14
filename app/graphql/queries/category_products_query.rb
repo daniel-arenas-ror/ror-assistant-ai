@@ -12,7 +12,7 @@ module Queries
 
     description "Returns products belonging to a given category (including all descendants)."
 
-    def resolve(company_id:, category_slug:, limit:, offset:, **args)
+    def resolve(company_id:, category_slug:, limit:, offset:, filter:, **args)
       company = Company.find_by(id: company_id)
       return [] unless company
 

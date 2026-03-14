@@ -93,3 +93,5 @@ gem 'rack-cors'
 
 gem 'redcarpet'
 gem 'paper_trail'
+
+gem 'ransack'

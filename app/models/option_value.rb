@@ -6,4 +6,5 @@ class OptionValue < ApplicationRecord
   has_many :variants, through: :variant_option_values
 
   validates :name, presence: true
+  delegate :name, to: :option_type, prefix: true
 end

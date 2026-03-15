@@ -1,7 +1,21 @@
 <%= simple_form_for @category do |f| %>
   <%= f.input :name, input_html: { autofocus: true } %>
   <%= f.input :parent_id, collection: Category.where.not(id: @category.id).map { |c| [c.name, c.id] }, prompt: 'No parent', label: 'Parent category' %>
-  
+
+  <%= f.file_field :images, multiple: true %>
+
+  <% f.object.images.each do |image| %>
+    <%= f.hidden_field :images, multiple: true, value: image.signed_id %>
+  <% end %>
+
+  <% if @category.images.attached? %>
+    <div class="image-grid">
+      <% @category.images.each do |image| %>
+        <%= image_tag image %>
+      <% end %>
+    </div>
+  <% end %>
+
   <h3>Subcategories</h3>
   <div data-controller="nested-fields" data-nested-fields-target="list">
     <div data-nested-fields-target="list">

@@ -19,6 +19,8 @@ class Category < ApplicationRecord
   
   accepts_nested_attributes_for :sub_categories, allow_destroy: true
 
+  has_many_attached :images
+
   def title_for_slug
     "#{name}".parameterize
   end

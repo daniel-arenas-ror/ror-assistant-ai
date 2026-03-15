@@ -50,7 +50,7 @@ class OptionTypesController < ApplicationController
     params.require(:option_type).permit(
       :name,
       :filterable,
-      option_values_attributes: [:id, :name, :company_id, :_destroy]
+      option_values_attributes: [:id, :name, :label, :company_id, :_destroy]
     )
   end
 

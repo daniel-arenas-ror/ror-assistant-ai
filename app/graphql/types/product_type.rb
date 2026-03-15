@@ -13,6 +13,7 @@ module Types
     field :active, Boolean, null: false
     field :all_images, [Types::ImageType], null: true
     field :option_values, [Types::OptionValueType], null: true
+    field :variants, [Types::VariantType], null: true
 
     def all_images
       object.images + object.variants.flat_map(&:images) + object.product_option_values.flat_map(&:images)

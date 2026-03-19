@@ -29,7 +29,7 @@
 
         <%= select_tag "company[item_configurations][#{item_configuration.id}][value]",
                        options_for_select(
-                         (JSON.parse(item_configuration.options) || []).map { |opt| [opt["value"], opt["value"]] },
+                         (item_configuration.options || []).map { |opt| [opt["value"], opt["value"]] },
                          company_item_config&.value
                        ),
                        include_blank: true,

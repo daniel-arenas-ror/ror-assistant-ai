@@ -11,6 +11,7 @@ module Types
     field :categories, CategoryType.connection_type, null: true, description: "Root categories belonging to the company."
     field :product_card_configuration, String, null: true, description: "Product card configuration for the company."
     field :product_detail_configuration, String, null: true, description: "Product detail configuration for the company."
+    field :product_images_configuration, String, null: true, description: "Product images configuration for the company."
 
     def product_card_configuration
       object.company_item_configurations.find_by(name: "ProductCardStyle")&.value
@@ -26,6 +27,10 @@ module Types
 
     def product_detail_configuration
       object.company_item_configurations.find_by(name: "ProductDetailStyle")&.value
+    end
+
+    def product_images_configuration
+      object.company_item_configurations.find_by(name: "productImagesConfiguration")&.value
     end
   end
 end

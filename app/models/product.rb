@@ -35,10 +35,12 @@ class Product < ApplicationRecord
   end
 
   def update_master_variant
-    variants.find_or_create_by(is_master: true, company_id: company_id) do |variant|
-      variant.sku   = slug 
-      variant.price = price
-    end
+    master_variant = variants.find_or_initialize_by(is_master: true, company_id: company_id)
+
+    master_variant.sku        = slug
+    master_variant.price      = price
+
+    master_variant.save!
   end
 
   def title_for_slug

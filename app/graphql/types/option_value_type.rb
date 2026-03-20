@@ -4,5 +4,6 @@ module Types
     field :name, String, null: false
     field :label, String, null: true
     field :option_type_name, String, null: false
+    field :option_type_id, String, null: false
   end
 end

@@ -24,16 +24,19 @@ module Types
       object.option_values
     end
 
-  def grouped_option_values
-    values = option_values.includes(:option_type)
+    def grouped_option_values
+      active_option_values = OptionValue.where(company_id: object.company_id).joins(:variant_option_values)
+                                    .where(variant_option_values: { variant_id: object.variants.select(:id) })
+                                    .distinct
+                                    .includes(:option_type)
 
-    values.group_by(&:option_type).map do |type, values_list|
-      {
-        id: type.id,
-        name: type.name,
-        option_values: values_list.map { |v| { id: v.id, name: v.name, label: v.label } }
-      }
+      active_option_values.group_by(&:option_type).map do |type, values|
+        {
+          id: type.id,
+          name: type.name,
+          option_values: values.map { |v| { id: v.id, name: v.name, label: v.label } }
+        }
+      end
     end
-  end
   end
 end

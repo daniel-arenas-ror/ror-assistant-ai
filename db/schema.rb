@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_21_034036) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_21_040639) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -133,6 +133,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_21_034036) do
   create_table "companies", force: :cascade do |t|
     t.string "ai_source", default: "openai"
     t.datetime "created_at", null: false
+    t.string "currency", default: "USD", null: false
     t.string "email"
     t.string "name", null: false
     t.string "phone"

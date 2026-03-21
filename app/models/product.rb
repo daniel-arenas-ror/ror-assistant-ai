@@ -8,6 +8,8 @@ class Product < ApplicationRecord
   has_many :product_option_values, dependent: :destroy
   has_many :option_values, through: :product_option_values
 
+  monetize :price_cents, as: :price
+
   slug :title_for_slug
 
   accepts_nested_attributes_for :product_option_values, allow_destroy: true
@@ -22,6 +24,7 @@ class Product < ApplicationRecord
     attachable.variant :large, resize_to_limit: [900, 1200]
   end
 
+  before_validation :sync_currency_from_company
   after_save :update_master_variant
 
   # Whitelist attributes for searching
@@ -74,5 +77,11 @@ class Product < ApplicationRecord
     SQL
 
     conn.exec_params(sql, [attributes[:embedding], id])
+  end
+
+  private
+
+  def sync_currency_from_company
+    self.price_currency = company.currency if company.present?
   end
 end

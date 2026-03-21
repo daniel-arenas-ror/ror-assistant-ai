@@ -13,4 +13,14 @@ class Variant < ApplicationRecord
     attachable.variant :medium, resize_to_limit: [450, 600]
     attachable.variant :large, resize_to_limit: [900, 1200]
   end
+
+  monetize :price_cents, as: :price
+
+  before_validation :sync_currency_from_company
+
+  private
+
+  def sync_currency_from_company
+    self.price_currency = company.currency if company.present?
+  end
 end

@@ -168,7 +168,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_21_040639) do
     t.datetime "created_at", null: false
     t.text "description"
     t.string "name"
-    t.jsonb "options", default: []
+    t.jsonb "options"
     t.datetime "updated_at", null: false
   end
 
@@ -251,23 +251,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_21_040639) do
     t.index ["product_id"], name: "index_product_option_values_on_product_id"
   end
 
-  create_table "products", force: :cascade do |t|
-    t.boolean "active", default: false
-    t.text "amenities"
-    t.string "code"
-    t.bigint "company_id", null: false
-    t.datetime "created_at", null: false
-    t.text "description"
-    t.string "location"
-    t.string "name"
-    t.integer "price_cents", default: 0, null: false
-    t.string "price_currency", default: "USD", null: false
-    t.string "slug"
-    t.datetime "updated_at", null: false
-    t.string "url"
-    t.jsonb "url_images"
-    t.index ["company_id", "slug"], name: "index_products_on_company_id_and_slug", unique: true
-  end
+# Could not dump table "products" because of following StandardError
+#   Unknown type 'vector' for column 'embedding'
+
 
   create_table "quotes", force: :cascade do |t|
     t.integer "company_id"

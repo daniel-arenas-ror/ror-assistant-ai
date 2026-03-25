@@ -6,6 +6,7 @@ module Types
     field :name, String, null: false
     field :slug, String, null: false
     field :description, String, null: true
+    field :price_cents, Float, null: false
     field :price, Float, null: false
     field :code, String, null: true
     field :images, [Types::ImageType], null: true
@@ -15,6 +16,7 @@ module Types
     field :option_values, [Types::OptionValueType], null: true
     field :grouped_option_values, [Types::OptionType], null: false
     field :variants, [Types::VariantType], null: true
+    field :formatted_price, String, null: true
 
     def all_images
       object.images + object.variants.flat_map(&:images) + object.product_option_values.flat_map(&:images)

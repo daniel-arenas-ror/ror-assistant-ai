@@ -5,6 +5,7 @@ module Types
     field :id, ID, null: false
     field :sku, String, null: false
     field :price, Float, null: false
+    field :formatted_price, String, null: true
     field :option_values, [Types::OptionValueType], null: true
     field :images, [Types::ImageType], null: true
 

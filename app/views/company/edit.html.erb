@@ -1,6 +1,7 @@
 
 <%= simple_form_for current_company, html: { class: "company form" } do |f| %>
   <%= f.input :name %>
+  <%= f.select :currency, common_currency_options %>
   <%= f.file_field :icon %>
 
   <% if f.object.icon.attached? %>

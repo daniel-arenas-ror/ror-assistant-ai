@@ -20,6 +20,7 @@ class CompanyController < ApplicationController
     params.require(:company).permit(
       :name,
       :icon,
+      :currency,
       item_configurations: [:name, :value]
     )
   end

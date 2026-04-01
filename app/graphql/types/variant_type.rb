@@ -11,6 +11,10 @@ module Types
     field :images, [Types::ImageType], null: true
 
     def images
+      if object.is_master
+        return object.product.images
+      end
+
       object.images + object.product.product_option_values.select{|opv| object.option_value_ids.include?(opv.option_value_id)}.flat_map(&:images)
     end
   end

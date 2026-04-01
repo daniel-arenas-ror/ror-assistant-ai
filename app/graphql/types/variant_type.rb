@@ -3,6 +3,7 @@ module Types
     description "A variant of a product."
 
     field :id, ID, null: false
+    field :name, String, null: false
     field :sku, String, null: false
     field :price, Float, null: false
     field :is_master, Boolean, null: false

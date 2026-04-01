@@ -18,6 +18,8 @@ class Variant < ApplicationRecord
 
   before_validation :sync_currency_from_company
 
+  delegate :name, to: :product, prefix: false
+
   private
 
   def sync_currency_from_company

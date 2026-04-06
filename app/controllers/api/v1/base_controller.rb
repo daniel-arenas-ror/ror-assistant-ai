@@ -1,6 +1,7 @@
 module Api
   module V1
     class BaseController < ActionController::API
+      include Authenticatable
       before_action :set_locale
 
       private

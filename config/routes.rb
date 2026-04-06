@@ -43,6 +43,8 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :assistants, only: [:show]
       post "auth/google_login", to: "auth#google_login"
+      post "auth/request_otp", to: "auth#request_otp"
+      post "auth/verify_otp", to: "auth#verify_otp"
     end
   end
 

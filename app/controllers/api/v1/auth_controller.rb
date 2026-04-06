@@ -1,6 +1,32 @@
 module Api
   module V1
     class AuthController < BaseController
+      def request_otp
+        user = AuthService.find_or_create_user(params[:login])
+        AuthService.generate_otp(user)
+
+        render json: { message: "Code sent successfully" }, status: :ok
+      rescue => e
+        render json: { error: e.message }, status: :unprocessable_entity
+      end
+
+      def verify_otp
+        user = User.find_by(email: params[:login].downcase) || User.find_by(phone: params[:login].gsub(/\D/, ''))
+
+        if user && user.otp_code == params[:code] && user.otp_sent_at > 5.minutes.ago
+          # Success: Clear the code and issue a token
+          user.update(otp_code: nil)
+          token = JwtService.encode(user_id: user.id)
+          
+          render json: { 
+            token: token, 
+            user: { id: user.id, email: user.email, phone: user.phone } 
+          }, status: :ok
+        else
+          render json: { error: "Invalid or expired code" }, status: :unauthorized
+        end
+      end
+
       def google_login
         payload = Google::Auth::IDTokens.verify_oidc(
           params[:token],

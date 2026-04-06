@@ -6,7 +6,6 @@ module Api
       private
 
       def set_locale
-        p " updfate locate on application "
         # TODO: create locale params to company
         # I18n.locale = params[:locale] || I18n.default_locale
         I18n.locale = :es || I18n.default_locale

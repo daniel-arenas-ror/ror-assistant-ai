@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_21_040639) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_06_025643) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -168,7 +168,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_21_040639) do
     t.datetime "created_at", null: false
     t.text "description"
     t.string "name"
-    t.jsonb "options"
+    t.jsonb "options", default: []
     t.datetime "updated_at", null: false
   end
 
@@ -251,9 +251,23 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_21_040639) do
     t.index ["product_id"], name: "index_product_option_values_on_product_id"
   end
 
-# Could not dump table "products" because of following StandardError
-#   Unknown type 'vector' for column 'embedding'
-
+  create_table "products", force: :cascade do |t|
+    t.boolean "active", default: false
+    t.text "amenities"
+    t.string "code"
+    t.bigint "company_id", null: false
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.string "location"
+    t.string "name"
+    t.integer "price_cents", default: 0, null: false
+    t.string "price_currency", default: "USD", null: false
+    t.string "slug"
+    t.datetime "updated_at", null: false
+    t.string "url"
+    t.jsonb "url_images"
+    t.index ["company_id", "slug"], name: "index_products_on_company_id_and_slug", unique: true
+  end
 
   create_table "quotes", force: :cascade do |t|
     t.integer "company_id"
@@ -282,6 +296,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_21_040639) do
     t.datetime "created_at", null: false
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
+    t.string "otp_code"
+    t.datetime "otp_sent_at"
+    t.string "phone"
     t.datetime "remember_created_at"
     t.datetime "reset_password_sent_at"
     t.string "reset_password_token"

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_06_025643) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_07_003133) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -187,6 +187,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_06_025643) do
     t.string "email"
     t.jsonb "extra_data"
     t.string "name"
+    t.string "otp_code"
+    t.datetime "otp_sent_at"
     t.string "phone"
     t.text "preferences"
     t.datetime "updated_at", null: false

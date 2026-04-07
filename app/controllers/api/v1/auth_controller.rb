@@ -11,7 +11,7 @@ module Api
       end
 
       def verify_otp
-        user = User.find_by(email: params[:login].downcase) || User.find_by(phone: params[:login].gsub(/\D/, ''))
+        user = Lead.find_by(email: params[:login].downcase) || Lead.find_by(phone: params[:login].gsub(/\D/, ''))
 
         if user && user.otp_code == params[:code] && user.otp_sent_at > 5.minutes.ago
           # Success: Clear the code and issue a token

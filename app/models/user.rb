@@ -10,6 +10,14 @@ class User < ApplicationRecord
     email.split("@").first.capitalize
   end
 
+  def email_required?
+    false
+  end
+
+  def will_save_change_to_email?
+    false
+  end
+
   def self.from_google_one_tap(payload)
     where(provider: 'google_oauth2', uid: payload['sub']).first_or_create do |user|
       user.email = payload['email']

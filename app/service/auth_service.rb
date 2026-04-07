@@ -1,22 +1,29 @@
 class AuthService
   def self.find_or_create_user(login_credential)
-    # Detect if it's an email or a phone number
     if login_credential.include?('@')
-      User.find_or_create_by!(email: login_credential.downcase)
+      email = login_credential.downcase.strip
+      user = Lead.find_by(email: email)
     else
-      # Clean phone number (remove spaces/dashes)
-      clean_phone = login_credential.gsub(/\D/, '')
-      User.find_or_create_by!(phone: clean_phone)
+      phone = login_credential.gsub(/\D/, '') # Clean to digits only
+      user = Lead.find_by(phone: phone)
     end
+
+    return user if user
+
+    Lead.create!(
+      email: email, # Will be nil if they provided a phone
+      phone: phone, # Will be nil if they provided an email
+      password: SecureRandom.hex(16)
+    )
   end
 
-  def self.generate_otp(user)
+  def self.generate_otp(lead)
     code = rand(100000..999999).to_s
-    user.update(otp_code: code, otp_sent_at: Time.current)
+    lead.update(otp_code: code, otp_sent_at: Time.current)
     
     # SIMULATION: In production, call Twilio or SendGrid here
     Rails.logger.info "--- [OTP SIMULATION] ---"
-    Rails.logger.info "To: #{user.email || user.phone} | Code: #{code}"
+    Rails.logger.info "To: #{lead.email || lead.phone} | Code: #{code}"
     Rails.logger.info "------------------------"
     
     code

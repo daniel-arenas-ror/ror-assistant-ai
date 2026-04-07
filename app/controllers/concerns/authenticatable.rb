@@ -25,6 +25,6 @@ module Authenticatable
     decoded = JwtService.decode(token)
     
     return nil unless decoded
-    User.find_by(id: decoded[:user_id])
+    Lead.find_by(id: decoded[:user_id])
   end
 end

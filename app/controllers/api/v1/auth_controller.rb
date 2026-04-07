@@ -2,7 +2,7 @@ module Api
   module V1
     class AuthController < BaseController
       def request_otp
-        user = AuthService.find_or_create_user(params[:login])
+        user = AuthService.find_or_create_user(params[:login], params[:company_id])
         AuthService.generate_otp(user)
 
         render json: { message: "Code sent successfully" }, status: :ok
@@ -20,7 +20,7 @@ module Api
           
           render json: { 
             token: token, 
-            user: { id: user.id, email: user.email, phone: user.phone } 
+            user: { id: user.id, email: user.email, phone: user.phone, name: user.name } 
           }, status: :ok
         else
           render json: { error: "Invalid or expired code" }, status: :unauthorized

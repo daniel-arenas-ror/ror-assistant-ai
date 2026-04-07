@@ -1,20 +1,13 @@
 class AuthService
   def self.find_or_create_user(login_credential)
+    # Detect if it's an email or a phone number
     if login_credential.include?('@')
-      email = login_credential.downcase.strip
-      user = Lead.find_by(email: email)
+      Lead.find_or_create_by!(email: login_credential.downcase)
     else
-      phone = login_credential.gsub(/\D/, '') # Clean to digits only
-      user = Lead.find_by(phone: phone)
+      # Clean phone number (remove spaces/dashes)
+      clean_phone = login_credential.gsub(/\D/, '')
+      Lead.find_or_create_by!(phone: clean_phone)
     end
-
-    return user if user
-
-    Lead.create!(
-      email: email, # Will be nil if they provided a phone
-      phone: phone, # Will be nil if they provided an email
-      password: SecureRandom.hex(16)
-    )
   end
 
   def self.generate_otp(lead)

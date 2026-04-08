@@ -2,6 +2,8 @@ class Cart < ApplicationRecord
   belongs_to :lead
   belongs_to :company
 
+  has_many :cart_items, dependent: :destroy
+
   monetize :total_cents, as: :total
   monetize :sub_total_cents, as: :sub_total
 

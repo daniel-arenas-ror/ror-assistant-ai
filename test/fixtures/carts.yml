@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  lead: one
+  company: one
+  total: 1.5
+  sub_total: 1.5
+
+two:
+  lead: two
+  company: two
+  total: 1.5
+  sub_total: 1.5

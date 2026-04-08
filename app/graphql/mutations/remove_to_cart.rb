@@ -6,7 +6,7 @@ module Mutations
 
     type Types::CartType
 
-    def authenticate_user!
+    def authenticate?
       context[:current_user] || raise(GraphQL::ExecutionError, "Authentication required")
     end
 
@@ -20,7 +20,8 @@ module Mutations
       
       if cart_item
         cart_item.quantity -= quantity
-        cart_item.quantity = 0 if cart_item.quantity < 0
+        cart_item.save!
+
         cart_item.destroy if cart_item.quantity == 0
 
         cart.update_total!

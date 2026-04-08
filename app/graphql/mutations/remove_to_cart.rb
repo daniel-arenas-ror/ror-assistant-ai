@@ -2,6 +2,7 @@ module Mutations
   class RemoveToCart < BaseMutation
     # We use the variant_id to identify which line to remove
     argument :variant_id, ID, required: true
+    argument :quantity, Integer, required: true
 
     type Types::CartType
 
@@ -9,7 +10,7 @@ module Mutations
       context[:current_user] || raise(GraphQL::ExecutionError, "Authentication required")
     end
 
-    def resolve(variant_id:)
+    def resolve(variant_id:, quantity:)
       user = context[:current_user]
 
       cart = user.cart
@@ -18,7 +19,10 @@ module Mutations
       cart_item = cart.cart_items.find_by(variant_id: variant_id)
       
       if cart_item
-        cart_item.destroy
+        cart_item.quantity -= quantity
+        cart_item.quantity = 0 if cart_item.quantity < 0
+        cart_item.destroy if cart_item.quantity == 0
+
         cart.update_total!
 
         cart

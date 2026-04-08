@@ -21,8 +21,12 @@ module Mutations
         cart_item.quantity += quantity
       end
 
+      variant = Variant.find(variant_id)
+
+      cart_item.total = variant.price * cart_item.quantity
+      cart_item.sub_total = variant.price * cart_item.quantity
+
       if cart_item.save
-        # Recalculate and persist the grand total
         cart.update_total!
         cart
       else

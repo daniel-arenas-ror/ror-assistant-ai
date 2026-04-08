@@ -4,7 +4,7 @@ module Types
   class MutationType < Types::BaseObject
     description "The root mutation type (currently empty)"
 
-    # Add mutation fields here as needed, for example:
-    # field :create_company, mutation: Mutations::CreateCompany
+    field :add_to_cart, mutation: Mutations::AddToCart
+    field :remove_from_cart, mutation: Mutations::RemoveFromCart
   end
 end

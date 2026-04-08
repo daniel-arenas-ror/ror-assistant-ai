@@ -17,9 +17,13 @@ module Mutations
       raise GraphQL::ExecutionError, "Cart not found" unless cart
 
       cart_item = cart.cart_items.find_by(variant_id: variant_id)
-      
+      variant = Variant.find(variant_id)
+
       if cart_item
         cart_item.quantity -= quantity
+        cart_item.total = variant.price * cart_item.quantity
+        cart_item.sub_total = variant.price * cart_item.quantity
+
         cart_item.save!
 
         cart_item.destroy if cart_item.quantity == 0

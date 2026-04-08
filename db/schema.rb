@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_08_012500) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_08_015348) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -107,6 +107,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_08_012500) do
     t.datetime "updated_at", null: false
     t.index ["company_id"], name: "index_assistants_on_company_id"
     t.index ["slug"], name: "index_assistants_on_slug", unique: true
+  end
+
+  create_table "cart_items", force: :cascade do |t|
+    t.bigint "cart_id", null: false
+    t.datetime "created_at", null: false
+    t.integer "quantity"
+    t.integer "sub_total_cents", default: 0, null: false
+    t.string "sub_total_currency", default: "USD", null: false
+    t.integer "total_cents", default: 0, null: false
+    t.string "total_currency", default: "USD", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "variant_id", null: false
+    t.index ["cart_id"], name: "index_cart_items_on_cart_id"
+    t.index ["variant_id"], name: "index_cart_items_on_variant_id"
   end
 
   create_table "carts", force: :cascade do |t|
@@ -363,6 +377,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_08_012500) do
   add_foreign_key "assistant_tools", "assistants"
   add_foreign_key "assistant_tools", "tools"
   add_foreign_key "assistants", "companies"
+  add_foreign_key "cart_items", "carts"
+  add_foreign_key "cart_items", "variants"
   add_foreign_key "carts", "companies"
   add_foreign_key "carts", "leads"
   add_foreign_key "categories", "categories", column: "parent_id"

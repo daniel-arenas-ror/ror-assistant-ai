@@ -10,9 +10,8 @@ class Cart < ApplicationRecord
   before_validation :sync_currency_from_company
 
   def update_total!
-    self.currency  = company.currency
-    self.total     = cart_items.sum(&:total)
-    self.sub_total = cart_items.sum(&:sub_total)
+    self.total     = cart_items.sum(&:total_cents)
+    self.sub_total = cart_items.sum(&:sub_total_cents)
     save!
   end
 

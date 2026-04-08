@@ -8,6 +8,6 @@ class CartItem < ApplicationRecord
 
   def sync_currency_from_company
     self.total_currency = cart.total_currency
-    self.sub_total_currency = company.sub_total_currency
+    self.sub_total_currency = cart.sub_total_currency
   end
 end

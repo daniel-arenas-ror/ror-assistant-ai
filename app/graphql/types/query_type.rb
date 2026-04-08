@@ -8,5 +8,6 @@ module Types
     field :category_products, resolver: ::Queries::CategoryProductsQuery
     field :options_field_filter, resolver: ::Queries::OptionsTypeQuery
     field :product, resolver: ::Queries::ProductQuery
+    field :cart, resolver: ::Queries::CartQuery
   end
 end

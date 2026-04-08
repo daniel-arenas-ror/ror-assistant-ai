@@ -1,5 +1,5 @@
 module Mutations
-  class RemoveFromCart < BaseMutation
+  class RemoveToCart < BaseMutation
     # We use the variant_id to identify which line to remove
     argument :variant_id, ID, required: true
 

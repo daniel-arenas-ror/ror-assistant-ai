@@ -3,5 +3,5 @@ class Lead < ApplicationRecord
   has_many :companies, through: :lead_companies
 
   has_many :conversations
-  has_one :cart
+  has_many :carts
 end

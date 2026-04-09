@@ -2,6 +2,7 @@ module Mutations
   class RemoveToCart < BaseMutation
     # We use the variant_id to identify which line to remove
     argument :variant_id, ID, required: true
+    argument :company_id, ID, required: true
     argument :quantity, Integer, required: true
 
     type Types::CartType
@@ -10,10 +11,10 @@ module Mutations
       context[:current_user] || raise(GraphQL::ExecutionError, "Authentication required")
     end
 
-    def resolve(variant_id:, quantity:)
+    def resolve(variant_id:, quantity:, company_id:)
       user = context[:current_user]
 
-      cart = user.cart
+      cart = user.carts.find_by(company_id: company_id)
       raise GraphQL::ExecutionError, "Cart not found" unless cart
 
       cart_item = cart.cart_items.find_by(variant_id: variant_id)

@@ -96,3 +96,4 @@ gem 'redcarpet'
 gem 'paper_trail'
 
 gem 'ransack'
+gem "lockbox"

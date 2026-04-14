@@ -1,7 +1,4 @@
 class Company < ApplicationRecord
-  has_encrypted :api_key
-  has_encrypted :secret
-
   has_many :users, dependent: :destroy
   has_many :quotes, dependent: :destroy
   has_many :products

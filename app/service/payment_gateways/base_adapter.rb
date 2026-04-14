@@ -1,7 +1,7 @@
 module PaymentGateways
   class BaseAdapter
     def initialize(company)
-      @settings = company.payment_settings.find_by(active: true)
+      @settings = company.payment_setting
     end
 
     def create_payment_intent(amount:, currency:, metadata:)

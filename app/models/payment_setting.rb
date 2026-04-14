@@ -6,5 +6,5 @@ class PaymentSetting < ApplicationRecord
 
   PROVIDERS = ["stripe"].freeze
   
-  validates :provider_name, inclusion: { in: PROVIDERS }
+  validates :provider, inclusion: { in: PROVIDERS }
 end

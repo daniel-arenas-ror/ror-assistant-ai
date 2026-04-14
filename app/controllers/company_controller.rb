@@ -23,7 +23,7 @@ class CompanyController < ApplicationController
       :icon,
       :currency,
       item_configurations: [:name, :value],
-      payment_setting_attributes: [:id, :provider_name, :api_key, :secret]
+      payment_setting_attributes: [:id, :provider, :api_key, :secret]
     )
   end
 

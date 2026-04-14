@@ -50,7 +50,7 @@
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <%# Use the PROVIDERS constant from the model %>
-          <%= p.input :provider_name, 
+          <%= p.input :provider, 
                       collection: PaymentSetting::PROVIDERS, 
                       prompt: "Select Provider",
                       label: "Payment Provider",

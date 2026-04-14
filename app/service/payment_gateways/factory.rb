@@ -5,7 +5,7 @@ module PaymentGateways
       
       raise "No payment method configured for this store" if setting.nil?
 
-      case setting.provider_name
+      case setting.provider
       when 'stripe'
         PaymentGateways::Adapter::Stripe.new(setting.settings)
       else

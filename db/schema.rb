@@ -262,11 +262,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_13_235957) do
   end
 
   create_table "payment_settings", force: :cascade do |t|
-    t.text "api_key"
+    t.text "api_key_ciphertext"
     t.bigint "company_id", null: false
     t.datetime "created_at", null: false
     t.string "provider"
-    t.text "secret"
+    t.text "secret_ciphertext"
     t.datetime "updated_at", null: false
     t.index ["company_id"], name: "index_payment_settings_on_company_id"
   end

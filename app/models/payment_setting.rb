@@ -5,4 +5,6 @@ class PaymentSetting < ApplicationRecord
   has_encrypted :secret
 
   PROVIDERS = ["stripe"].freeze
+  
+  validates :provider_name, inclusion: { in: PROVIDERS }
 end

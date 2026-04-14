@@ -40,6 +40,50 @@
     </div>
   <% end %>
 
+
+  <div class="border-t pt-6 mt-8">
+    <h2 class="text-lg font-bold">Payment Gateway</h2>
+    <p class="text-sm text-gray-500 mb-4">Securely configure your payment credentials.</p>
+
+    <%= f.simple_fields_for :payment_setting do |p| %>
+      <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <%# Use the PROVIDERS constant from the model %>
+          <%= p.input :provider_name, 
+                      collection: PaymentSetting::PROVIDERS, 
+                      prompt: "Select Provider",
+                      label: "Payment Provider",
+                      input_html: { class: "w-full rounded-md" } %>
+        </div>
+
+        <div class="mt-6 space-y-4">
+          <h4 class="text-xs font-bold uppercase tracking-widest text-gray-400">Credentials</h4>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <%# api_key maps to Stripe's Publishable Key (pk_...) %>
+            <%= p.input :api_key, 
+                        label: "Public API Key", 
+                        placeholder: "pk_test_...",
+                        input_html: { class: "w-full" } %>
+
+            <%# secret maps to Stripe's Secret Key (sk_test_...) %>
+            <%= p.input :secret, 
+                        label: "Secret Key", 
+                        as: :password, # Ensures it's masked in the UI
+                        placeholder: "sk_test_...",
+                        input_html: { class: "w-full", value: p.object.secret } %>
+          </div>
+          <p class="text-xs text-gray-400 italic">
+            Your keys are encrypted before being saved to our database.
+          </p>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+
+
   <div class="form__actions form-stepper__navigation" >
     <%= f.button :submit, "Update Company", class: "btn btn--secondary" %>
   </div>

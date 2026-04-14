@@ -12,6 +12,8 @@ class Company < ApplicationRecord
   has_many :company_item_configurations
   has_one :payment_setting, dependent: :destroy
 
+  accepts_nested_attributes_for :payment_setting, update_only: true
+
   validates :name, presence: true
 
   has_one_attached :icon
@@ -28,5 +30,9 @@ class Company < ApplicationRecord
 
   def assistant
     assistants.first
+  end
+
+  def build_default_payment_setting
+    build_payment_setting if payment_setting.nil?
   end
 end

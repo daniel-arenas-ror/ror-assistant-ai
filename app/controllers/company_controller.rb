@@ -1,5 +1,6 @@
 class CompanyController < ApplicationController
   def edit
+    current_company.build_default_payment_setting
   end
 
   def update
@@ -21,7 +22,8 @@ class CompanyController < ApplicationController
       :name,
       :icon,
       :currency,
-      item_configurations: [:name, :value]
+      item_configurations: [:name, :value],
+      payment_setting_attributes: [:id, :provider_name, :api_key, :secret]
     )
   end
 

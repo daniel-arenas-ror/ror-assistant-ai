@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_08_015348) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_13_235957) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -261,6 +261,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_08_015348) do
     t.index ["option_type_id"], name: "index_option_values_on_option_type_id"
   end
 
+  create_table "payment_settings", force: :cascade do |t|
+    t.text "api_key"
+    t.bigint "company_id", null: false
+    t.datetime "created_at", null: false
+    t.string "provider"
+    t.text "secret"
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_payment_settings_on_company_id"
+  end
+
   create_table "product_option_types", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.bigint "option_type_id", null: false
@@ -396,6 +406,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_08_015348) do
   add_foreign_key "option_types", "companies"
   add_foreign_key "option_values", "companies"
   add_foreign_key "option_values", "option_types"
+  add_foreign_key "payment_settings", "companies"
   add_foreign_key "product_option_types", "option_types"
   add_foreign_key "product_option_types", "products"
   add_foreign_key "product_option_values", "option_values"

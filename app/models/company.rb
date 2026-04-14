@@ -10,10 +10,13 @@ class Company < ApplicationRecord
   has_many :option_values, dependent: :destroy
   has_many :categories, dependent: :destroy
   has_many :company_item_configurations
+  has_one :payment_setting, dependent: :destroy
 
   validates :name, presence: true
 
   has_one_attached :icon
+
+  delegate :provider_name, :settings, to: :payment_setting, allow_nil: true
 
   def assistant_name
     assistants.first&.name || "Asistente"

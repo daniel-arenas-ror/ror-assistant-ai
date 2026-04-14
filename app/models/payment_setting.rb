@@ -3,4 +3,6 @@ class PaymentSetting < ApplicationRecord
 
   has_encrypted :api_key
   has_encrypted :secret
+
+  PROVIDERS = ["stripe"].freeze
 end

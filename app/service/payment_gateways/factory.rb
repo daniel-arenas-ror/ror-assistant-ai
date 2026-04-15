@@ -7,9 +7,9 @@ module PaymentGateways
 
       case setting.provider
       when 'stripe'
-        PaymentGateways::Adapter::Stripe.new(setting.settings)
+        PaymentGateways::Adapter::Stripe.new(setting)
       else
-        raise "Unsupported payment provider: #{setting.provider_name}"
+        raise "Unsupported payment provider: #{setting.provider}"
       end
     end
   end

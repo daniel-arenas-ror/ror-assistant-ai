@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_15_010512) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_15_014027) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -231,6 +231,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_15_010512) do
     t.index ["quote_id"], name: "index_line_item_dates_on_quote_id"
   end
 
+  create_table "line_items", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "order_id", null: false
+    t.integer "quantity", default: 0, null: false
+    t.integer "sub_total_cents", default: 0, null: false
+    t.string "sub_total_currency", default: "USD", null: false
+    t.integer "total_cents", default: 0, null: false
+    t.string "total_currency", default: "USD", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "variant_id", null: false
+    t.index ["order_id"], name: "index_line_items_on_order_id"
+    t.index ["variant_id"], name: "index_line_items_on_variant_id"
+  end
+
   create_table "messages", force: :cascade do |t|
     t.text "content"
     t.bigint "conversation_id", null: false
@@ -435,6 +449,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_15_010512) do
   add_foreign_key "lead_companies", "companies"
   add_foreign_key "lead_companies", "leads"
   add_foreign_key "line_item_dates", "quotes"
+  add_foreign_key "line_items", "orders"
+  add_foreign_key "line_items", "variants"
   add_foreign_key "messages", "conversations"
   add_foreign_key "option_types", "companies"
   add_foreign_key "option_values", "companies"

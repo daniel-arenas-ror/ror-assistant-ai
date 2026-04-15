@@ -18,7 +18,7 @@ module Mutations
 
       {
         client_secret: intent.client_secret,
-        publishable_key: company.payment_setting.settings['publishable_key'], # For React
+        publishable_key: company.publishable_key,
         total_display: cart.total.format
       }
     end

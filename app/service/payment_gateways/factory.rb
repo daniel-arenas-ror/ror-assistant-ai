@@ -1,16 +1,19 @@
 module PaymentGateways
   class Factory
+
+    ADAPTERS = {
+      'stripe' => PaymentGateways::Adapter::Stripe
+      # 'payu'  => PaymentGateways::PayU
+    }.freeze
+
     def self.build(company)
       setting = company.payment_setting
-      
-      raise "No payment method configured for this store" if setting.nil?
+      raise ArgumentError, "No payment setting for company #{company.id}" unless setting
 
-      case setting.provider
-      when 'stripe'
-        PaymentGateways::Adapter::Stripe.new(setting)
-      else
-        raise "Unsupported payment provider: #{setting.provider}"
-      end
+      adapter_class = ADAPTERS[setting.provider]
+      raise ArgumentError, "Unknown payment provider: #{setting.provider}" unless adapter_class
+
+      adapter_class.new(setting)
     end
   end
 end

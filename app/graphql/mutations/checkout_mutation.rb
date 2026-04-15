@@ -27,9 +27,9 @@ module Mutations
 
       {
         payment_intent: {
-          adapter:       gateway.adapter_name,   # "STRIPE"
-          public_key:    gateway.public_key,     # publishable key
-          client_secret: intent.client_secret,   # for Stripe Elements
+          adapter:       gateway.adapter_name,
+          public_key:    gateway.public_key,
+          client_secret: intent.client_secret,
           order_id:      order.id
         },
         errors: []

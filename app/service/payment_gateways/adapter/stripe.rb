@@ -1,9 +1,12 @@
 module PaymentGateways
   module Adapter
     class Stripe < BaseAdapter
+      attr_reader :publishable_key, :adapter_name
+
       def initialize(settings)
         @secret_key = settings.secret
         @publishable_key = settings.api_key
+        @adapter_name = "STRIPE"
 
         ::Stripe.api_key = @secret_key
       end

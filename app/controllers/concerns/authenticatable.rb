@@ -23,7 +23,7 @@ module Authenticatable
 
     token = header.split(' ').last # Expects "Bearer <token>"
     decoded = JwtService.decode(token)
-    
+
     return nil unless decoded
     Lead.find_by(id: decoded[:user_id])
   end

@@ -31,7 +31,7 @@ module Mutations
       {
         payment_intent: {
           adapter:       gateway.adapter_name,
-          public_key:    gateway.public_key,
+          public_key:    gateway.publishable_key,
           client_secret: intent.client_secret,
           order_id:      order.id
         },

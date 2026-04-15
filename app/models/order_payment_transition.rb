@@ -1,0 +1,2 @@
+class OrderPaymentTransition < ApplicationRecord
+end

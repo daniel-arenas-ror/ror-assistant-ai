@@ -1,0 +1,2 @@
+class OrderDeliveryTransition < ApplicationRecord
+end

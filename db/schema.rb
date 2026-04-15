@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_15_002118) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_15_010512) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -259,6 +259,24 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_15_002118) do
     t.datetime "updated_at", null: false
     t.index ["company_id"], name: "index_option_values_on_company_id"
     t.index ["option_type_id"], name: "index_option_values_on_option_type_id"
+  end
+
+  create_table "order_delivery_transitions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.jsonb "metadata"
+    t.integer "order_id"
+    t.integer "sort_key"
+    t.string "to_state"
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "order_payment_transitions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.jsonb "metadata"
+    t.integer "order_id"
+    t.integer "sort_key"
+    t.string "to_state"
+    t.datetime "updated_at", null: false
   end
 
   create_table "orders", force: :cascade do |t|

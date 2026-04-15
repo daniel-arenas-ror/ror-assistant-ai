@@ -4,7 +4,7 @@ class CreateOrderDeliveryTransitions < ActiveRecord::Migration[8.1]
       t.string :to_state
       t.jsonb :metadata
       t.integer :sort_key
-      t.integer :order_id
+      t.references :order, null: false, foreign_key: true
 
       t.timestamps
     end

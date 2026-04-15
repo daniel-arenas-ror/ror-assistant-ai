@@ -264,19 +264,21 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_15_010512) do
   create_table "order_delivery_transitions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.jsonb "metadata"
-    t.integer "order_id"
+    t.bigint "order_id", null: false
     t.integer "sort_key"
     t.string "to_state"
     t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_order_delivery_transitions_on_order_id"
   end
 
   create_table "order_payment_transitions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.jsonb "metadata"
-    t.integer "order_id"
+    t.bigint "order_id", null: false
     t.integer "sort_key"
     t.string "to_state"
     t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_order_payment_transitions_on_order_id"
   end
 
   create_table "orders", force: :cascade do |t|
@@ -437,6 +439,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_15_010512) do
   add_foreign_key "option_types", "companies"
   add_foreign_key "option_values", "companies"
   add_foreign_key "option_values", "option_types"
+  add_foreign_key "order_delivery_transitions", "orders"
+  add_foreign_key "order_payment_transitions", "orders"
   add_foreign_key "orders", "companies"
   add_foreign_key "orders", "leads"
   add_foreign_key "payment_settings", "companies"

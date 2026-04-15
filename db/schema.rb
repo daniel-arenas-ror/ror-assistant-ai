@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_13_235957) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_15_002118) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -261,6 +261,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_13_235957) do
     t.index ["option_type_id"], name: "index_option_values_on_option_type_id"
   end
 
+  create_table "orders", force: :cascade do |t|
+    t.bigint "company_id", null: false
+    t.datetime "created_at", null: false
+    t.bigint "lead_id", null: false
+    t.integer "sub_total_cents", default: 0, null: false
+    t.string "sub_total_currency", default: "USD", null: false
+    t.integer "total_cents", default: 0, null: false
+    t.string "total_currency", default: "USD", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_orders_on_company_id"
+    t.index ["lead_id"], name: "index_orders_on_lead_id"
+  end
+
   create_table "payment_settings", force: :cascade do |t|
     t.text "api_key_ciphertext"
     t.bigint "company_id", null: false
@@ -406,6 +419,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_13_235957) do
   add_foreign_key "option_types", "companies"
   add_foreign_key "option_values", "companies"
   add_foreign_key "option_values", "option_types"
+  add_foreign_key "orders", "companies"
+  add_foreign_key "orders", "leads"
   add_foreign_key "payment_settings", "companies"
   add_foreign_key "product_option_types", "option_types"
   add_foreign_key "product_option_types", "products"

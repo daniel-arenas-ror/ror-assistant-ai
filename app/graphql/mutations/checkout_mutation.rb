@@ -5,7 +5,7 @@ module Mutations
     field :payment_intent, Types::PaymentIntentType, null: true
     field :errors,         [String],                 null: false
 
-    def resolve()
+    def resolve
       current_user = context[:current_user]
       cart         = current_user.cart
       company      = cart.company

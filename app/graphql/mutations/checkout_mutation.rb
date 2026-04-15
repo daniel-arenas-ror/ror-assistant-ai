@@ -2,14 +2,17 @@ module Mutations
   class CheckoutMutation < BaseMutation
     description "Copies cart → order + line items, then creates a payment intent"
 
+    argument :company_id, ID, required: true
+
     field :payment_intent, Types::PaymentIntentType, null: true
     field :errors,         [String],                 null: false
 
-    def resolve
-      current_user = context[:current_user]
-      cart         = current_user.cart
-      company      = cart.company
-      gateway      = PaymentGateways::Factory.build(company)
+    def resolve(company_id: , **)
+      p " resolver "
+      user    = context[:current_user]
+      cart    = user.carts.find_by(company_id: company_id)
+      company = cart.company
+      gateway = PaymentGateways::Factory.build(company)
 
       order = nil
 

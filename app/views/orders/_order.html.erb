@@ -1,6 +1,9 @@
 
 <div class="quote">
   <%= link_to order.id, "" %>
+  <%= order.lead.email %>
+  <%= order.payment_machine.current_state %>
+  <%= order.delivery_machine.current_state %>
 
   <div class="quote__actions">
 

@@ -52,3 +52,18 @@ http://localhost:3000/admin/users
 ### Populate custom configuration
 
 rails populate:custom_options
+
+## Run Stripe Test
+
+Create stripe account 
+
+### Install stripe CLI
+
+Check Stripe DOC [here](https://docs.stripe.com/stripe-cli/install)
+
+brew install stripe/stripe-cli/stripe
+
+run to start listening events
+
+stripe listen --forward-to localhost:4242/webhook
+

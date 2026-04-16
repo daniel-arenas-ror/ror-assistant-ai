@@ -40,6 +40,12 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :webhooks, only: [] do
+    collection do
+      post :stripe, to: "webhook/stripe#receive"
+    end
+  end
+
   namespace :api do
     namespace :v1 do
       resources :assistants, only: [:show]

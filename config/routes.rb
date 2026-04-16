@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :company, only: [:edit, :update]
   resources :users
   resources :leads
+  resources :orders
   resources :conversations
   resources :option_types do
     collection do

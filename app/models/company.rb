@@ -9,7 +9,8 @@ class Company < ApplicationRecord
   has_many :option_types, dependent: :destroy
   has_many :option_values, dependent: :destroy
   has_many :categories, dependent: :destroy
-  has_many :company_item_configurations
+  has_many :company_item_configurations, dependent: :destroy
+  has_many :orders, dependent: :destroy
   has_one :payment_setting, dependent: :destroy
 
   accepts_nested_attributes_for :payment_setting, update_only: true

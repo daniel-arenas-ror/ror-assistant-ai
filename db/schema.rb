@@ -277,21 +277,27 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_15_014027) do
 
   create_table "order_delivery_transitions", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.jsonb "metadata"
+    t.jsonb "metadata", default: {}
+    t.boolean "most_recent", default: false, null: false
     t.bigint "order_id", null: false
     t.integer "sort_key"
     t.string "to_state"
     t.datetime "updated_at", null: false
+    t.index ["order_id", "most_recent"], name: "index_order_delivery_transitions_parent_most_recent", unique: true, where: "most_recent"
+    t.index ["order_id", "sort_key"], name: "index_order_delivery_transitions_parent_sort", unique: true
     t.index ["order_id"], name: "index_order_delivery_transitions_on_order_id"
   end
 
   create_table "order_payment_transitions", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.jsonb "metadata"
+    t.jsonb "metadata", default: {}
+    t.boolean "most_recent", default: false, null: false
     t.bigint "order_id", null: false
     t.integer "sort_key"
     t.string "to_state"
     t.datetime "updated_at", null: false
+    t.index ["order_id", "most_recent"], name: "index_order_payment_transitions_parent_most_recent", unique: true, where: "most_recent"
+    t.index ["order_id", "sort_key"], name: "index_order_payment_transitions_parent_sort", unique: true
     t.index ["order_id"], name: "index_order_payment_transitions_on_order_id"
   end
 

@@ -67,3 +67,4 @@ run to start listening events
 
 stripe listen --forward-to localhost:4242/webhook
 
+source ~/.zshrc

@@ -15,6 +15,11 @@ class Cart < ApplicationRecord
     save!
   end
 
+  def clear!
+    cart_items.destroy_all
+    update_total!
+  end
+
   private
 
   def sync_currency_from_company

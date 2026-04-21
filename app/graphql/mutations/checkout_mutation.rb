@@ -20,6 +20,8 @@ module Mutations
         order = create_order!(cart, company)
         create_line_items!(order, cart)
         order.reload
+
+        cart.clear!
       end
 
       intent = gateway.create_intent(

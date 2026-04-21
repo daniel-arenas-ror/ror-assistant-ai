@@ -22,6 +22,9 @@
     </td>
   <% end %>
   <td>
+    <%= f.file_field :images, multiple: true %>
+  </td>
+  <td>
     <a href="#" data-action="click->nested-fields#remove" class="btn btn--danger">Eliminar</a>
   </td>
 </tr>

@@ -1,7 +1,7 @@
 class CompanyItemConfiguration < ApplicationRecord
   belongs_to :company
 
-  enum status: {
+  enum version: {
     draft: 0,
     published: 1
   }

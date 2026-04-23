@@ -173,7 +173,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_22_163309) do
     t.string "name"
     t.datetime "updated_at", null: false
     t.string "value"
-    t.integer "version", default: 0
+    t.integer "versions", default: 0
     t.index ["company_id", "name"], name: "index_company_item_configurations_on_company_id_and_name", unique: true
     t.index ["company_id"], name: "index_company_item_configurations_on_company_id"
   end

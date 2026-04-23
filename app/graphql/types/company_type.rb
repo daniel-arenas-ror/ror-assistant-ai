@@ -13,6 +13,10 @@ module Types
     field :product_detail_configuration, String, null: true, description: "Product detail configuration for the company."
     field :product_images_configuration, String, null: true, description: "Product images configuration for the company."
 
+    def company_item_configurations
+      object.company_item_configurations.where(versions: context[:version] || 'published')
+    end
+
     def product_card_configuration
       object.company_item_configurations.find_by(name: "ProductCardStyle")&.value
     end

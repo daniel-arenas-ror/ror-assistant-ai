@@ -18,6 +18,8 @@ module Types
     field :sub_categories, [CategoryType], null: true,
           description: "The child categories of this category."
 
+    field :products, [ProductType], null: true, description: "Products directly under this category."
+
     def sub_categories
       object.sub_categories.order(:name)
     end

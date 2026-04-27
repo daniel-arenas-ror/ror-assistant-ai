@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  page_layouts: one
+  component_type: MyString
+  position: 1
+  config: 
+
+two:
+  page_layouts: two
+  component_type: MyString
+  position: 1
+  config: 

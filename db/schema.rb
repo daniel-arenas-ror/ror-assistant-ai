@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_22_163309) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_27_001122) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -315,6 +315,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_22_163309) do
     t.index ["lead_id"], name: "index_orders_on_lead_id"
   end
 
+  create_table "page_layouts", force: :cascade do |t|
+    t.bigint "company_id", null: false
+    t.datetime "created_at", null: false
+    t.string "meta_title", null: false
+    t.integer "page_type", default: 0, null: false
+    t.string "path", null: false
+    t.datetime "updated_at", null: false
+    t.integer "version", default: 0, null: false
+    t.index ["company_id", "path", "version"], name: "index_page_layouts_on_company_id_and_path_and_version", unique: true
+    t.index ["company_id"], name: "index_page_layouts_on_company_id"
+  end
+
   create_table "payment_settings", force: :cascade do |t|
     t.text "api_key_ciphertext"
     t.bigint "company_id", null: false
@@ -466,6 +478,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_22_163309) do
   add_foreign_key "order_payment_transitions", "orders"
   add_foreign_key "orders", "companies"
   add_foreign_key "orders", "leads"
+  add_foreign_key "page_layouts", "companies"
   add_foreign_key "payment_settings", "companies"
   add_foreign_key "product_option_types", "option_types"
   add_foreign_key "product_option_types", "products"

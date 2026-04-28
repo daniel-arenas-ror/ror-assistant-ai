@@ -99,3 +99,4 @@ gem 'ransack'
 gem "lockbox"
 gem "stripe"
 gem 'statesman'
+gem 'pagy', '~> 43.5'

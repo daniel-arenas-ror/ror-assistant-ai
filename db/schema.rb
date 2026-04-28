@@ -319,11 +319,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_27_002739) do
     t.string "component_type", null: false
     t.jsonb "config", default: {}
     t.datetime "created_at", null: false
-    t.bigint "page_layouts_id", null: false
+    t.bigint "page_layout_id", null: false
     t.integer "position", default: 0
     t.datetime "updated_at", null: false
     t.index ["component_type"], name: "index_page_components_on_component_type"
-    t.index ["page_layouts_id"], name: "index_page_components_on_page_layouts_id"
+    t.index ["page_layout_id"], name: "index_page_components_on_page_layout_id"
   end
 
   create_table "page_layouts", force: :cascade do |t|
@@ -489,7 +489,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_27_002739) do
   add_foreign_key "order_payment_transitions", "orders"
   add_foreign_key "orders", "companies"
   add_foreign_key "orders", "leads"
-  add_foreign_key "page_components", "page_layouts", column: "page_layouts_id"
+  add_foreign_key "page_components", "page_layouts"
   add_foreign_key "page_layouts", "companies"
   add_foreign_key "payment_settings", "companies"
   add_foreign_key "product_option_types", "option_types"

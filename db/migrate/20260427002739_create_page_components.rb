@@ -1,7 +1,7 @@
 class CreatePageComponents < ActiveRecord::Migration[8.1]
   def change
     create_table :page_components do |t|
-      t.references :page_layouts, null: false, foreign_key: true
+      t.references :page_layout, null: false, foreign_key: true
       t.string :component_type, null: false
       t.integer :position, default: 0
       t.jsonb :config, default: {}

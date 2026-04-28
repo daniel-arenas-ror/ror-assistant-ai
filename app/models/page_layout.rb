@@ -1,5 +1,6 @@
 class PageLayout < ApplicationRecord
   belongs_to :company
+  has_many :page_components
 
   enum :page_type, {
     system: 0,

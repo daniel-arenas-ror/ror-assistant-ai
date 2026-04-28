@@ -22,7 +22,7 @@
         - @page_layouts.each do |layout|
           tr.hover:bg-gray-50.transition
             td.px-6.py-4
-              .font-semibold.text-gray-900 = layout.title
+              .font-semibold.text-gray-900 = layout.path
               .text-xs.text-gray-400 = "Last updated #{time_ago_in_words(layout.updated_at)} ago"
             
             td.px-6.py-4

@@ -1,0 +1,53 @@
+aside.w-64.h-screen.bg-gray-900.text-white.flex.flex-col.fixed.left-0.top-0.border-r.border-gray-800.z-50 aria-label="Main Sidebar" role="navigation"
+  / Brand / Company Section
+  .px-6.py-8.border-b.border-gray-800
+    .flex.items-center.gap-3
+      - if defined?(current_company) && current_company&.icon&.attached?
+        = image_tag current_company.icon.variant(resize_to_limit: [32, 32]), class: "rounded-md"
+      - else
+        .w-8.h-8.bg-rose-500.rounded-md.flex.items-center.justify-center.font-bold
+          = (current_company&.name || 'C')[0]
+      
+      span.font-bold.text-lg.tracking-tight.truncate
+        = current_company&.name || 'Company Name'
+
+  / Navigation Links
+  nav.flex-1.px-4.py-6.space-y-1.overflow-y-auto aria-label="Configuration"
+    ul.space-y-1
+      li
+        = link_to '#', class: "flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white transition group"
+          i.lucide-settings.w-5.h-5
+          span General
+      
+      li
+        = link_to orders_path, class: "flex items-center gap-3 px-3 py-2 rounded-lg #{current_page?(orders_path) ? 'bg-gray-800 text-white' : 'text-gray-400 hover:bg-gray-800 hover:text-white transition'}"
+          i.lucide-shopping-bag.w-5.h-5
+          span Order
+      
+      li
+        = link_to products_path, class: "flex items-center gap-3 px-3 py-2 rounded-lg #{current_page?(products_path) ? 'bg-gray-800 text-white' : 'text-gray-400 hover:bg-gray-800 hover:text-white transition'}"
+          i.lucide-box.w-5.h-5
+          span Productos
+      
+      li
+        = link_to categories_path, class: "flex items-center gap-3 px-3 py-2 rounded-lg #{current_page?(categories_path) ? 'bg-gray-800 text-white' : 'text-gray-400 hover:bg-gray-800 hover:text-white transition'}"
+          i.lucide-layers.w-5.h-5
+          span Categorías
+      
+      li
+        = link_to option_types_path, class: "flex items-center gap-3 px-3 py-2 rounded-lg #{current_page?(option_types_path) ? 'bg-gray-800 text-white' : 'text-gray-400 hover:bg-gray-800 hover:text-white transition'}"
+          i.lucide-list-checks.w-5.h-5
+          span Tipo de opciones
+
+      li
+        = link_to page_layouts_path, class: "flex items-center gap-3 px-3 py-2 rounded-lg #{current_page?(page_layouts_path) ? 'bg-gray-800 text-white' : 'text-gray-400 hover:bg-gray-800 hover:text-white transition'}"
+          i.lucide-layout.w-5.h-5
+          span Paginas
+
+  / User / Footer Section
+  .p-4.border-t.border-gray-800
+    .flex.items-center.gap-3.px-2
+      .w-8.h-8.rounded-full.bg-gray-700
+      .flex-1.min-w-0
+        p.text-sm.font-medium.truncate Admin User
+        p.text-xs.text-gray-500.truncate Store Manager

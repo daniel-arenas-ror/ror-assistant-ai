@@ -30,7 +30,13 @@ class PageLayoutsController < ApplicationController
       :page_type,
       :meta_title,
       :path,
-      :version
+      :version,
+      page_components_attributes: [
+        :id,
+        :component_type,
+        :position,
+        config: {}
+      ]
     )
   end
 end

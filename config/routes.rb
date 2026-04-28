@@ -21,6 +21,7 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :page_layouts
   resources :products do
     patch :scrape, on: :member
     member do

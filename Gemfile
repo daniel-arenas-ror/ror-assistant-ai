@@ -100,3 +100,6 @@ gem "lockbox"
 gem "stripe"
 gem 'statesman'
 gem 'pagy', '~> 43.5'
+gem 'slim'
+
+gem "tailwindcss-rails", "~> 4.4"

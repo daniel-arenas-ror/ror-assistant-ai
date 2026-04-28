@@ -479,6 +479,9 @@ GEM
     simple_form (5.3.1)
       actionpack (>= 5.2)
       activemodel (>= 5.2)
+    slim (5.2.1)
+      temple (~> 0.10.0)
+      tilt (>= 2.1.0)
     slug (4.1.1)
       activerecord (> 3.0.0)
       activesupport (> 3.0.0)
@@ -516,11 +519,22 @@ GEM
     stripe (19.0.0)
       bigdecimal
       logger
+    tailwindcss-rails (4.4.0)
+      railties (>= 7.0.0)
+      tailwindcss-ruby (~> 4.0)
+    tailwindcss-ruby (4.2.2)
+    tailwindcss-ruby (4.2.2-aarch64-linux-gnu)
+    tailwindcss-ruby (4.2.2-aarch64-linux-musl)
+    tailwindcss-ruby (4.2.2-arm64-darwin)
+    tailwindcss-ruby (4.2.2-x86_64-linux-gnu)
+    tailwindcss-ruby (4.2.2-x86_64-linux-musl)
+    temple (0.10.4)
     thor (1.4.0)
     thruster (0.1.15)
     thruster (0.1.15-aarch64-linux)
     thruster (0.1.15-arm64-darwin)
     thruster (0.1.15-x86_64-linux)
+    tilt (2.7.0)
     timeout (0.4.4)
     tsort (0.2.0)
     turbo-rails (2.0.16)
@@ -604,6 +618,7 @@ DEPENDENCIES
   ruby-vips
   selenium-webdriver
   simple_form
+  slim
   slug
   solid_cable
   solid_cache
@@ -611,6 +626,7 @@ DEPENDENCIES
   statesman
   stimulus-rails
   stripe
+  tailwindcss-rails (~> 4.4)
   thruster
   turbo-rails
   tzinfo-data

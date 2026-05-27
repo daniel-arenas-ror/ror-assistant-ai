@@ -1,8 +1,32 @@
-<div class="header">
-  <h1>Product</h1>
-  <%= link_to "New Product",
-              new_product_path,
-              class: "btn btn--primary" %>
-</div>
+<div class="w-full">
+  <div class="flex items-center justify-between mb-6">
+    <div>
+      <h3 class="text-lg font-bold text-gray-900 tracking-tight">Todos los Productos</h3>
+      <p class="text-xs text-gray-500 mt-0.5">Administra el catálogo de tu tienda, inventario y visibilidad.</p>
+    </div>
+    <button class="text-xs font-bold bg-zinc-900 hover:bg-zinc-800 text-white px-4 py-2 rounded-xl transition-all shadow-sm">
+      + Crear Producto
+    </button>
+  </div>
 
-<%= render @products %>
+  <div class="w-full overflow-x-auto border border-gray-100 rounded-xl bg-white shadow-xs">
+    <table class="w-full border-collapse text-left text-sm text-gray-500">
+      <thead class="bg-gray-50/70 border-b border-gray-100 text-[11px] font-bold text-gray-400 uppercase tracking-wider">
+        <tr>
+          <th scope="col" class="px-6 py-4 w-24">Foto</th>
+          <th scope="col" class="px-6 py-4">Nombre</th>
+          <th scope="col" class="px-6 py-4 w-32 text-center">Estado</th>
+          <th scope="col" class="px-6 py-4 w-20"></th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100 font-medium text-gray-700">
+        <% if @products.empty? %>
+          <%= render "empty_status" %>
+        <% end %>
+        <% @products.each do |product| %>
+          <%= render @products %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

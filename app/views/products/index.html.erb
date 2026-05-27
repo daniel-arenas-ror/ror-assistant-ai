@@ -1,11 +1,8 @@
-<main class="container">
-  <div class="header">
-    <h1>Product</h1>
-    <%= link_to "New Product",
-                new_product_path,
-                class: "btn btn--primary" %>
-  </div>
+<div class="header">
+  <h1>Product</h1>
+  <%= link_to "New Product",
+              new_product_path,
+              class: "btn btn--primary" %>
+</div>
 
-  <%= render @products %>
-
-</main>
+<%= render @products %>

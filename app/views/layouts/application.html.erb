@@ -22,21 +22,42 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
 
-  <body>
-    <div class="main.ml-64.p-8">
-      <%= render "layouts/sidebar" %>
+  <body class="h-full m-0 p-0 bg-gray-100 antialiased font-sans">
+    <div style="display: flex; flex-direction: row; width: 100vw; height: 100vh; overflow: hidden;">
+      <div style="background-color: #18181b; width: 260px; min-width: 260px;" class="h-full flex flex-col border-r border-zinc-800 flex-shrink-0">
+        <div style="background-color: #09090b; border-color: #27272a;" class="h-16 flex items-center px-6 border-b text-white font-bold text-lg tracking-tight flex-shrink-0">
+          <%= current_company.name %>
+        </div>
 
-      <main class="app-main">
-        <% if lookup_context.find_all("layouts/_navbar").any? %>
-          <%= render "layouts/navbar" %>
+        <aside class="flex-1 p-6 overflow-y-auto">
+          <nav class="space-y-2 flex flex-col">
+            <a style="color: #ffffff;" href="#" class="text-sm font-semibold px-3 py-2 bg-zinc-800 rounded-lg">Dashboard</a>
+            <a style="color: #a1a1aa;" href="#" class="text-sm font-medium px-3 py-2 hover:bg-zinc-800/50 hover:text-white rounded-lg transition-colors">Productos</a>
+            <a style="color: #a1a1aa;" href="#" class="text-sm font-medium px-3 py-2 hover:bg-zinc-800/50 hover:text-white rounded-lg transition-colors">Órdenes</a>
+          </nav>
+        </aside>
+      </div>
 
-          <div id="flash" class="flash">
-            <%= render "layouts/flash" %>
+      <div class="h-full flex flex-col flex-1 min-w-0 bg-gray-50">
+        <header class="h-16 bg-white border-b border-gray-200 px-8 flex items-center justify-between flex-shrink-0">
+          <span class="font-bold text-gray-900 text-base">Header Component</span>
+          
+          <div class="flex items-center gap-4">
+            <span class="text-sm font-medium text-gray-600">Usuario Activo</span>
+            <button class="text-xs font-bold text-red-600 bg-red-50 px-3 py-1.5 rounded-lg">Cerrar sesión</button>
           </div>
-        <% end %>
+        </header>
 
-        <%= yield %>
-      </main>
+        <main class="flex-1 overflow-y-auto p-8">
+          <div class="border border-gray-200 rounded-2xl bg-white p-6 min-h-full shadow-sm">
+            <%= yield %>
+          </div>
+        </main>
+
+        <footer class="h-14 bg-white border-t border-gray-200 px-8 flex items-center justify-center text-xs font-semibold text-gray-400 tracking-wider uppercase flex-shrink-0">
+          &copy; 2026 Admin Panel Engine
+        </footer>
+      </div>
     </div>
   </body>
 </html>

@@ -34,10 +34,10 @@
 
       <div class="h-full flex flex-col flex-1 min-w-0 bg-gray-50">
         <header class="h-16 bg-white border-b border-gray-200 px-8 flex items-center justify-between flex-shrink-0">
-          <span class="font-bold text-gray-900 text-base">Header Component</span>
+          <span class="font-bold text-gray-900 text-base"></span>
           
           <div class="flex items-center gap-4">
-            <span class="text-sm font-medium text-gray-600">Usuario Activo</span>
+            <span class="text-sm font-medium text-gray-600"><%= current_user.name %></span>
             <button class="text-xs font-bold text-red-600 bg-red-50 px-3 py-1.5 rounded-lg">Cerrar sesión</button>
           </div>
         </header>

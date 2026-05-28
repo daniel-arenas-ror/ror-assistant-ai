@@ -104,7 +104,7 @@
           <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
             <% f.object.images.each do |image| %>
               <div id="<%= dom_id(image) %>" class="group relative overflow-hidden rounded-lg border border-gray-200 shadow-sm">
-                <%= image_tag image.variant(:thumb), alt: "Product image", class: "h-32 w-full object-cover" %>
+                <%= image_tag image.variant(:thumb), alt: "Product image", class: "h-32 w-10 object-cover" %>
                 <%= link_to "Remove",
                             purge_image_variant_path(f.object, image_id: image.id),
                             data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
@@ -219,7 +219,7 @@
       </div>
     </div>
 
-    <div class="flex items-center justify-between gap-3 border-t border-gray-200 bg-gray-50 px-6 py-4 sm:px-8">
+    <div class="flex items-center gap-3 border-t border-gray-200 bg-gray-50 px-6 py-4 sm:px-8">
       <button type="button"
               data-action="tabs#previous"
               class="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
@@ -227,20 +227,18 @@
       </button>
       <button type="button"
               data-action="tabs#next"
-              class="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+              class="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
         Siguiente
       </button>
-    </div>
-  </div>
 
-  <div class="mt-6 flex flex-wrap justify-end gap-3">
-    <%= link_to "Cancel", products_path, class: "inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" %>
-    <% if !product.new_record? %>
-      <%= link_to "Scrape Data",
-          scrape_product_path(@product),
-          data: { turbo_method: :patch, turbo_confirm: "Run scraper?" },
-          class: "inline-flex items-center rounded-md bg-amber-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2" %>
-    <% end %>
-    <%= f.submit class: "inline-flex cursor-pointer items-center rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" %>
+      <%= link_to "Cancel", products_path, class: "inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" %>
+      <% if !product.new_record? %>
+        <%= link_to "Scrape Data",
+            scrape_product_path(@product),
+            data: { turbo_method: :patch, turbo_confirm: "Run scraper?" },
+            class: "bg-black inline-flex items-center rounded-md bg-amber-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2" %>
+      <% end %>
+      <%= f.submit class: "bg-black inline-flex cursor-pointer items-center rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" %>
+    </div>
   </div>
 <% end %>

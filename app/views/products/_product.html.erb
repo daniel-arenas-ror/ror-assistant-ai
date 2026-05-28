@@ -16,6 +16,11 @@
       <span class="text-xs text-gray-400 font-normal mt-0.5">SKU: <%= product.code %></span>
     </div>
   </td>
+  <td class="px-6 py-4">
+    <span class="text-xs text-gray-400 font-normal mt-0.5">
+      <%= product.categories.map(&:name).join(", ") %>
+    </span>
+  </td>
   <td class="px-6 py-4 whitespace-nowrap text-center">
     <span class="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-bold text-gray-500 bg-gray-100 rounded-full border border-gray-200">
       <span class="w-1.5 h-1.5 rounded-full bg-gray-400"></span>

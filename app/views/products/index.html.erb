@@ -15,6 +15,7 @@
         <tr>
           <th scope="col" class="px-6 py-4 w-24">Foto</th>
           <th scope="col" class="px-6 py-4">Nombre</th>
+          <th scope="col" class="px-6 py-4">Categorías</th>
           <th scope="col" class="px-6 py-4 w-32 text-center">Estado</th>
           <th scope="col" class="px-6 py-4 w-20"></th>
         </tr>
@@ -23,9 +24,7 @@
         <% if @products.empty? %>
           <%= render "empty_status" %>
         <% end %>
-        <% @products.each do |product| %>
-          <%= render @products %>
-        <% end %>
+        <%= render @products %>
       </tbody>
     </table>
   </div>

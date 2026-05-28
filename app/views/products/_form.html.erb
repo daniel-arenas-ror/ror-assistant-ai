@@ -1,4 +1,4 @@
-<%= simple_form_for product, html: { class: "mx-auto max-w-4xl" } do |f| %>
+<%= simple_form_for product, html: { class: "mx-auto" } do |f| %>
   <div class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm" data-controller="tabs">
     <div class="flex border-b border-gray-200 bg-gray-50" role="tablist">
       <button type="button"
@@ -104,7 +104,7 @@
           <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
             <% f.object.images.each do |image| %>
               <div id="<%= dom_id(image) %>" class="group relative overflow-hidden rounded-lg border border-gray-200 shadow-sm">
-                <%= image_tag image.variant(:thumb), alt: "Product image", class: "h-32 w-10 object-cover" %>
+                <%= image_tag image.variant(:thumb), alt: "Product image", class: "h-32 w-full object-cover" %>
                 <%= link_to "Remove",
                             purge_image_variant_path(f.object, image_id: image.id),
                             data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },

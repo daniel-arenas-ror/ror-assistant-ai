@@ -1,189 +1,246 @@
-<%= simple_form_for product, html: { class: "bg-white p-8 rounded-lg shadow-md" } do |f| %>
+<%= simple_form_for product, html: { class: "mx-auto max-w-4xl" } do |f| %>
+  <div class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm" data-controller="tabs">
+    <div class="flex border-b border-gray-200 bg-gray-50" role="tablist">
+      <button type="button"
+              data-tabs-target="header"
+              data-action="click->tabs#switch"
+              data-step="1"
+              class="flex flex-1 flex-col items-center gap-0.5 border-b-2 border-blue-600 px-4 py-4 text-blue-600 font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
+        <span class="text-xs font-medium uppercase tracking-wide">Paso 1</span>
+        <span class="text-sm sm:text-base">Basic</span>
+      </button>
 
-  <div class="w-full" data-controller="tabs">
-    <!-- 1. Stepper Header (The Tabs) -->
-    <div class="flex border-b border-gray-200">
-      <div data-tabs-target="header" class="flex-1 py-4 px-6 text-center text-gray-500 hover:text-gray-700 focus:outline-none cursor-pointer border-b-2 border-transparent hover:border-blue-500 transition-colors duration-200 ease-in-out" data-action="click->tabs#switch" data-step="1">
-        <span class="block text-sm font-medium">1</span>
-        <span class="block text-lg font-semibold">Basic</span>
-      </div>
+      <button type="button"
+              data-tabs-target="header"
+              data-action="click->tabs#switch"
+              data-step="2"
+              class="flex flex-1 flex-col items-center gap-0.5 border-b-2 border-transparent px-4 py-4 text-gray-500 transition-colors hover:text-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
+        <span class="text-xs font-medium uppercase tracking-wide">Paso 2</span>
+        <span class="text-sm sm:text-base">Configuración</span>
+      </button>
 
-      <div data-tabs-target="header" class="flex-1 py-4 px-6 text-center text-gray-500 hover:text-gray-700 focus:outline-none cursor-pointer border-b-2 border-transparent hover:border-blue-500 transition-colors duration-200 ease-in-out" data-action="click->tabs#switch" data-step="2">
-        <span class="block text-sm font-medium">2</span>
-        <span class="block text-lg font-semibold">Configuración</span>
-      </div>
-
-      <div data-tabs-target="header" class="flex-1 py-4 px-6 text-center text-gray-500 hover:text-gray-700 focus:outline-none cursor-pointer border-b-2 border-transparent hover:border-blue-500 transition-colors duration-200 ease-in-out" data-action="click->tabs#switch" data-step="3">
-        <span class="block text-sm font-medium">3</span>
-        <span class="block text-lg font-semibold">Variantes</span>
-      </div>
+      <button type="button"
+              data-tabs-target="header"
+              data-action="click->tabs#switch"
+              data-step="3"
+              class="flex flex-1 flex-col items-center gap-0.5 border-b-2 border-transparent px-4 py-4 text-gray-500 transition-colors hover:text-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
+        <span class="text-xs font-medium uppercase tracking-wide">Paso 3</span>
+        <span class="text-sm sm:text-base">Variantes</span>
+      </button>
     </div>
 
-    <div class="mt-8">
+    <div class="p-6 sm:p-8">
       <%= form_error_notification(product) %>
 
-      <div data-tabs-target="body" class="block" data-step-content="1">
-        <h3 class="text-2xl font-bold text-gray-800 mb-4">Step 1: Basic Details</h3>
-        <p class="text-gray-600 mb-6">Basic assistant details</p>
+      <div data-tabs-target="body" data-step-content="1" class="space-y-8">
+        <header>
+          <h3 class="text-xl font-bold text-gray-900">Información básica</h3>
+          <p class="mt-1 text-sm text-gray-600">Datos generales del producto, categorías e imágenes.</p>
+        </header>
 
-        <%= f.input :name, input_html: { autofocus: true, class: "form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" } %>
-        <%= f.input :code, input_html: { autofocus: true, class: "form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" } %>
-        <%= f.input :url, input_html: { autofocus: true, class: "form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" } %>
-        <%= f.input :description, input_html: { autofocus: true, class: "form-textarea mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" } %>
-        <%= f.input :amenities, input_html: { autofocus: true, class: "form-textarea mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" } %>
-        <%= f.input :location, input_html: { autofocus: true, class: "form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" } %>
-        <%= f.input :price, input_html: { autofocus: true, class: "form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" } %>
-        <%= f.input :active, as: :boolean, boolean_style: :inline, input_html: { class: "form-checkbox h-4 w-4 text-blue-600 border-gray-300 rounded" } %>
-
-        <table class="min-w-full divide-y divide-gray-200 mt-8">
-          <tbody class="bg-white divide-y divide-gray-200">
-            <% @current_company.categories.roots.each do |category| %>
-              <tr>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= link_to category.name, edit_category_path(category) %></td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><%= category.parent_category&.name %></td>
-                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <input class="form-checkbox h-4 w-4 text-blue-600 border-gray-300 rounded" type="checkbox" value="<%= category.id %>" <%= product.category_ids.include?(category.id) && "checked=\"checked\"" %> name="product[category_ids][]" id="product_category_ids_<%= category.id %>">
-                </td>
-              </tr>
-              <% category.sub_categories.each do |sub| %>
-                <tr>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 pl-10">— <%= link_to sub.name, category_path(sub) %></td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><%= sub.parent_category&.name %></td>
-                  <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <input class="form-checkbox h-4 w-4 text-blue-600 border-gray-300 rounded" type="checkbox" value="<%= sub.id %>" name="product[category_ids][]" id="product_category_ids_<%= sub.id %>" <%= product.category_ids.include?(sub.id) && "checked=\"checked\"" %>>
-                  </td>
-                </tr>
-              <% end %>
-            <% end %>
-          </tbody>
-        </table>
-
-        <% f.object.images.each do |image| %>
-          <%= f.hidden_field :images, multiple: true, value: image.signed_id %>
-        <% end %>
-
-        <%= f.file_field :images, multiple: true, class: "mt-4 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" %>
-
-        <div class="mt-8 grid grid-cols-2 gap-4">
-          <% f.object.images.each do |image| %>
-            <div id="<%= dom_id(image) %>" class="relative group">
-              <%= image_tag image.variant(:thumb), class: "w-full h-32 object-cover rounded-lg shadow-md" %>
-              
-              <%# Link to a custom delete action %>
-              <%= link_to "Remove", 
-                          purge_image_variant_path(f.object, image_id: image.id), 
-                          data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
-                          class: "absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-200" %>
-            </div>
-          <% end %>
+        <div class="space-y-4">
+          <% field_class = "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" %>
+          <%= f.input :name, input_html: { autofocus: true, class: field_class } %>
+          <%= f.input :code, input_html: { class: field_class } %>
+          <%= f.input :url, input_html: { class: field_class } %>
+          <%= f.input :description, as: :text, input_html: { class: field_class, rows: 4 } %>
+          <%= f.input :amenities, as: :text, input_html: { class: field_class, rows: 4 } %>
+          <%= f.input :location, input_html: { class: field_class } %>
+          <%= f.input :price, input_html: { class: field_class } %>
+          <%= f.input :active, as: :boolean, boolean_style: :inline, input_html: { class: "h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" } %>
         </div>
-      </div>
 
-      <div data-tabs-target="body" class="hidden" data-step-content="2">
-        <h3 class="text-2xl font-bold text-gray-800 mb-4">Step 2: Technical Configuration</h3>
-        <p class="text-gray-600 mb-6">Specify technical details like roles or conditions.</p>
-
-        <% current_company.option_types.each do |option_type| %>
-          <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2"><%= option_type.name %></label>
-            <input class="form-checkbox h-4 w-4 text-blue-600 border-gray-300 rounded" type="checkbox" value="<%= option_type.id %>" name="product[product_option_types_attributes][][option_type_id]" id="product_product_option_types_attributes_<%= option_type.id %>" <%= product.option_types.include?(option_type) && "checked=\"checked\"" %>>
+        <section class="space-y-3">
+          <div>
+            <h4 class="text-base font-semibold text-gray-900">Categorías</h4>
+            <p class="text-sm text-gray-600">Selecciona las categorías que aplican a este producto.</p>
           </div>
 
-          <% if product.option_types.include?(option_type) %>
-            <% option_type.option_values.each do |option_value| %>
-              <div class="mb-4 pl-6">
-                <% pov = product.product_option_values.find_or_initialize_by(option_value: option_value) %>
-
-                <%= f.fields_for :product_option_values, pov do |pov_form| %>
-                  <div class="flex items-start gap-6 mb-4 p-3 bg-white shadow-sm rounded">
-                    
-                    <div class="flex items-center gap-2 min-w-[120px]">
-                      <%# Hidden field ensures the ID is passed back for updates instead of creating duplicates %>
-                      <%= pov_form.hidden_field :option_value_id, value: option_value.id %>
-                      
-                      <%# Logic to "Enable/Disable" this value for the product %>
-                      <%= pov_form.check_box :_destroy, 
-                          { checked: pov.persisted?, class: "h-4 w-4" }, "0", "1" %>
-                      <span class="text-sm font-medium"><%= option_value.name %></span>
-                    </div>
-
-                    <div class="flex-1">
-                      <label class="block text-xs text-gray-500 uppercase mb-1">Upload Images</label>
-
-                      <% pov_form.object.images.each do |image| %>
-                        <%= pov_form.hidden_field :images, multiple: true, value: image.signed_id %>
-                      <% end %>
-
-                      <%= pov_form.file_field :images, multiple: true, class: "text-xs" %>
-                      
-                      <% if pov.images.attached? %>
-                        <div class="flex gap-2 mt-2">
-                          <% pov.images.each do |img| %>
-                            <%= image_tag img.variant(:thumb), class: "w-12 h-12 object-cover rounded border" %>
-                          <% end %>
-                        </div>
-                      <% end %>
-                    </div>
-                    
-                  </div>
-                <% end %>
-
-              </div>
-            <% end %>
-          <% end %>
-        <% end %>
-      </div>
-
-      <div data-tabs-target="body" class="hidden" data-step-content="3">
-        <h3 class="text-2xl font-bold text-gray-800 mb-4">Step 3: Variant Configuration</h3>
-        <p class="text-gray-600 mb-6">Specify technical details like roles or conditions.</p>
-
-        <% if product.persisted? %>
-          <div data-controller="nested-fields" data-nested-fields-list-target="list">
-            <table class="min-w-full divide-y divide-gray-200">
+          <div class="overflow-x-auto rounded-lg border border-gray-200">
+            <table class="min-w-full divide-y divide-gray-200 text-sm">
               <thead class="bg-gray-50">
                 <tr>
-                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">SKU</th>
-                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
-                  <% product.option_types.each do |option_type| %>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"><%= option_type.name %></<th>
-                  <% end %>
-                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                  <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">Nombre</th>
+                  <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">Padre</th>
+                  <th class="px-4 py-3 text-right text-xs font-medium uppercase tracking-wide text-gray-500">Incluir</th>
                 </tr>
               </thead>
-              <tbody data-nested-fields-target="list" class="bg-white divide-y divide-gray-200">
-                <%= f.simple_fields_for :variants do |vf| %>
-                  <% next if vf.object.is_master? %>
-                  <%= render partial: 'variant_fields', locals: { f: vf, product: product } %>
+              <tbody class="divide-y divide-gray-200 bg-white">
+                <% @current_company.categories.roots.each do |category| %>
+                  <tr>
+                    <td class="px-4 py-3 font-medium text-gray-900"><%= link_to category.name, edit_category_path(category), class: "text-blue-600 hover:text-blue-800" %></td>
+                    <td class="px-4 py-3 text-gray-500"><%= category.parent_category&.name %></td>
+                    <td class="px-4 py-3 text-right">
+                      <input class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" type="checkbox" value="<%= category.id %>" <%= product.category_ids.include?(category.id) && "checked=\"checked\"" %> name="product[category_ids][]" id="product_category_ids_<%= category.id %>">
+                    </td>
+                  </tr>
+                  <% category.sub_categories.each do |sub| %>
+                    <tr class="bg-gray-50/50">
+                      <td class="px-4 py-3 pl-8 text-gray-600">— <%= link_to sub.name, category_path(sub), class: "text-blue-600 hover:text-blue-800" %></td>
+                      <td class="px-4 py-3 text-gray-500"><%= sub.parent_category&.name %></td>
+                      <td class="px-4 py-3 text-right">
+                        <input class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" type="checkbox" value="<%= sub.id %>" name="product[category_ids][]" id="product_category_ids_<%= sub.id %>" <%= product.category_ids.include?(sub.id) && "checked=\"checked\"" %>>
+                      </td>
+                    </tr>
+                  <% end %>
                 <% end %>
               </tbody>
             </table>
+          </div>
+        </section>
+
+        <section class="space-y-3">
+          <div>
+            <h4 class="text-base font-semibold text-gray-900">Imágenes</h4>
+            <p class="text-sm text-gray-600">Sube una o más imágenes para el producto.</p>
+          </div>
+
+          <% f.object.images.each do |image| %>
+            <%= f.hidden_field :images, multiple: true, value: image.signed_id %>
+          <% end %>
+
+          <%= f.file_field :images, multiple: true, class: "block w-full text-sm text-gray-500 file:mr-4 file:rounded-md file:border-0 file:bg-blue-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-blue-700 hover:file:bg-blue-100" %>
+
+          <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+            <% f.object.images.each do |image| %>
+              <div id="<%= dom_id(image) %>" class="group relative overflow-hidden rounded-lg border border-gray-200 shadow-sm">
+                <%= image_tag image.variant(:thumb), alt: "Product image", class: "h-32 w-full object-cover" %>
+                <%= link_to "Remove",
+                            purge_image_variant_path(f.object, image_id: image.id),
+                            data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
+                            class: "absolute right-2 top-2 rounded-md bg-red-600 px-2 py-1 text-xs font-medium text-white opacity-0 transition-opacity group-hover:opacity-100" %>
+              </div>
+            <% end %>
+          </div>
+        </section>
+      </div>
+
+      <div data-tabs-target="body" data-step-content="2" class="hidden space-y-8">
+        <header>
+          <h3 class="text-xl font-bold text-gray-900">Configuración</h3>
+          <p class="mt-1 text-sm text-gray-600">Opciones del producto y valores con imágenes asociadas.</p>
+        </header>
+
+        <% current_company.option_types.each do |option_type| %>
+          <div class="rounded-lg border border-gray-200 p-4">
+            <label class="flex items-center gap-2 text-base font-semibold text-gray-900">
+              <input class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" type="checkbox" value="<%= option_type.id %>" name="product[product_option_types_attributes][][option_type_id]" id="product_product_option_types_attributes_<%= option_type.id %>" <%= product.option_types.include?(option_type) && "checked=\"checked\"" %>>
+              <%= option_type.name %>
+            </label>
+
+            <% if product.option_types.include?(option_type) %>
+              <div class="mt-4 space-y-3 border-t border-gray-100 pt-4">
+                <% option_type.option_values.each do |option_value| %>
+                  <% pov = product.product_option_values.find_or_initialize_by(option_value: option_value) %>
+
+                  <%= f.fields_for :product_option_values, pov do |pov_form| %>
+                    <div class="flex flex-col gap-4 rounded-md bg-gray-50 p-4 sm:flex-row sm:items-start">
+                      <div class="flex min-w-[8rem] items-center gap-2">
+                        <%= pov_form.hidden_field :option_value_id, value: option_value.id %>
+                        <%= pov_form.check_box :_destroy,
+                            { checked: pov.persisted?, class: "h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" }, "0", "1" %>
+                        <span class="text-sm font-medium text-gray-900"><%= option_value.name %></span>
+                      </div>
+
+                      <div class="min-w-0 flex-1">
+                        <label class="mb-1 block text-xs font-medium uppercase tracking-wide text-gray-500">Imágenes</label>
+
+                        <% pov_form.object.images.each do |image| %>
+                          <%= pov_form.hidden_field :images, multiple: true, value: image.signed_id %>
+                        <% end %>
+
+                        <%= pov_form.file_field :images, multiple: true, class: "block w-full text-xs text-gray-500 file:mr-2 file:rounded file:border-0 file:bg-white file:px-2 file:py-1 file:text-xs file:font-medium file:text-blue-700" %>
+
+                        <% if pov.images.attached? %>
+                          <div class="mt-2 flex flex-wrap gap-2">
+                            <% pov.images.each do |img| %>
+                              <%= image_tag img.variant(:thumb), alt: option_value.name, class: "h-12 w-12 rounded border border-gray-200 object-cover" %>
+                            <% end %>
+                          </div>
+                        <% end %>
+                      </div>
+                    </div>
+                  <% end %>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+
+      <div data-tabs-target="body" data-step-content="3" class="hidden space-y-8">
+        <header>
+          <h3 class="text-xl font-bold text-gray-900">Variantes</h3>
+          <p class="mt-1 text-sm text-gray-600">SKU, precio y combinaciones de opciones por variante.</p>
+        </header>
+
+        <% if product.persisted? %>
+          <div data-controller="nested-fields" data-nested-fields-list-target="list">
+            <div class="overflow-x-auto rounded-lg border border-gray-200">
+              <table class="min-w-full divide-y divide-gray-200 text-sm">
+                <thead class="bg-gray-50">
+                  <tr>
+                    <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">SKU</th>
+                    <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">Price</th>
+                    <% product.option_types.each do |option_type| %>
+                      <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500"><%= option_type.name %></th>
+                    <% end %>
+                    <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">Actions</th>
+                  </tr>
+                </thead>
+                <tbody data-nested-fields-target="list" class="divide-y divide-gray-200 bg-white">
+                  <%= f.simple_fields_for :variants do |vf| %>
+                    <% next if vf.object.is_master? %>
+                    <%= render partial: "variant_fields", locals: { f: vf, product: product } %>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
 
             <template data-nested-fields-target="template">
-              <%= f.simple_fields_for :variants, product.variants.build(company: product.company), child_index: 'NEW_RECORD' do |temp_form| %>
-                <%= render partial: 'variant_fields', locals: { f: temp_form, product: product } %>
+              <%= f.simple_fields_for :variants, product.variants.build(company: product.company), child_index: "NEW_RECORD" do |temp_form| %>
+                <%= render partial: "variant_fields", locals: { f: temp_form, product: product } %>
               <% end %>
             </template>
 
-            <a href="#" data-action="click->nested-fields#add" class="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Add variant</a>
+            <a href="#" data-action="click->nested-fields#add" class="mt-4 inline-flex items-center rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+              Add variant
+            </a>
           </div>
 
           <% product&.url_images&.each do |url| %>
-            <%= image_tag url, width: "200px" if url.present? %>
+            <%= image_tag url, width: "200px", class: "mt-4 rounded-lg border border-gray-200" if url.present? %>
           <% end %>
+        <% else %>
+          <p class="rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+            Guarda el producto primero para configurar variantes.
+          </p>
         <% end %>
       </div>
+    </div>
+
+    <div class="flex items-center justify-between gap-3 border-t border-gray-200 bg-gray-50 px-6 py-4 sm:px-8">
+      <button type="button"
+              data-action="tabs#previous"
+              class="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+        Atrás
+      </button>
+      <button type="button"
+              data-action="tabs#next"
+              class="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+        Siguiente
+      </button>
+    </div>
   </div>
 
-  <div class="mt-8 flex justify-end space-x-4">
-    <%= link_to "Cancel", products_path, class: "inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+  <div class="mt-6 flex flex-wrap justify-end gap-3">
+    <%= link_to "Cancel", products_path, class: "inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" %>
     <% if !product.new_record? %>
       <%= link_to "Scrape Data",
           scrape_product_path(@product),
           data: { turbo_method: :patch, turbo_confirm: "Run scraper?" },
-          class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
-      %>
+          class: "inline-flex items-center rounded-md bg-amber-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2" %>
     <% end %>
-    <%= f.submit class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+    <%= f.submit class: "inline-flex cursor-pointer items-center rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" %>
   </div>
 <% end %>

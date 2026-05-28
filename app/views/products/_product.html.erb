@@ -1,22 +1,28 @@
 <tr class="hover:bg-gray-50/40 transition-colors">
   <td class="px-6 py-4 whitespace-nowrap">
     <div class="w-12 h-12 bg-gray-100 border border-gray-200 rounded-xl overflow-hidden shadow-xs flex items-center justify-center">
-      <span class="text-[10px] font-bold text-gray-400">Sneaker</span>
+      <% if product.images.attached? %>
+      <%= image_tag product.images&.first&.variant(:thumb), alt: product.name, class: "w-full h-full object-cover" %>
+      <% else %>
+        <span class="text-xs text-gray-400 font-normal mt-0.5">Sin imagen</span>
+      <% end %>
     </div>
   </td>
   <td class="px-6 py-4">
     <div class="flex flex-col">
-      <span class="text-sm font-bold text-gray-900 tracking-tight">Oslo Negro - Mujer</span>
-      <span class="text-xs text-gray-400 font-normal mt-0.5">SKU: OSLO-NEGRO-37</span>
+      <span class="text-sm font-bold text-gray-900 tracking-tight">
+        <%= link_to product.name, edit_product_path(product), class: "font-bold text-zinc-900 hover:underline" %>
+      </span>
+      <span class="text-xs text-gray-400 font-normal mt-0.5">SKU: <%= product.code %></span>
     </div>
   </td>
   <td class="px-6 py-4 whitespace-nowrap text-center">
     <span class="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-bold text-gray-500 bg-gray-100 rounded-full border border-gray-200">
       <span class="w-1.5 h-1.5 rounded-full bg-gray-400"></span>
-      Inactivo
+      <%= product.active ? "Activo" : "Inactivo" %>
     </span>
   </td>
   <td class="px-6 py-4 whitespace-nowrap text-right text-xs">
-    <a href="#" class="font-bold text-zinc-900 hover:underline">Editar</a>
+    <%= link_to "Editar", edit_product_path(product), class: "font-bold text-zinc-900 hover:underline" %>
   </td>
 </tr>
